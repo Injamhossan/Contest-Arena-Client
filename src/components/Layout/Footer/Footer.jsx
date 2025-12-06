@@ -1,9 +1,9 @@
 import React from 'react';
-import FooterLogo from '../../assets/logo.svg';
-import FaceBook from "../../assets/social/communication.png";
-import Twitter from "../../assets/social/twitter.png";
-import Instagram from "../../assets/social/social.png";
-import LinkedIn from "../../assets/social/linkedin.png";
+import FooterLogo from '../../../assets/logo.svg';
+import FaceBook from "../../../assets/social/communication.png";
+import Twitter from "../../../assets/social/twitter.png";
+import Instagram from "../../../assets/social/social.png";
+import LinkedIn from "../../../assets/social/linkedin.png";
 
 const Footer = () => {
   return (

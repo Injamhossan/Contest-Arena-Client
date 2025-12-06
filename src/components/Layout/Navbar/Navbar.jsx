@@ -1,22 +1,22 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import NavLogo from "../../assets/logo.svg";
+import { NavLink, Link } from "react-router-dom";
+import NavLogo from "../../../assets/logo.svg";
 
 const Navbar = () => {
   const links = (
     <>
-      <NavLink to="allcontest">
+      <Link to="/all-contests">
         <li>All Contest</li>
-      </NavLink>
-      <NavLink to="allcontest">
+      </Link>
+      <Link to="/leaderboard">
         <li>Leaderboard</li>
-      </NavLink>
-      <NavLink to="allcontest">
+      </Link>
+      <Link to="/about">
         <li>About</li>
-      </NavLink>
-      <NavLink to="allcontest">
+      </Link>
+      <Link to="/support-team">
         <li>Support Team</li>
-      </NavLink>
+      </Link>
     </>
   );
 
@@ -51,9 +51,10 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-2">
             <img src={NavLogo} alt="Nav Logo" className="h-[50px]" />
-            <a class="text-xl font-bold bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] bg-clip-text text-transparent">
+           <Link to="/"> <a  className="text-xl font-bold bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] bg-clip-text text-transparent">
               Contest Arena
             </a>
+            </Link>
           </div>
         </div>
         <div className="navbar-center hidden lg:flex">
@@ -62,11 +63,10 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end gap-2">
-          <a className="btn bg-white border-none text-gray-800 rounded-4xl shadow-none hover:bg-[#f59f0a] hover:text-white hover:rounded-4xl">Sign In</a>
-<a class="btn bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] text-white border-none rounded-4xl">
-  Get Started
-</a>
-
+          <Link to="login" className="btn bg-white border-none text-gray-800 rounded-4xl shadow-none hover:bg-[#f59f0a] hover:text-white hover:rounded-4xl">Sign In</Link>
+          <Link to="register" className="btn bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] text-white border-none rounded-4xl">
+            Get Started
+          </Link>
         </div>
       </div>
     </div>

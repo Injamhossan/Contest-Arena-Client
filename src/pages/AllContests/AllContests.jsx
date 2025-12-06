@@ -1,11 +1,239 @@
-import React from 'react';
+import React, { useState } from "react";
+import Card from "../../components/UI/Card/Card";
 
 const AllContests = () => {
-    return (
-        <div>
-            
+  // TODO: Fetch contests from database
+  const [contests, setContests] = useState([]);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("endingSoon");
+  const [viewMode, setViewMode] = useState("grid");
+
+  const categories = [
+    "All",
+    "Design",
+    "Writing",
+    "Coding",
+    "Photography",
+    "Video",
+    "Music",
+    "Art",
+    "Business",
+    "Other",
+  ];
+  const sortOptions = [
+    { value: "endingSoon", label: "Ending Soon" },
+    { value: "newest", label: "Newest" },
+    { value: "popular", label: "Most Popular" },
+  ];
+
+  // Filter
+  const filteredContests = contests.filter((contest) => {
+    const matchesSearch = contest.contestName
+      ?.toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "All" || contest.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const displayedContests = [...filteredContests];
+
+  return (
+    <div className="pt-24 pb-12 px-4 sm:px-8 lg:px-16 min-h-screen bg-white">
+      {/* Header Section */}
+      <div className="text-center mb-12">
+        <h1 className="text-4xl lg:text-5xl font-extrabold text-[#1F2937] mb-4">
+          All Contests
+        </h1>
+        <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+          Discover exciting competitions across design, photography, writing,
+          and more. Find your perfect challenge and start competing today.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4">
+        {/* Search bar */}
+        <div className="relative w-full">
+          <input
+            type="text"
+            placeholder="Search contests..."
+            className="w-full rounded-full border text-black border-gray-200 bg-gray-50 px-12 py-2 text-sm md:text-base outline-none focus:border-gray-400 focus:bg-white transition"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          {/* search icon */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
         </div>
-    );
+
+        {/* Right-side controls (category, sort, view toggle) */}
+        <div className="flex flex-col md:flex-row gap-3 md:items-center md:justify-end w-full md:w-auto">
+          {/* Category dropdown */}
+          <div className="relative">
+            <select
+              className="appearance-none rounded-full border border-gray-200 bg-white text-black px-4 pr-10 py-2 text-sm md:text-base outline-none focus:border-gray-400 cursor-pointer"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              {categories.map((cat, index) => (
+                <option key={index} value={cat}>
+                  {cat === "All" ? "All Categories" : cat}
+                </option>
+              ))}
+            </select>
+            {/* chevron icon */}
+            <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+              ▼
+            </span>
+          </div>
+
+          {/* Sort dropdown (Ending Soon etc.) */}
+          <div className="relative">
+            <select
+              className="appearance-none rounded-full border border-gray-200 bg-white text-black px-4 pr-10 py-2 text-sm md:text-base outline-none focus:border-gray-400 cursor-pointer"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              {sortOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+            <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+              ▼
+            </span>
+          </div>
+
+          {/* View toggle (grid / list) */}
+          <div className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-1 py-1">
+            <button
+              type="button"
+              onClick={() => setViewMode("grid")}
+              className={`p-2 rounded-full transition ${
+                viewMode === "grid"
+                  ? "bg-[#f59f0a] text-white"
+                  : "text-gray-500 hover:bg-gray-100"
+              }`}
+            >
+              {/* grid icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 4h7v7H4V4zm9 0h7v7h-7V4zM4 13h7v7H4v-7zm9 0h7v7h-7v-7z"
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("list")}
+              className={`p-2 rounded-full transition ${
+                viewMode === "list"
+                  ? "bg-[#f59f0a] text-white"
+                  : "text-gray-500 hover:bg-gray-100"
+              }`}
+            >
+              {/* list icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h10"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2 mb-8">
+        {[
+          "creative",
+          "digital",
+          "illustration",
+          "logo",
+          "branding",
+          "web",
+          "mobile",
+          "3D",
+          "animation",
+          "UI/UX",
+        ].map((tag) => (
+          <button
+            key={tag}
+            type="button"
+            className="px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs font-medium text-gray-600 hover:bg-gray-100"
+            onClick={() => setSearchTerm(tag)}
+          >
+            #{tag}
+          </button>
+        ))}
+      </div>
+
+      {/* Content Grid / List */}
+      {displayedContests.length > 0 ? (
+        <div
+          className={
+            viewMode === "grid"
+              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              : "flex flex-col gap-6"
+          }
+        >
+          {displayedContests.map((contest) => (
+            <Card key={contest._id} item={contest} />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-20">
+          <h3 className="text-4xl font-bold text-gray-400">
+            No contests found
+          </h3>
+          <p className="text-gray-500 mt-2">
+            Try adjusting your search or filters.
+          </p>
+          <button
+            className="btn btn-primary btn-sm mt-4 text-white"
+            onClick={() => {
+              setSearchTerm("");
+              setSelectedCategory("All");
+              setSortBy("endingSoon");
+            }}
+          >
+            Clear Filters
+          </button>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default AllContests;

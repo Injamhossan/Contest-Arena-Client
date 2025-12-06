@@ -7,8 +7,9 @@ import LinkedIn from "../../assets/social/linkedin.png";
 
 const Footer = () => {
   return (
-    <div className="bg-white p-10 border-t">
-      <footer className="footer sm:footer-horizontal mx-auto max-w-[1780px] text-gray-600">
+    <div className="bg-white px-10 pt-10 border-t">
+      <div>
+      <footer className="footer sm:footer-horizontal mx-auto max-w-[1780px] text-gray-600 mb-6">
 
         {/* Brand */}
         <aside>
@@ -61,8 +62,16 @@ const Footer = () => {
             <img src={LinkedIn} alt="LinkedIn Logo" className="h-7 hover:opacity-70 cursor-pointer transition" />
           </div>
         </nav>
-
       </footer>
+      </div>
+
+      {/* Centered Copyright */}
+      <hr />
+      <div className="mx-auto max-w-[1780px] my-5 py-5">
+        <p className="text-center text-gray-700 font-medium">
+          © {new Date().getFullYear()} Contest Arena — All Rights Reserved.
+        </p>
+      </div>
     </div>
   );
 };

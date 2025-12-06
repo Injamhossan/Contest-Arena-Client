@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 const Banner = () => {
   return (
-    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 via-white to-blue-50 pt-20 pb-16">
+    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-50 via-white to-blue-50 pt-20 pb-16">
       {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-100/50 rounded-full blur-[100px]" />
@@ -23,7 +23,7 @@ const Banner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-medium mb-8 shadow-lg shadow-blue-600/20"
+            className="inline-flex items-center gap-2 bg-linear-to-r from-[#4a37d8] to-[#6928d9] text-white px-4 py-1.5 rounded-full text-sm font-medium mb-8 shadow-lg shadow-blue-600/20"
           >
             <Sparkles size={16} />
             <span>Join 10,000+ creators and competitors</span>
@@ -37,7 +37,7 @@ const Banner = () => {
             className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight font-urbanist"
           >
             <span className="text-gray-900">Compete. </span>
-            <span className="text-purple-600">Create.</span>
+            <span className="bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] bg-clip-text text-transparent">Create.</span>
             <br />
             <span className="text-amber-500">Celebrate.</span>
           </motion.h1>
@@ -67,7 +67,7 @@ const Banner = () => {
                 className="w-full py-3 outline-none text-gray-700 bg-transparent placeholder:text-gray-400"
               />
             </div>
-            <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-xl font-medium transition-colors cursor-pointer">
+            <button className="bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] text-white px-8 py-3 rounded-xl font-medium transition-colors cursor-pointer">
               Search
             </button>
           </motion.div>
@@ -88,7 +88,7 @@ const Banner = () => {
               { label: 'Art', icon: Monitor },
               { label: 'Technology', icon: Cpu }
             ].map((tag, index) => (
-              <button 
+              <button
                 key={index}
                 className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-700 font-medium text-xs flex items-center gap-1.5 cursor-pointer"
               >
@@ -98,13 +98,13 @@ const Banner = () => {
           </motion.div>
 
           {/* CTA Buttons */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
           >
-            <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/25 hover:shadow-blue-600/40 cursor-pointer">
+            <button className="flex items-center gap-2 bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/25 hover:shadow-blue-600/40 cursor-pointer">
               Explore Contests
               <ArrowRight size={18} />
             </button>

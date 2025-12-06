@@ -21,8 +21,8 @@ const Navbar = () => {
   );
 
   return (
-    <div className="bg-white shadow-sm">
-      <div className="navbar mx-auto max-w-[1800px]">
+    <div className="py-1 sticky top-0 z-50 bg-white/90 backdrop-blur shadow-md">
+      <div className="navbar mx-auto max-w-[1800px] ]">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -51,7 +51,7 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-2">
             <img src={NavLogo} alt="Nav Logo" className="h-[50px]" />
-            <a class="text-xl font-bold bg-linear-to-r from-[#4a37d8] to-[#6928d9] bg-clip-text text-transparent">
+            <a class="text-xl font-bold bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] bg-clip-text text-transparent">
               Contest Arena
             </a>
           </div>
@@ -63,7 +63,7 @@ const Navbar = () => {
         </div>
         <div className="navbar-end gap-2">
           <a className="btn bg-white border-none text-gray-800 rounded-4xl shadow-none hover:bg-[#f59f0a] hover:text-white hover:rounded-4xl">Sign In</a>
-<a class="btn bg-linear-to-r from-[#4a37d8] to-[#6928d9] text-white border-none rounded-4xl">
+<a class="btn bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] text-white border-none rounded-4xl">
   Get Started
 </a>
 

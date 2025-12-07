@@ -18,7 +18,8 @@ const Register = () => {
 
     // Redirect if already logged in and has a role
     useEffect(() => {
-        if (user && user.role) {
+        const justSignedUp = sessionStorage.getItem('justSignedUp');
+        if (user && user.role && !justSignedUp) {
             navigate('/dashboard');
         }
     }, [user, navigate]);
@@ -39,7 +40,7 @@ const Register = () => {
     const onSubmit = async (data) => {
         setLoading(true);
         try {
-            await signUp(data.email, data.password, data.name);
+            await signUp(data.email, data.password, data.name, data.photoURL);
             toast.success('Account created successfully!');
             sessionStorage.setItem('justSignedUp', 'true');
             // Wait a bit for auth state to update
@@ -101,6 +102,7 @@ const Register = () => {
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     <div className="space-y-4">
                         {/* Full Name Input */}
+                        {/* Full Name Input */}
                          <div>
                             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                                 Full Name
@@ -118,6 +120,26 @@ const Register = () => {
                                 />
                             </div>
                             {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
+                        </div>
+
+                        {/* Image URL Input */}
+                        <div>
+                            <label htmlFor="photoURL" className="block text-sm font-medium text-gray-700 mb-1">
+                                Image URL
+                            </label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <User className="h-5 w-5 text-gray-400" />
+                                </div>
+                                <input
+                                    id="photoURL"
+                                    type="url"
+                                    {...register("photoURL", { required: "Image URL is required" })}
+                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 text-black rounded-lg focus:ring-primary focus:border-primary sm:text-sm bg-gray-50 outline-none transition-all focus:bg-white"
+                                    placeholder="https://example.com/photo.jpg"
+                                />
+                            </div>
+                            {errors.photoURL && <p className="mt-1 text-xs text-red-500">{errors.photoURL.message}</p>}
                         </div>
 
                         {/* Email Input */}

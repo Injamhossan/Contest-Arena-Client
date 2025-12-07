@@ -10,6 +10,10 @@ import About from '../pages/About/About';
 import Leaderboard from '../pages/Leaderboard/Leaderboard';
 import SupportTeam from '../pages/SupportTeam/SupportTeam';
 import Dashboard from '../pages/Dashboard/Dashboard';
+import AddContest from '../pages/Dashboard/AddContest';
+import Payment from '../pages/Payment/Payment';
+import ManageUsers from '../pages/Dashboard/ManageUsers';
+import ManageContests from '../pages/Dashboard/ManageContests';
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 
 export const router = createBrowserRouter([
@@ -52,6 +56,38 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'contests/create',
+        element: (
+          <ProtectedRoute>
+            <AddContest />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'payment',
+        element: (
+          <ProtectedRoute>
+            <Payment />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'dashboard/users',
+        element: (
+          <ProtectedRoute allowedRoles={['admin']}>
+            <ManageUsers />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'dashboard/contests',
+        element: (
+          <ProtectedRoute allowedRoles={['admin']}>
+            <ManageContests />
           </ProtectedRoute>
         ),
       },

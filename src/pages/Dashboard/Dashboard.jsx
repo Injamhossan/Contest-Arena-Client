@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import UserDashboard from './UserDashboard';
 import CreatorDashboard from './CreatorDashboard';
 import AdminDashboard from './AdminDashboard';
+import DashboardLayout from '../../components/Dashboard/DashboardLayout';
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
@@ -32,13 +33,21 @@ const Dashboard = () => {
   }
 
   // Route to appropriate dashboard based on user role
-  if (user.role === 'admin') {
-    return <AdminDashboard />;
-  } else if (user.role === 'creator') {
-    return <CreatorDashboard />;
-  } else {
-    return <UserDashboard />;
-  }
+  const getDashboard = () => {
+    if (user.role === 'admin') {
+      return <AdminDashboard />;
+    } else if (user.role === 'creator') {
+      return <CreatorDashboard />;
+    } else {
+      return <UserDashboard />;
+    }
+  };
+
+  return (
+      <DashboardLayout>
+          {getDashboard()}
+      </DashboardLayout>
+  );
 };
 
 export default Dashboard;

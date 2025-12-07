@@ -30,25 +30,27 @@ const UserDashboard = () => {
     try {
       setLoading(true);
       const response = await api.get('/participations/me?sort=deadline');
-      const data = response.data;
-      setParticipations(data);
-      
-      // Calculate stats
-      const total = data.length;
-      const wins = data.filter(p => p.status === 'winner').length;
-      const active = data.filter(p => 
-        new Date(p.contest?.deadline) > new Date() && p.status !== 'winner'
-      ).length;
-      const losses = total - wins - active; // Simplistic calculation
-      const winRate = total > 0 ? Math.round((wins / total) * 100) : 0;
-      
-      setStats({
-        totalParticipations: total,
-        activeContests: active,
-        wins: wins,
-        winRate: winRate,
-        losses: losses
-      });
+      if (response.data.success) {
+        const data = response.data.data;
+        setParticipations(data);
+        
+        // Calculate stats
+        const total = data.length;
+        const wins = data.filter(p => p.status === 'winner').length;
+        const active = data.filter(p => 
+          new Date(p.contest?.deadline) > new Date() && p.status !== 'winner'
+        ).length;
+        const losses = total - wins - active; // Simplistic calculation
+        const winRate = total > 0 ? Math.round((wins / total) * 100) : 0;
+        
+        setStats({
+          totalParticipations: total,
+          activeContests: active,
+          wins: wins,
+          winRate: winRate,
+          losses: losses
+        });
+      }
     } catch (error) {
       console.error('Error fetching participations:', error);
       toast.error('Failed to load dashboard data');
@@ -80,7 +82,7 @@ const UserDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f3f4f6] pb-12">
+    <div className="pb-12">
       {/* Top Header Section */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -190,7 +192,7 @@ const UserDashboard = () => {
             <h3 className="text-lg font-bold text-gray-900 mb-2">Win Statistics</h3>
             <p className="text-sm text-gray-500 mb-6">Your overall performance</p>
             
-            <div className="h-64 flex items-center justify-center relative">
+            <div className="h-64 relative">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie

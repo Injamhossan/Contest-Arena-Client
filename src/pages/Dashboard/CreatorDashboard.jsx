@@ -4,12 +4,14 @@ import api from '../../utils/api';
 import { Plus, Calendar, Users, DollarSign, CheckCircle, Clock } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import EditProfileModal from '../../components/Dashboard/EditProfileModal';
 
 const CreatorDashboard = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [contests, setContests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [stats, setStats] = useState({
     totalContests: 0,
     pendingContests: 0,
@@ -80,7 +82,7 @@ const CreatorDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
@@ -88,14 +90,27 @@ const CreatorDashboard = () => {
             <h1 className="text-3xl font-bold text-gray-900">Creator Dashboard</h1>
             <p className="text-gray-600 mt-2">Manage your contests and participants</p>
           </div>
-          <button
-            onClick={() => navigate('/contests/create')}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#4a37d8] to-[#6928d9] text-white rounded-lg hover:from-[#3b2db0] hover:to-[#5722b5] transition-all"
-          >
-            <Plus className="h-5 w-5" />
-            Create Contest
-          </button>
+          <div className="flex gap-3">
+             <button
+              onClick={() => setIsEditModalOpen(true)}
+              className="px-4 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium"
+            >
+              Edit Profile
+            </button>
+            <button
+                onClick={() => navigate('/contests/create')}
+                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#4a37d8] to-[#6928d9] text-white rounded-lg hover:from-[#3b2db0] hover:to-[#5722b5] transition-all"
+            >
+                <Plus className="h-5 w-5" />
+                Create Contest
+            </button>
+          </div>
         </div>
+        
+        <EditProfileModal 
+            isOpen={isEditModalOpen} 
+            onClose={() => setIsEditModalOpen(false)} 
+        />
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

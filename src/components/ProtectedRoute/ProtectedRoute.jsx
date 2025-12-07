@@ -2,8 +2,10 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
-const ProtectedRoute = ({ children, requiredRole = null }) => {
+const ProtectedRoute = ({ children, allowedRoles = null, requiredRole = null }) => {
   const { user, loading, token } = useAuth();
+  // Support both props for backward compatibility
+  const roles = allowedRoles || (requiredRole ? [requiredRole] : null);
 
   if (loading) {
     return (
@@ -23,7 +25,7 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
   // If no token, user can still see the page but API calls will fail
   // This prevents infinite redirect loops
 
-  if (requiredRole && user.role !== requiredRole) {
+  if (roles && !roles.includes(user.role)) {
     return <Navigate to="/dashboard" replace />;
   }
 

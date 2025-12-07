@@ -23,8 +23,8 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);      // backend user / fallback user
-  const [token, setToken] = useState(null);    // JWT
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -147,10 +147,13 @@ try {
     return cred.user; // onAuthStateChanged নিজে থেকেই চলবে
   };
 
-  const signUp = async (email, password, name) => {
+  const signUp = async (email, password, name, photoURL) => {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     // profile update
-    await cred.user.updateProfile({ displayName: name });
+    await cred.user.updateProfile({ 
+      displayName: name,
+      photoURL: photoURL || "https://ui-avatars.com/api/?name=" + name
+    });
     return cred.user;
   };
 
@@ -183,6 +186,19 @@ try {
         const updatedUser = { ...user, role: response.data.user.role };
         setUser(updatedUser);
         localStorage.setItem('user', JSON.stringify(updatedUser));
+        
+        // Refresh Token to include new role
+        const tokenResponse = await api.post('/auth/jwt', {
+          email: user.email,
+          name: user.displayName || user.name,
+          photoURL: user.photoURL
+        });
+
+        if (tokenResponse.data?.success && tokenResponse.data?.token) {
+             localStorage.setItem('token', tokenResponse.data.token);
+             setToken(tokenResponse.data.token);
+        }
+
         toast.success('Role updated successfully');
         return updatedUser;
       } else {

@@ -1,22 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, User, Trophy } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
 import { FcGoogle } from "react-icons/fc";
 import NavLogo from "../../assets/logo.svg";
+import { useAuth } from '../../contexts/AuthContext';
+import RoleSelectionModal from '../../components/Modal/RoleSelectionModal';
+import toast from 'react-hot-toast';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [showRoleModal, setShowRoleModal] = useState(false);
+    const { signUp, signInWithGoogle, user } = useAuth();
+    const navigate = useNavigate();
 
-    const onSubmit = (data) => {
-        console.log(data);
-        // TODO: Implement registration logic (Firebase/Auth)
+    // Redirect if already logged in and has a role
+    useEffect(() => {
+        if (user && user.role) {
+            navigate('/dashboard');
+        }
+    }, [user, navigate]);
+
+    // Show role modal if user just signed up and doesn't have a role
+    useEffect(() => {
+        const justSignedUp = sessionStorage.getItem('justSignedUp');
+        if (user && justSignedUp === 'true' && !user.role && !showRoleModal) {
+            setShowRoleModal(true);
+            sessionStorage.removeItem('justSignedUp');
+        }
+    }, [user, showRoleModal]);
+
+    const onSubmit = async (data) => {
+        setLoading(true);
+        try {
+            await signUp(data.email, data.password, data.name);
+            toast.success('Account created successfully!');
+            sessionStorage.setItem('justSignedUp', 'true');
+            // Wait a bit for auth state to update
+            setTimeout(() => {
+                setShowRoleModal(true);
+            }, 500);
+        } catch (error) {
+            console.error('Registration error:', error);
+            toast.error(error.message || 'Failed to create account. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleGoogleSignIn = () => {
-        console.log("Google Sign In Clicked");
-        // TODO: Implement Google Sign In logic
+    const handleGoogleSignIn = async () => {
+        setLoading(true);
+        try {
+            await signInWithGoogle();
+            toast.success('Account created with Google successfully!');
+            sessionStorage.setItem('justSignedUp', 'true');
+            // Wait for auth state to update and check role
+            setTimeout(() => {
+                // The auth context will handle the role check
+                // If no role, modal will show via useEffect
+            }, 1000);
+        } catch (error) {
+            console.error('Google sign in error:', error);
+            toast.error(error.message || 'Failed to sign in with Google.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleRoleSelected = () => {
+        setShowRoleModal(false);
+        navigate('/dashboard');
     };
 
     return (
@@ -121,9 +176,10 @@ const Register = () => {
                     <div>
                         <button
                             type="submit"
-                            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-linear-to-r from-[#4a37d8] to-[#6928d9] hover:from-[#3b2db0] hover:to-[#5722b5] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg shadow-indigo-500/30 transition-all duration-200 cursor-pointer"
+                            disabled={loading}
+                            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-[#4a37d8] to-[#6928d9] hover:from-[#3b2db0] hover:to-[#5722b5] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg shadow-indigo-500/30 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Create Account
+                            {loading ? 'Creating Account...' : 'Create Account'}
                         </button>
                     </div>
 
@@ -141,7 +197,8 @@ const Register = () => {
                         <button
                             type="button"
                             onClick={handleGoogleSignIn}
-                            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 cursor-pointer"
+                            disabled={loading}
+                            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <FcGoogle className="h-5 w-5" />
                             <span>Continue with Google</span>
@@ -159,6 +216,9 @@ const Register = () => {
                     </p>
                 </div>
             </div>
+
+            {/* Role Selection Modal */}
+            <RoleSelectionModal isOpen={showRoleModal} onClose={handleRoleSelected} />
         </div>
     );
 };

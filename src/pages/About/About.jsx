@@ -156,7 +156,7 @@ const About = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.1 }}
-                            className="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-2xl border border-blue-100 shadow-sm hover:shadow-lg transition-all"
+                            className="bg-linear-to-br from-blue-50 to-purple-50 p-8 rounded-2xl border border-blue-100 shadow-sm hover:shadow-lg transition-all"
                         >
                             <div className="w-16 h-16 bg-linear-to-r from-[#4a37d8] to-[#6928d9] rounded-2xl flex items-center justify-center text-white mb-6 mx-auto">
                                 <Target size={28} />
@@ -172,7 +172,7 @@ const About = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.2 }}
-                            className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl border border-purple-100 shadow-sm hover:shadow-lg transition-all"
+                            className="bg-linear-to-br from-purple-50 to-pink-50 p-8 rounded-2xl border border-purple-100 shadow-sm hover:shadow-lg transition-all"
                         >
                             <div className="w-16 h-16 bg-linear-to-r from-[#6928d9] to-[#1f3092] rounded-2xl flex items-center justify-center text-white mb-6 mx-auto">
                                 <Shield size={28} />
@@ -188,7 +188,7 @@ const About = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.3 }}
-                            className="bg-gradient-to-br from-amber-50 to-orange-50 p-8 rounded-2xl border border-amber-100 shadow-sm hover:shadow-lg transition-all"
+                            className="bg-linear-to-br from-amber-50 to-orange-50 p-8 rounded-2xl border border-amber-100 shadow-sm hover:shadow-lg transition-all"
                         >
                             <div className="w-16 h-16 bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] rounded-2xl flex items-center justify-center text-white mb-6 mx-auto">
                                 <Heart size={28} />

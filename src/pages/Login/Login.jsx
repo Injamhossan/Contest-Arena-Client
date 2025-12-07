@@ -1,16 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { NavLink, Link } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, Trophy } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { FcGoogle } from "react-icons/fc";
 import NavLogo from "../../assets/logo.svg";
+import { useAuth } from '../../contexts/AuthContext';
+import toast from 'react-hot-toast';
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const { signIn, signInWithGoogle, user } = useAuth();
+    const navigate = useNavigate();
 
-    const onSubmit = (data) => {
-        console.log(data);
-        // TODO: Implement login logic (Firebase/Auth)
+    // Redirect if already logged in
+    useEffect(() => {
+        if (user) {
+            navigate('/dashboard');
+        }
+    }, [user, navigate]);
+
+    const onSubmit = async (data) => {
+        setLoading(true);
+        try {
+            await signIn(data.email, data.password);
+            toast.success('Signed in successfully!');
+            navigate('/dashboard');
+        } catch (error) {
+            console.error('Login error:', error);
+            toast.error(error.message || 'Failed to sign in. Please check your credentials.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleSignIn = async () => {
+        setLoading(true);
+        try {
+            await signInWithGoogle();
+            toast.success('Signed in with Google successfully!');
+            navigate('/dashboard');
+        } catch (error) {
+            console.error('Google sign in error:', error);
+            toast.error(error.message || 'Failed to sign in with Google.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -89,9 +125,32 @@ const Login = () => {
                     <div>
                         <button
                             type="submit"
-                            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-linear-to-r from-[#4a37d8] to-[#6928d9] hover:from-[#3b2db0] hover:to-[#5722b5] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg shadow-indigo-500/30 transition-all duration-200 cursor-pointer"
+                            disabled={loading}
+                            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-[#4a37d8] to-[#6928d9] hover:from-[#3b2db0] hover:to-[#5722b5] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg shadow-indigo-500/30 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Sign In
+                            {loading ? 'Signing in...' : 'Sign In'}
+                        </button>
+                    </div>
+
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center">
+                            <div className="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div className="relative flex justify-center text-sm">
+                            <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                        </div>
+                    </div>
+
+                    {/* Google Button */}
+                    <div>
+                        <button
+                            type="button"
+                            onClick={handleGoogleSignIn}
+                            disabled={loading}
+                            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            <FcGoogle className="h-5 w-5" />
+                            <span>Continue with Google</span>
                         </button>
                     </div>
                 </form>

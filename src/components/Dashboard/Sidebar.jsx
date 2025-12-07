@@ -23,6 +23,7 @@ const Sidebar = () => {
           { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
           { name: 'Manage Users', path: '/dashboard/users', icon: Users },
           { name: 'Manage Contests', path: '/dashboard/contests', icon: Trophy },
+          { name: 'Payment History', path: '/dashboard/payments', icon: CreditCard },
         ];
       case 'creator':
         return [
@@ -30,6 +31,7 @@ const Sidebar = () => {
           { name: 'Add Contest', path: '/contests/create', icon: PlusCircle },
           { name: 'My Contests', path: '/dashboard/my-contests', icon: FileText },
           { name: 'Contest Submitted', path: '/dashboard/submitted', icon: Award },
+          { name: 'Payment History', path: '/dashboard/payment-history', icon: CreditCard },
         ];
       case 'user':
       default:

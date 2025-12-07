@@ -39,16 +39,19 @@ const Register = () => {
 
     const onSubmit = async (data) => {
         setLoading(true);
+        // Set flag BEFORE calling signUp to prevent premature redirect from useEffect
+        sessionStorage.setItem('justSignedUp', 'true');
         try {
             await signUp(data.email, data.password, data.name, data.photoURL);
             toast.success('Account created successfully!');
-            sessionStorage.setItem('justSignedUp', 'true');
+            
             // Wait a bit for auth state to update
             setTimeout(() => {
                 setShowRoleModal(true);
             }, 500);
         } catch (error) {
             console.error('Registration error:', error);
+            sessionStorage.removeItem('justSignedUp'); // Clear flag on error
             toast.error(error.message || 'Failed to create account. Please try again.');
         } finally {
             setLoading(false);
@@ -57,10 +60,12 @@ const Register = () => {
 
     const handleGoogleSignIn = async () => {
         setLoading(true);
+        // Set flag BEFORE calling signIn to prevent premature redirect from useEffect
+        sessionStorage.setItem('justSignedUp', 'true');
         try {
             await signInWithGoogle();
             toast.success('Account created with Google successfully!');
-            sessionStorage.setItem('justSignedUp', 'true');
+            
             // Wait for auth state to update and check role
             setTimeout(() => {
                 // The auth context will handle the role check
@@ -68,6 +73,7 @@ const Register = () => {
             }, 1000);
         } catch (error) {
             console.error('Google sign in error:', error);
+            sessionStorage.removeItem('justSignedUp'); // Clear flag on error
             toast.error(error.message || 'Failed to sign in with Google.');
         } finally {
             setLoading(false);

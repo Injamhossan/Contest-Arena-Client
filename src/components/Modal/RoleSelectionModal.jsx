@@ -16,12 +16,15 @@ const RoleSelectionModal = ({ isOpen, onClose }) => {
     setLoading(true);
     try {
       await updateUserRole(role);
+      toast.success(`Role updated to ${role === 'user' ? 'Contestant' : 'Creator'}!`);
       onClose();
-      // Refresh the page to update dashboard
-      window.location.href = '/dashboard';
+      // Navigate to dashboard after a short delay
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 500);
     } catch (error) {
       console.error('Error updating role:', error);
-    } finally {
+      toast.error('Failed to update role. Please try again.');
       setLoading(false);
     }
   };

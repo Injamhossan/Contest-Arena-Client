@@ -26,9 +26,13 @@ const Register = () => {
     // Show role modal if user just signed up and doesn't have a role
     useEffect(() => {
         const justSignedUp = sessionStorage.getItem('justSignedUp');
-        if (user && justSignedUp === 'true' && !user.role && !showRoleModal) {
-            setShowRoleModal(true);
-            sessionStorage.removeItem('justSignedUp');
+        if (user && justSignedUp === 'true' && (!user.role || user.role === 'user') && !showRoleModal) {
+            // Wait a bit for JWT to be created
+            const timer = setTimeout(() => {
+                setShowRoleModal(true);
+                sessionStorage.removeItem('justSignedUp');
+            }, 1000);
+            return () => clearTimeout(timer);
         }
     }, [user, showRoleModal]);
 

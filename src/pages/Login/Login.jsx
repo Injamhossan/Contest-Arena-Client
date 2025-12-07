@@ -10,42 +10,61 @@ import toast from 'react-hot-toast';
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const { signIn, signInWithGoogle, user } = useAuth();
+    const [submitting, setSubmitting] = useState(false); // শুধু form submit loading
+    const { signIn, signInWithGoogle, user, loading: authLoading } = useAuth();
     const navigate = useNavigate();
 
-    // Redirect if already logged in
+    // already logged in থাকলে সরাসরি dashboard
     useEffect(() => {
-        if (user) {
+        if (!authLoading && user) {
+            console.log('User logged in, navigating to dashboard');
             navigate('/dashboard');
         }
-    }, [user, navigate]);
+    }, [user, authLoading, navigate]);
 
     const onSubmit = async (data) => {
-        setLoading(true);
+        setSubmitting(true);
         try {
-            await signIn(data.email, data.password);
+            console.log('Attempting to sign in with email:', data.email);
+            const firebaseUser = await signIn(data.email, data.password);
+            console.log('Firebase sign in successful:', firebaseUser);
+
             toast.success('Signed in successfully!');
-            navigate('/dashboard');
+            navigate('/dashboard'); // ✅ সরাসরি redirect
         } catch (error) {
             console.error('Login error:', error);
             toast.error(error.message || 'Failed to sign in. Please check your credentials.');
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     };
 
     const handleGoogleSignIn = async () => {
-        setLoading(true);
+        setSubmitting(true);
         try {
-            await signInWithGoogle();
+            const firebaseUser = await signInWithGoogle();
             toast.success('Signed in with Google successfully!');
-            navigate('/dashboard');
+            // Don't navigate immediately - let AuthContext handle it via useEffect
         } catch (error) {
             console.error('Google sign in error:', error);
+            
+            // Handle specific Firebase errors
+            if (error.code === 'auth/popup-closed-by-user') {
+                // User closed the popup - don't show error
+                setSubmitting(false);
+                return;
+            } else if (error.code === 'auth/popup-blocked') {
+                toast.error('Popup was blocked. Please allow popups for this site.');
+            } else if (error.code === 'auth/cancelled-popup-request') {
+                // Multiple popup requests - ignore
+                setSubmitting(false);
+                return;
+            } else {
+                toast.error(error.message || 'Failed to sign in with Google.');
+            }
             toast.error(error.message || 'Failed to sign in with Google.');
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     };
 
@@ -125,10 +144,10 @@ const Login = () => {
                     <div>
                         <button
                             type="submit"
-                            disabled={loading}
+                            disabled={submitting || authLoading}
                             className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-[#4a37d8] to-[#6928d9] hover:from-[#3b2db0] hover:to-[#5722b5] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg shadow-indigo-500/30 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {loading ? 'Signing in...' : 'Sign In'}
+                            {(submitting || authLoading) ? 'Signing in...' : 'Sign In'}
                         </button>
                     </div>
 
@@ -146,7 +165,7 @@ const Login = () => {
                         <button
                             type="button"
                             onClick={handleGoogleSignIn}
-                            disabled={loading}
+                            disabled={submitting || authLoading}
                             className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <FcGoogle className="h-5 w-5" />
@@ -159,7 +178,7 @@ const Login = () => {
                 <div className="text-center mt-4">
                     <p className="text-sm text-gray-600">
                         Don't have an account?{' '}
-                        <Link to="register" className="font-medium text-[#4a37d8] hover:text-[#3b2db0] transition-colors">
+                        <Link to="/register" className="font-medium text-[#4a37d8] hover:text-[#3b2db0] transition-colors">
                             Sign up
                         </Link>
                     </p>

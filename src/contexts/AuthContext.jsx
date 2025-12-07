@@ -1,3 +1,4 @@
+// src/contexts/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { 
   signInWithEmailAndPassword, 
@@ -22,124 +23,143 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);      // backend user / fallback user
+  const [token, setToken] = useState(null);    // JWT
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(localStorage.getItem('token') || null);
 
-  // Initialize auth state
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        try {
-          // Get or create JWT token from backend
-          const response = await api.post('/auth/jwt', {
-            email: firebaseUser.email,
-            name: firebaseUser.displayName || firebaseUser.email?.split('@')[0],
-            photoURL: firebaseUser.photoURL || null,
-          });
+    setLoading(true);
+    
+    let isProcessing = false; // Prevent multiple simultaneous JWT requests
+    let lastJWTRequestTime = 0;
 
-          const { token: jwtToken, user: userData } = response.data;
-          localStorage.setItem('token', jwtToken);
-          localStorage.setItem('user', JSON.stringify(userData));
-          setToken(jwtToken);
-          setUser(userData);
-        } catch (error) {
-          console.error('Error getting JWT token:', error);
-          toast.error('Failed to authenticate with server');
-        }
-      } else {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      // Prevent rapid repeated calls
+      const now = Date.now();
+      if (isProcessing && (now - lastJWTRequestTime) < 2000) {
+        return; // Skip if processing and less than 2 seconds since last request
+      }
+
+      // লগ আউট অবস্থা
+      if (!firebaseUser) {
         setUser(null);
         setToken(null);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        localStorage.removeItem('jwt_error_shown');
+        setLoading(false);
+        isProcessing = false;
+        return;
       }
-      setLoading(false);
+
+      // Skip if already have valid token for this user
+      const storedUser = localStorage.getItem('user');
+      const storedToken = localStorage.getItem('token');
+      if (storedUser && storedToken) {
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          if (parsedUser.email === firebaseUser.email) {
+            // User already authenticated, just set state
+            setUser(parsedUser);
+            setToken(storedToken);
+            setLoading(false);
+            return;
+          }
+        } catch (e) {
+          // Invalid stored user, continue to get new JWT
+        }
+      }
+
+     isProcessing = true;
+lastJWTRequestTime = now;
+
+try {
+    const response = await api.post('/auth/jwt', {
+        email: firebaseUser.email,
+        name: firebaseUser.displayName || firebaseUser.email?.split('@')[0],
+        photoURL: firebaseUser.photoURL || null,
     });
 
-    // Check if user exists in localStorage and token is still valid
-    const storedUser = localStorage.getItem('user');
-    const storedToken = localStorage.getItem('token');
-    if (storedUser && storedToken) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
-        setToken(storedToken);
-        // Verify token is still valid by fetching user profile
-        api.get('/auth/me').then(response => {
-          const userData = response.data;
-          setUser(userData);
+        if (response.data?.success && response.data?.token && response.data?.user) {
+          const { token: jwtToken, user: userData } = response.data;
+
+          localStorage.setItem('token', jwtToken);
           localStorage.setItem('user', JSON.stringify(userData));
-        }).catch(() => {
-          // Token invalid, clear storage
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          setUser(null);
+          localStorage.removeItem('jwt_error_shown'); // Clear error flag on success
+
+          setToken(jwtToken);
+          setUser(userData);
+        } else {
+          // Invalid response - use fallback
+          const fallbackUser = {
+            _id: firebaseUser.uid,
+            email: firebaseUser.email,
+            name: firebaseUser.displayName || firebaseUser.email?.split('@')[0],
+            photoURL: firebaseUser.photoURL || null,
+            role: 'user',
+          };
+          setUser(fallbackUser);
           setToken(null);
-        });
+        }
       } catch (error) {
-        console.error('Error parsing stored user:', error);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        // Only log error details once
+        if (!localStorage.getItem('jwt_error_shown')) {
+          console.error('JWT Error:', {
+            message: error.message,
+            code: error.code,
+            status: error.response?.status,
+            data: error.response?.data,
+          });
+        }
+
+        // Use fallback user - don't show repeated toasts
+        const fallbackUser = {
+          _id: firebaseUser.uid,
+          email: firebaseUser.email,
+          name: firebaseUser.displayName || firebaseUser.email?.split('@')[0],
+          photoURL: firebaseUser.photoURL || null,
+          role: 'user',
+        };
+        setUser(fallbackUser);
+        setToken(null);
+        
+        // Show error only once
+        if (!localStorage.getItem('jwt_error_shown')) {
+          if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+            toast.error('Cannot connect to server. Please make sure the server is running.');
+          } else if (error.response?.data?.message) {
+            toast.error(error.response.data.message);
+          }
+          localStorage.setItem('jwt_error_shown', 'true');
+        }
+      } finally {
+        setLoading(false);
+        isProcessing = false;
       }
-    }
-    setLoading(false);
+    });
 
     return () => unsubscribe();
   }, []);
 
-  // Sign in with email and password
+  // --------- Auth actions ---------
   const signIn = async (email, password) => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      return userCredential.user;
-    } catch (error) {
-      throw error;
-    }
+    const cred = await signInWithEmailAndPassword(auth, email, password);
+    return cred.user; // onAuthStateChanged নিজে থেকেই চলবে
   };
 
-  // Sign up with email and password
   const signUp = async (email, password, name) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      // Update profile
-      await userCredential.user.updateProfile({ displayName: name });
-      return userCredential.user;
-    } catch (error) {
-      throw error;
-    }
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    // profile update
+    await cred.user.updateProfile({ displayName: name });
+    return cred.user;
   };
 
-  // Sign in with Google
   const signInWithGoogle = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      return result.user;
-    } catch (error) {
-      throw error;
-    }
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    return result.user; // onAuthStateChanged নিজে থেকেই চলবে
   };
 
-  // Update user role
-  const updateUserRole = async (role) => {
-    try {
-      if (!user?._id) {
-        throw new Error('User not found');
-      }
-      const response = await api.patch(`/users/${user._id}/role`, { role });
-      const updatedUser = { ...user, role: response.data.role };
-      setUser(updatedUser);
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-      toast.success('Role updated successfully');
-      return updatedUser;
-    } catch (error) {
-      console.error('Error updating role:', error);
-      toast.error(error.response?.data?.message || 'Failed to update role');
-      throw error;
-    }
-  };
-
-  // Sign out
   const signOut = async () => {
     try {
       await firebaseSignOut(auth);
@@ -148,22 +168,48 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       toast.success('Signed out successfully');
-    } catch (error) {
-      console.error('Error signing out:', error);
+    } catch (err) {
+      console.error('Error signing out:', err);
       toast.error('Failed to sign out');
     }
   };
 
-  // Refresh user data from backend
+  const updateUserRole = async (role) => {
+    try {
+      if (!user?._id) throw new Error('User not found');
+
+      const response = await api.patch(`/users/${user._id}/role`, { role });
+      if (response.data?.success && response.data?.user) {
+        const updatedUser = { ...user, role: response.data.user.role };
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        toast.success('Role updated successfully');
+        return updatedUser;
+      } else {
+        throw new Error('Invalid response from server');
+      }
+    } catch (error) {
+      console.error('Error updating role:', error);
+      console.error('Error response:', error.response?.data);
+      toast.error(error.response?.data?.message || 'Failed to update role');
+      throw error;
+    }
+  };
+
   const refreshUser = async () => {
     try {
       const response = await api.get('/auth/me');
-      const userData = response.data;
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-      return userData;
+      if (response.data?.success && response.data?.user) {
+        const userData = response.data.user;
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+        return userData;
+      } else {
+        throw new Error('Invalid response from server');
+      }
     } catch (error) {
       console.error('Error refreshing user:', error);
+      console.error('Error response:', error.response?.data);
       throw error;
     }
   };
@@ -180,6 +226,9 @@ export const AuthProvider = ({ children }) => {
     refreshUser,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
-

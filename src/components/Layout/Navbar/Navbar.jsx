@@ -79,13 +79,12 @@ const Navbar = () => {
               {links}
             </ul>
           </div>
-          <div className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <img src={NavLogo} alt="Nav Logo" className="h-[50px]" />
-           <Link to="/"> <a  className="text-xl font-bold bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] bg-clip-text text-transparent">
               Contest Arena
-            </a>
-            </Link>
-          </div>
+            </span>
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 text-gray-400 hover:text-gray-700 gap-5 text-[15px]">

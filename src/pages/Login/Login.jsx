@@ -30,7 +30,8 @@ const Login = () => {
             console.log('Firebase sign in successful:', firebaseUser);
 
             toast.success('Signed in successfully!');
-            navigate('/dashboard'); // ✅ সরাসরি redirect
+            toast.success('Signed in successfully!');
+            // navigate('/dashboard'); // ✅ REMOVED: Let useEffect handle it to ensure state is ready
         } catch (error) {
             console.error('Login error:', error);
             toast.error(error.message || 'Failed to sign in. Please check your credentials.');

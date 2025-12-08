@@ -17,38 +17,38 @@ const Register = () => {
     const navigate = useNavigate();
 
     // Redirect if already logged in and has a role
+    // REMOVING strict redirect here - let the user see the modal or decide
     useEffect(() => {
         const justSignedUp = sessionStorage.getItem('justSignedUp');
-        if (user && user.role && !justSignedUp) {
+        // Only redirect if they have a role AND we are NOT in the middle of a signup flow
+        if (user && user.role && user.role !== 'user' && !justSignedUp) {
             navigate('/dashboard');
         }
     }, [user, navigate]);
 
-    // Show role modal if user just signed up and doesn't have a role
+    // Show role modal if user just signed up and doesn't have a role (or has default 'user' role)
     useEffect(() => {
         const justSignedUp = sessionStorage.getItem('justSignedUp');
-        if (user && justSignedUp === 'true' && (!user.role || user.role === 'user') && !showRoleModal) {
-            // Wait a bit for JWT to be created
-            const timer = setTimeout(() => {
-                setShowRoleModal(true);
-                sessionStorage.removeItem('justSignedUp');
-            }, 1000);
-            return () => clearTimeout(timer);
+        // If user exists, and we just signed up, and they are either roleless or just 'user'
+        if (user && justSignedUp === 'true' && (!user.role || user.role === 'user')) {
+             if (!showRoleModal) {
+                 setShowRoleModal(true);
+                 // We kept the flag until modal is actually shown
+                 // Optionally clear it here, or clearer it when modal closes
+             }
         }
     }, [user, showRoleModal]);
 
     const onSubmit = async (data) => {
         setLoading(true);
-        // Set flag BEFORE calling signUp to prevent premature redirect from useEffect
+        // Set flag BEFORE calling signUp
         sessionStorage.setItem('justSignedUp', 'true');
         try {
             await signUp(data.email, data.password, data.name, data.photoURL);
             toast.success('Account created successfully!');
             
-            // Wait a bit for auth state to update
-            setTimeout(() => {
-                setShowRoleModal(true);
-            }, 500);
+            // The useEffect will handle showing the modal once 'user' is populated
+            setShowRoleModal(true); // Force it true immediately as well
         } catch (error) {
             console.error('Registration error:', error);
             sessionStorage.removeItem('justSignedUp'); // Clear flag on error
@@ -60,20 +60,15 @@ const Register = () => {
 
     const handleGoogleSignIn = async () => {
         setLoading(true);
-        // Set flag BEFORE calling signIn to prevent premature redirect from useEffect
         sessionStorage.setItem('justSignedUp', 'true');
         try {
             await signInWithGoogle();
             toast.success('Account created with Google successfully!');
-            
-            // Wait for auth state to update and check role
-            setTimeout(() => {
-                // The auth context will handle the role check
-                // If no role, modal will show via useEffect
-            }, 1000);
+            // The useEffect/AuthContext will handle the rest
+            setShowRoleModal(true); 
         } catch (error) {
             console.error('Google sign in error:', error);
-            sessionStorage.removeItem('justSignedUp'); // Clear flag on error
+            sessionStorage.removeItem('justSignedUp'); 
             toast.error(error.message || 'Failed to sign in with Google.');
         } finally {
             setLoading(false);
@@ -81,6 +76,7 @@ const Register = () => {
     };
 
     const handleRoleSelected = () => {
+        sessionStorage.removeItem('justSignedUp'); // Clear flag when done
         setShowRoleModal(false);
         navigate('/dashboard');
     };
@@ -209,7 +205,7 @@ const Register = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-[#4a37d8] to-[#6928d9] hover:from-[#3b2db0] hover:to-[#5722b5] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg shadow-indigo-500/30 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-linear-to-r from-[#4a37d8] to-[#6928d9] hover:from-[#3b2db0] hover:to-[#5722b5] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg shadow-indigo-500/30 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {loading ? 'Creating Account...' : 'Create Account'}
                         </button>

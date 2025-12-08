@@ -52,6 +52,8 @@ export const AuthProvider = ({ children }) => {
         return;
       }
 
+      setLoading(true); // Ensure loading is true while we fetch the JWT/User profile
+
       // Skip if already have valid token for this user
       const storedUser = localStorage.getItem('user');
       const storedToken = localStorage.getItem('token');

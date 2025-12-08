@@ -45,15 +45,16 @@ const CategoryCard = ({ icon: Icon, label, color }) => {
 const CategorySection = () => {
   const categories = [
     { icon: Palette, label: 'Design', color: '#FF4D8C' },
-    { icon: Camera, label: 'Photography', color: '#FF9500' },
     { icon: PenTool, label: 'Writing', color: '#00BBE4' },
+    { icon: Code, label: 'Coding', color: '#5856D6' },
+    { icon: Camera, label: 'Photography', color: '#FF9500' },
     { icon: Video, label: 'Video', color: '#FF3B30' },
     { icon: Music, label: 'Music', color: '#AF52DE' },
     { icon: Brush, label: 'Art', color: '#34C759' },
-    { icon: Code, label: 'Coding', color: '#5856D6' },
+    { icon: GraduationCap, label: 'Education', color: '#30B0C7' },
     { icon: Gamepad2, label: 'Gaming', color: '#A2845E' },
     { icon: Briefcase, label: 'Business', color: '#8E8E93' },
-    { icon: GraduationCap, label: 'Education', color: '#30B0C7' }
+    { icon: Palette, label: 'Other', color: '#6c757d' } 
   ];
 
   return (

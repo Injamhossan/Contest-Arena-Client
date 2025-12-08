@@ -10,11 +10,13 @@ import {
     Heart,
     CheckCircle,
     UserCircle,
-    MapPin
+    MapPin,
+    Upload
 } from 'lucide-react';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../contexts/AuthContext';
+import SubmissionModal from '../../components/Dashboard/SubmissionModal';
 
 const ContestDetails = () => {
     const { id } = useParams();
@@ -22,13 +24,37 @@ const ContestDetails = () => {
     const { user } = useAuth();
     const [contest, setContest] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isRegistered, setIsRegistered] = useState(false);
+    const [userSubmission, setUserSubmission] = useState(null);
+    const [isSubmissionModalOpen, setIsSubmissionModalOpen] = useState(false);
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
     useEffect(() => {
-        const fetchContest = async () => {
+        const fetchContestAndStatus = async () => {
             try {
+                // Fetch Contest Details
                 const response = await api.get(`/contests/${id}`);
-                setContest(response.data.contest || response.data.data); // Handle potentially different response structures
+                setContest(response.data.contest || response.data.data);
+
+                // Check Registration Status (if user is logged in)
+                if (user) {
+                    try {
+                        // We can check /participations/me and filter, OR a check endpoint
+                        // Since we don't have a direct check endpoint, fetching my participations is safer
+                        const participationResponse = await api.get('/participations/me');
+                         if (participationResponse.data.success) {
+                            const myParticipations = participationResponse.data.data;
+                            const participation = myParticipations.find(p => p.contestId._id === id || p.contestId === id);
+                            if (participation) {
+                                setIsRegistered(true);
+                                setUserSubmission(participation);
+                            }
+                         }
+                    } catch (err) {
+                        console.error("Error checking registration status", err);
+                    }
+                }
+
             } catch (error) {
                 console.error('Error fetching contest:', error);
                 toast.error('Failed to load contest details');
@@ -37,8 +63,8 @@ const ContestDetails = () => {
             }
         };
 
-        fetchContest();
-    }, [id]);
+        fetchContestAndStatus();
+    }, [id, user]);
 
     useEffect(() => {
         if (!contest?.deadline) return;
@@ -86,7 +112,7 @@ const ContestDetails = () => {
     }
 
     const formatTime = (value) => (value < 10 ? `0${value}` : value);
-    const progressPercentage = Math.min((contest.participantsCount / 750) * 100, 100); // Assuming 750 cap for visual
+    const progressPercentage = Math.min((contest.participantsCount / 750) * 100, 100);
 
     return (
         <div className="min-h-screen bg-gray-50 font-urbanist pb-12">
@@ -257,27 +283,46 @@ const ContestDetails = () => {
                             </div>
 
                             {/* CTA Button */}
-                            {/* CTA Button */}
-                            <button 
-                                onClick={() => {
-                                    if (!user) {
-                                        navigate('/login');
-                                        return;
-                                    }
-                                    if (user.role === 'admin') {
-                                        toast.error("You are admin you are not join in contest now");
-                                        return;
-                                    }
-                                    if (user.role === 'creator') {
-                                        toast.error("You are creator you are not join in contest now");
-                                        return;
-                                    }
-                                    navigate(`/payment/${contest._id}`);
+                            {isRegistered ? (
+                                <button 
+                                    onClick={() => setIsSubmissionModalOpen(true)}
+                                    className="w-full btn bg-green-500 hover:bg-green-600 border-none text-white font-bold rounded-xl h-14 normal-case text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                                >
+                                    <Upload className="w-6 h-6" />
+                                    SUBMIT PROJECT
+                                </button>
+                            ) : (
+                                <button 
+                                    onClick={() => {
+                                        if (!user) {
+                                            navigate('/login');
+                                            return;
+                                        }
+                                        if (user.role === 'admin') {
+                                            toast.error("You are admin you are not join in contest now");
+                                            return;
+                                        }
+                                        if (user.role === 'creator') {
+                                            toast.error("You are creator you are not join in contest now");
+                                            return;
+                                        }
+                                        navigate(`/payment/${contest._id}`);
+                                    }}
+                                    className="w-full btn bg-cyan-400 hover:bg-cyan-500 border-none text-white font-bold rounded-xl h-14 normal-case text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                                >
+                                    REGISTER & PAY ${contest.price}
+                                </button>
+                            )}
+                            
+                            <SubmissionModal
+                                isOpen={isSubmissionModalOpen}
+                                onClose={() => setIsSubmissionModalOpen(false)}
+                                submission={userSubmission}
+                                onSuccess={() => {
+                                    // Optionally refresh to get updated submission status if needed
+                                    // For now just closing is enough as toast shows success
                                 }}
-                                className="w-full btn bg-cyan-400 hover:bg-cyan-500 border-none text-white font-bold rounded-xl h-14 normal-case text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
-                            >
-                                REGISTER & PAY ${contest.price}
-                            </button>
+                            />
 
                             <p className="text-center text-[10px] text-gray-400 mt-4">
                                 Secure payment powered by Stripe

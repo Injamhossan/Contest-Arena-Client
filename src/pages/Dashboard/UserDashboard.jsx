@@ -5,12 +5,15 @@ import { Trophy, Calendar, Award, Target, Eye, Upload, Settings, TrendingUp as T
 import toast from 'react-hot-toast';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import EditProfileModal from '../../components/Dashboard/EditProfileModal';
+import SubmissionModal from '../../components/Dashboard/SubmissionModal';
 
 const UserDashboard = () => {
   const { user } = useAuth();
   const [participations, setParticipations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isSubmissionModalOpen, setIsSubmissionModalOpen] = useState(false);
+  const [selectedSubmission, setSelectedSubmission] = useState(null);
   const [activeTab, setActiveTab] = useState('active'); // 'active' | 'won'
   
   // Stats state
@@ -38,7 +41,7 @@ const UserDashboard = () => {
         const total = data.length;
         const wins = data.filter(p => p.status === 'winner').length;
         const active = data.filter(p => 
-          new Date(p.contest?.deadline) > new Date() && p.status !== 'winner'
+          new Date(p.contestId?.deadline) > new Date() && p.status !== 'winner'
         ).length;
         const losses = total - wins - active; // Simplistic calculation
         const winRate = total > 0 ? Math.round((wins / total) * 100) : 0;
@@ -68,7 +71,7 @@ const UserDashboard = () => {
 
   const filteredParticipations = participations.filter(p => {
     if (activeTab === 'active') {
-      return new Date(p.contest?.deadline) > new Date() && p.status !== 'winner'; // Show current active ones
+      return new Date(p.contestId?.deadline) > new Date() && p.status !== 'winner'; // Show current active ones
     }
     return p.status === 'winner';
   });
@@ -285,24 +288,24 @@ const UserDashboard = () => {
                     <div className="flex items-center gap-4">
                       <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
                         <img 
-                          src={item.contest?.image} 
-                          alt={item.contest?.name}
+                          src={item.contestId?.image} 
+                          alt={item.contestId?.name}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                       </div>
                       <div>
                         <h4 className="font-bold text-gray-900 group-hover:text-[#4a37d8] transition-colors line-clamp-1">
-                          {item.contest?.name}
+                          {item.contestId?.name}
                         </h4>
                         <span className="inline-block px-2 py-0.5 mt-1 bg-gray-200 text-gray-600 text-xs font-medium rounded">
-                          {item.contest?.contestType}
+                          {item.contestId?.contestType}
                         </span>
                       </div>
                     </div>
                     
                     <div className="flex items-center gap-3">
                       <a
-                        href={`/contests/${item.contest?._id}`}
+                        href={`/contests/${item.contestId?._id}`}
                         className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
                         title="View Details"
                       >
@@ -310,6 +313,10 @@ const UserDashboard = () => {
                       </a>
                       {activeTab === 'active' && (
                         <button
+                          onClick={() => {
+                            setSelectedSubmission(item);
+                            setIsSubmissionModalOpen(true);
+                          }}
                           className="p-2 text-gray-400 hover:text-[#4a37d8] hover:bg-[#4a37d8]/5 rounded-full transition-colors"
                           title="Upload Submission"
                         >
@@ -337,6 +344,18 @@ const UserDashboard = () => {
       <EditProfileModal 
         isOpen={isEditModalOpen} 
         onClose={() => setIsEditModalOpen(false)} 
+      />
+      
+      <SubmissionModal
+        isOpen={isSubmissionModalOpen}
+        onClose={() => {
+            setIsSubmissionModalOpen(false);
+            setSelectedSubmission(null);
+        }}
+        submission={selectedSubmission}
+        onSuccess={() => {
+            fetchParticipations(); // Refresh to show any status changes if we had them or just freshness
+        }}
       />
     </div>
   );

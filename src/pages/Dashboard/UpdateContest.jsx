@@ -1,15 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
-import { Upload, DollarSign, Calendar, Type, FileText } from 'lucide-react';
+import { Upload, DollarSign, Calendar, Type, FileText, ArrowLeft } from 'lucide-react';
 import DashboardLayout from '../../components/Dashboard/DashboardLayout';
 
-const AddContest = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+const UpdateContest = () => {
+    const { id } = useParams();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const [loading, setLoading] = useState(false);
+    const [fetching, setFetching] = useState(true);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchContest = async () => {
+            try {
+                const response = await api.get(`/contests/${id}`);
+                const contest = response.data.contest || response.data.data;
+                // Format date for input
+                if (contest.deadline) {
+                    contest.deadline = new Date(contest.deadline).toISOString().split('T')[0];
+                }
+                reset(contest);
+            } catch (error) {
+                console.error('Error fetching contest:', error);
+                toast.error('Failed to load contest details');
+                navigate('/dashboard/my-contests');
+            } finally {
+                setFetching(false);
+            }
+        };
+        fetchContest();
+    }, [id, reset, navigate]);
 
     const onSubmit = async (data) => {
         setLoading(true);
@@ -21,29 +44,45 @@ const AddContest = () => {
                 prizeMoney: parseFloat(data.prizeMoney),
             };
 
-            const response = await api.post('/contests', payload);
+            const response = await api.put(`/contests/${id}`, payload);
             if (response.data.success) {
-                toast.success('Contest created successfully! Proceeed to payment.');
-                const contestId = response.data.contest._id;
-                // Navigate to /payment/:id
-                navigate(`/payment/${contestId}`);
+                toast.success('Contest updated successfully!');
+                navigate('/dashboard/my-contests');
             }
         } catch (error) {
-            console.error('Error creating contest:', error);
-            toast.error(error.response?.data?.message || 'Failed to create contest');
+            console.error('Error updating contest:', error);
+            toast.error(error.response?.data?.message || 'Failed to update contest');
         } finally {
             setLoading(false);
         }
     };
 
+    if (fetching) {
+        return (
+            <DashboardLayout>
+                <div className="flex justify-center items-center h-64">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#4a37d8]"></div>
+                </div>
+            </DashboardLayout>
+        );
+    }
+
     return (
         <DashboardLayout>
         <div className="py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
+                 <button 
+                    onClick={() => navigate(-1)}
+                    className="flex items-center text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+                >
+                    <ArrowLeft className="h-5 w-5 mr-2" />
+                    Back to My Contests
+                </button>
+
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
                     <div className="px-8 py-6 bg-gradient-to-r from-[#4a37d8] to-[#6928d9]">
-                        <h1 className="text-2xl font-bold text-white">Create New Contest</h1>
-                        <p className="text-indigo-100 mt-2">Fill in the details to host your contest</p>
+                        <h1 className="text-2xl font-bold text-white">Update Contest</h1>
+                        <p className="text-indigo-100 mt-2">Edit your contest details</p>
                     </div>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-6">
@@ -213,7 +252,7 @@ const AddContest = () => {
                                 disabled={loading}
                                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-[#4a37d8] to-[#6928d9] hover:from-[#3b2db0] hover:to-[#5722b5] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                             >
-                                {loading ? 'Creating Contest...' : 'Submit Contest'}
+                                {loading ? 'Updating Contest...' : 'Update Contest'}
                             </button>
                         </div>
                     </form>
@@ -224,4 +263,4 @@ const AddContest = () => {
     );
 };
 
-export default AddContest;
+export default UpdateContest;

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import toast from "react-hot-toast";
 
-const CheckoutForm = ({ contestId, price }) => {
+const CheckoutForm = ({ contestId, price, onSuccess }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [paymentId, setPaymentId] = useState("");
@@ -79,16 +79,17 @@ const CheckoutForm = ({ contestId, price }) => {
                 paymentId,
                 transactionId: paymentIntent.id 
             });
-            toast.success("Payment successful! Your contest is now pending approval.");
-            navigate("/dashboard");
+            
+            if (onSuccess) {
+                await onSuccess(paymentId);
+            } else {
+                toast.success("Payment successful! Your contest is now pending approval.");
+                navigate("/dashboard");
+            }
         } catch (backendError) {
             console.error("Backend confirmation failed:", backendError);
             toast.error("Payment succeeded but failed to update system. Please contact support.");
-            // Still navigate as the money was taken? Or maybe stay?
-            // Safer to stay or let them copy a transaction ID.
-            // For now, let's navigate to dashboard, user will see 'pending' maybe, but webhook might fix it later.
-            // Actually, if confirm failed, it might be a network issue.
-             navigate("/dashboard");
+            navigate("/dashboard");
         }
       }
       setProcessing(false);

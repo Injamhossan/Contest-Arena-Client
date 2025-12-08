@@ -84,6 +84,8 @@ const CreatorMyContests = () => {
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Participants</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
                                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
@@ -115,6 +117,23 @@ const CreatorMyContests = () => {
                                             }`}>
                                                 {contest.status}
                                             </span>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {contest.participantsCount || 0}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {contest.paymentStatus === 'Paid' ? (
+                                                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                    Complete
+                                                </span>
+                                            ) : (
+                                                <Link 
+                                                    to={`/payment/${contest._id}`}
+                                                    className="px-3 py-1 bg-[#4a37d8] text-white text-xs rounded-md hover:bg-[#3b2db0] transition-colors"
+                                                >
+                                                    Pay
+                                                </Link>
+                                            )}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div className="flex items-center justify-end gap-2">

@@ -8,8 +8,11 @@ const ManageContests = () => {
     const [contests, setContests] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const [payments, setPayments] = useState([]);
+
     useEffect(() => {
         fetchContests();
+        fetchPayments();
     }, []);
 
     const fetchContests = async () => {
@@ -25,9 +28,29 @@ const ManageContests = () => {
         }
     };
 
-    const handleConfirm = async (contestId) => {
+    const fetchPayments = async () => {
         try {
-            await api.patch(`/contests/${contestId}/status`, { status: 'Confirmed' });
+            const response = await api.get('/payments');
+            setPayments(response.data.data || []);
+        } catch (error) {
+            console.error('Error fetching payments:', error);
+        }
+    };
+
+    const getPaymentStatus = (contestId) => {
+        const payment = payments.find(p => p.contestId?._id === contestId || p.contestId === contestId);
+        return payment?.paymentStatus === 'completed' ? 'Paid' : 'Unpaid';
+    };
+
+    const handleConfirm = async (contestId) => {
+        const paymentStatus = getPaymentStatus(contestId);
+        if (paymentStatus !== 'Paid') {
+            toast.error('Cannot confirm unpaid contest');
+            return;
+        }
+
+        try {
+            await api.patch(`/contests/${contestId}/status`, { status: 'confirmed' });
             toast.success('Contest confirmed');
             fetchContests();
         } catch (error) {
@@ -85,11 +108,14 @@ const ManageContests = () => {
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Creator</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price / Prize</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
                                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {contests.map((contest) => (
+                                {contests.map((contest) => {
+                                    const paymentStatus = getPaymentStatus(contest._id);
+                                    return (
                                     <tr key={contest._id} className="hover:bg-gray-50 transition-colors">
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
@@ -118,13 +144,26 @@ const ManageContests = () => {
                                                 {contest.status}
                                             </span>
                                         </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                                paymentStatus === 'Paid' ? 'bg-green-100 text-green-800' : 
+                                                'bg-red-100 text-red-800'
+                                            }`}>
+                                                {paymentStatus}
+                                            </span>
+                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div className="flex items-center justify-end gap-2">
                                                 {contest.status === 'pending' && (
                                                     <button 
                                                         onClick={() => handleConfirm(contest._id)}
-                                                        className="text-green-600 hover:text-green-900 p-1 bg-green-50 hover:bg-green-100 rounded transition-colors"
-                                                        title="Confirm"
+                                                        disabled={paymentStatus !== 'Paid'}
+                                                        className={`p-1 rounded transition-colors ${
+                                                            paymentStatus === 'Paid' 
+                                                            ? 'text-green-600 hover:text-green-900 bg-green-50 hover:bg-green-100' 
+                                                            : 'text-gray-400 cursor-not-allowed bg-gray-100'
+                                                        }`}
+                                                        title={paymentStatus === 'Paid' ? "Confirm" : "Payment Required"}
                                                     >
                                                         <CheckCircle className="w-5 h-5" />
                                                     </button>
@@ -139,7 +178,8 @@ const ManageContests = () => {
                                             </div>
                                         </td>
                                     </tr>
-                                ))}
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>

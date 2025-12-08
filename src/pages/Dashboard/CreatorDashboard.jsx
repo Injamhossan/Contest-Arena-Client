@@ -26,35 +26,27 @@ const CreatorDashboard = () => {
   const fetchContests = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/contests');
-      // Filter contests created by current user
-      const myContests = response.data.data ? response.data.data.filter(c => c.creatorId === user?._id) : [];
+      // Fetch specifically the creator's contests
+      const response = await api.get('/contests/my-created?limit=100');
+      const myContests = response.data.data || [];
       setContests(myContests);
       
       // Calculate stats
       const pending = myContests.filter(c => c.status === 'pending').length;
       const confirmed = myContests.filter(c => c.status === 'confirmed').length;
       
-      // Get total participants
-      let totalParticipants = 0;
-      for (const contest of myContests) {
-        try {
-          const partResponse = await api.get(`/participations/contest/${contest._id}`);
-          totalParticipants += partResponse.data.length;
-        } catch (error) {
-          console.error(`Error fetching participants for contest ${contest._id}:`, error);
-        }
-      }
+      // Get total participants from the contest object directly (avoiding N+1 API calls)
+      const totalParticipants = myContests.reduce((sum, contest) => sum + (contest.participantsCount || 0), 0);
       
       setStats({
-        totalContests: myContests.length,
+        totalContests: response.data.pagination?.total || myContests.length,
         pendingContests: pending,
         confirmedContests: confirmed,
         totalParticipants: totalParticipants,
       });
     } catch (error) {
       console.error('Error fetching contests:', error);
-      toast.error('Failed to load contests');
+      // toast.error('Failed to load contests');
     } finally {
       setLoading(false);
     }
@@ -99,7 +91,7 @@ const CreatorDashboard = () => {
             </button>
             <button
                 onClick={() => navigate('/contests/create')}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#4a37d8] to-[#6928d9] text-white rounded-lg hover:from-[#3b2db0] hover:to-[#5722b5] transition-all"
+                className="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-[#4a37d8] to-[#6928d9] text-white rounded-lg hover:from-[#3b2db0] hover:to-[#5722b5] transition-all"
             >
                 <Plus className="h-5 w-5" />
                 Create Contest
@@ -175,7 +167,7 @@ const CreatorDashboard = () => {
               <p className="text-gray-600 mb-4">You haven't created any contests yet</p>
               <button
                 onClick={() => navigate('/contests/create')}
-                className="inline-block px-6 py-3 bg-gradient-to-r from-[#4a37d8] to-[#6928d9] text-white rounded-lg hover:from-[#3b2db0] hover:to-[#5722b5] transition-all"
+                className="inline-block px-6 py-3 bg-linear-to-r from-[#4a37d8] to-[#6928d9] text-white rounded-lg hover:from-[#3b2db0] hover:to-[#5722b5] transition-all"
               >
                 Create Your First Contest
               </button>
@@ -206,7 +198,7 @@ const CreatorDashboard = () => {
                       <div className="flex items-center gap-4 text-sm text-gray-500">
                         <span>Deadline: {new Date(contest.deadline).toLocaleDateString()}</span>
                         <span>Prize: ${contest.prizeMoney}</span>
-                        <span>Type: {contest.contestType}</span>
+                        <span>Participations: {contest.participantsCount || 0}</span>
                       </div>
                     </div>
                     <div className="ml-4 flex items-center gap-2">

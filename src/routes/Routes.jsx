@@ -18,7 +18,9 @@ import PaymentHistory from '../pages/Dashboard/PaymentHistory';
 import ManagePayments from '../pages/Dashboard/ManagePayments';
 import WinningContests from '../pages/Dashboard/WinningContests';
 import MyProfile from '../pages/Dashboard/MyProfile';
+
 import CreatorMyContests from '../pages/Dashboard/CreatorMyContests';
+import UpdateContest from '../pages/Dashboard/UpdateContest';
 import CreatorSubmissions from '../pages/Dashboard/CreatorSubmissions';
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 import ContestDetails from '../pages/ContestDetails/ContestDetails';
@@ -79,7 +81,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'payment',
+        path: 'payment/:id',
         element: (
           <ProtectedRoute>
             <Payment />
@@ -117,6 +119,14 @@ export const router = createBrowserRouter([
             <CreatorMyContests />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: 'dashboard/update-contest/:id',
+        element: (
+          <ProtectedRoute allowedRoles={['creator']}>
+             <UpdateContest />
+          </ProtectedRoute>
+        )
       },
       {
         path: 'dashboard/submitted',

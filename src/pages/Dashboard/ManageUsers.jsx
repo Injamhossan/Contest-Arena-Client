@@ -16,12 +16,7 @@ const ManageUsers = () => {
         try {
             setLoading(true);
             const response = await api.get('/users');
-            // Assuming response.data.users is the array, or response.data if it's direct
-            // Based on previous AdminDashboard code: response.data.total exists, so maybe it's paginated?
-            // Let's assume /users returns everything for now or checks pagination.
-            // AdminDashboard used: api.get('/users?page=1&limit=1') just for count.
-            // Let's try getting all or default pagination.
-            const data = response.data.users || response.data.data || []; 
+            const data = response.data.users || response.data.data || [];
             setUsers(data);
         } catch (error) {
             console.error('Error fetching users:', error);

@@ -1,57 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User, Briefcase, UserCircle } from 'lucide-react';
 import { FcGoogle } from "react-icons/fc";
 import NavLogo from "../../assets/logo.svg";
 import { useAuth } from '../../contexts/AuthContext';
-import RoleSelectionModal from '../../components/Modal/RoleSelectionModal';
 import toast from 'react-hot-toast';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [showRoleModal, setShowRoleModal] = useState(false);
     const { signUp, signInWithGoogle, user } = useAuth();
     const navigate = useNavigate();
 
-    // Redirect if already logged in and has a role
-    // REMOVING strict redirect here - let the user see the modal or decide
+    // Redirect if connected
     useEffect(() => {
-        const justSignedUp = sessionStorage.getItem('justSignedUp');
-        // Only redirect if they have a role AND we are NOT in the middle of a signup flow
-        if (user && user.role && user.role !== 'user' && !justSignedUp) {
+        if (user) {
             navigate('/dashboard');
         }
     }, [user, navigate]);
 
-    // Show role modal if user just signed up and doesn't have a role (or has default 'user' role)
-    useEffect(() => {
-        const justSignedUp = sessionStorage.getItem('justSignedUp');
-        // If user exists, and we just signed up, and they are either roleless or just 'user'
-        if (user && justSignedUp === 'true' && (!user.role || user.role === 'user')) {
-             if (!showRoleModal) {
-                 setShowRoleModal(true);
-                 // We kept the flag until modal is actually shown
-                 // Optionally clear it here, or clearer it when modal closes
-             }
-        }
-    }, [user, showRoleModal]);
-
     const onSubmit = async (data) => {
         setLoading(true);
-        // Set flag BEFORE calling signUp
-        sessionStorage.setItem('justSignedUp', 'true');
+        // Store role in sessionStorage for AuthContext to pick up
+        sessionStorage.setItem('signup_role', data.role);
+        
         try {
             await signUp(data.email, data.password, data.name, data.photoURL);
             toast.success('Account created successfully!');
-            
-            // The useEffect will handle showing the modal once 'user' is populated
-            setShowRoleModal(true); // Force it true immediately as well
+            // Navigation handled by useEffect when user state updates
         } catch (error) {
             console.error('Registration error:', error);
-            sessionStorage.removeItem('justSignedUp'); // Clear flag on error
+            sessionStorage.removeItem('signup_role');
             toast.error(error.message || 'Failed to create account. Please try again.');
         } finally {
             setLoading(false);
@@ -60,25 +41,21 @@ const Register = () => {
 
     const handleGoogleSignIn = async () => {
         setLoading(true);
-        sessionStorage.setItem('justSignedUp', 'true');
+        // Default Google Sign in to 'user' role or let them update it later in profile if needed
+        // Attempting to set 'user' explicitily, or prompt via modal could be kept for Google only?
+        // For now, let's default Google users to 'user' to keep it simple as requested for the form flow
+        sessionStorage.setItem('signup_role', 'user'); 
+        
         try {
             await signInWithGoogle();
             toast.success('Account created with Google successfully!');
-            // The useEffect/AuthContext will handle the rest
-            setShowRoleModal(true); 
         } catch (error) {
             console.error('Google sign in error:', error);
-            sessionStorage.removeItem('justSignedUp'); 
+            sessionStorage.removeItem('signup_role');
             toast.error(error.message || 'Failed to sign in with Google.');
         } finally {
             setLoading(false);
         }
-    };
-
-    const handleRoleSelected = () => {
-        sessionStorage.removeItem('justSignedUp'); // Clear flag when done
-        setShowRoleModal(false);
-        navigate('/dashboard');
     };
 
     return (
@@ -103,7 +80,6 @@ const Register = () => {
                 {/* Form */}
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     <div className="space-y-4">
-                        {/* Full Name Input */}
                         {/* Full Name Input */}
                          <div>
                             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -142,6 +118,45 @@ const Register = () => {
                                 />
                             </div>
                             {errors.photoURL && <p className="mt-1 text-xs text-red-500">{errors.photoURL.message}</p>}
+                        </div>
+
+                        {/* Role Selection */}
+                        <div>
+                            <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
+                                I want to join as
+                            </label>
+                            <div className="grid grid-cols-2 gap-4">
+                                <label className="cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        value="user"
+                                        {...register("role", { required: "Please select a role" })}
+                                        className="peer sr-only"
+                                        defaultChecked
+                                    />
+                                    <div className="rounded-lg border border-gray-300 bg-white p-4 hover:bg-gray-50 peer-checked:border-[#4a37d8] peer-checked:ring-2 peer-checked:ring-[#4a37d8] peer-checked:ring-offset-2 transition-all text-center">
+                                        <div className="mx-auto mb-2 w-8 h-8 text-gray-400 peer-checked:text-[#4a37d8]">
+                                            <UserCircle size={32} />
+                                        </div>
+                                        <span className="block text-sm font-medium text-gray-900">Participant</span>
+                                    </div>
+                                </label>
+                                <label className="cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        value="creator"
+                                        {...register("role", { required: "Please select a role" })}
+                                        className="peer sr-only"
+                                    />
+                                    <div className="rounded-lg border border-gray-300 bg-white p-4 hover:bg-gray-50 peer-checked:border-[#4a37d8] peer-checked:ring-2 peer-checked:ring-[#4a37d8] peer-checked:ring-offset-2 transition-all text-center">
+                                         <div className="mx-auto mb-2 w-8 h-8 text-gray-400 peer-checked:text-[#4a37d8]">
+                                            <Briefcase size={32} />
+                                        </div>
+                                        <span className="block text-sm font-medium text-gray-900">Contest Creator</span>
+                                    </div>
+                                </label>
+                            </div>
+                             {errors.role && <p className="mt-1 text-xs text-red-500">{errors.role.message}</p>}
                         </div>
 
                         {/* Email Input */}
@@ -220,7 +235,7 @@ const Register = () => {
                         </div>
                     </div>
 
-                    {/* Google Button */}
+                     {/* Google Button */}
                      <div>
                         <button
                             type="button"
@@ -244,9 +259,6 @@ const Register = () => {
                     </p>
                 </div>
             </div>
-
-            {/* Role Selection Modal */}
-            <RoleSelectionModal isOpen={showRoleModal} onClose={handleRoleSelected} />
         </div>
     );
 };

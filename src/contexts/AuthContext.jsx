@@ -76,10 +76,14 @@ export const AuthProvider = ({ children }) => {
 lastJWTRequestTime = now;
 
 try {
+    // Check for role stored during signup
+    const signupRole = sessionStorage.getItem('signup_role');
+    
     const response = await api.post('/auth/jwt', {
         email: firebaseUser.email,
         name: firebaseUser.displayName || firebaseUser.email?.split('@')[0],
         photoURL: firebaseUser.photoURL || null,
+        role: signupRole || undefined // Pass role if it exists
     });
 
         if (response.data?.success && response.data?.token && response.data?.user) {
@@ -87,7 +91,8 @@ try {
 
           localStorage.setItem('token', jwtToken);
           localStorage.setItem('user', JSON.stringify(userData));
-          localStorage.removeItem('jwt_error_shown'); // Clear error flag on success
+          localStorage.removeItem('jwt_error_shown');
+          sessionStorage.removeItem('signup_role'); // Clear the stored role
 
           setToken(jwtToken);
           setUser(userData);

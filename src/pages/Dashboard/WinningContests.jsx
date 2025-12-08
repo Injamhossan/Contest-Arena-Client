@@ -14,8 +14,6 @@ const WinningContests = () => {
     const fetchWinningContests = async () => {
         try {
             setLoading(true);
-            // Reusing the participations endpoint and filtering for winners
-            // A dedicated endpoint would be better for performance in the future
             const response = await api.get('/participations/me');
             if (response.data.success) {
                 const wins = response.data.data.filter(p => p.status === 'winner');

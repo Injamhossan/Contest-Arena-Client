@@ -59,14 +59,16 @@ const ManagePayments = () => {
                                 <tr>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contest</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction ID</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                     <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {payments.map((payment) => (
+                                {payments.map((payment) => {
+                                    const isCreationFee = payment.userId?._id === payment.contestId?.creatorId;
+                                    return (
                                     <tr key={payment._id} className="hover:bg-gray-50 transition-colors">
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm font-medium text-gray-900">{payment.userId?.name || 'Unknown'}</div>
@@ -76,12 +78,14 @@ const ManagePayments = () => {
                                             <div className="text-sm text-gray-900">{payment.contestId?.name || 'Deleted Contest'}</div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm font-bold text-gray-900">${payment.amount}</div>
+                                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                                isCreationFee ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'
+                                            }`}>
+                                                {isCreationFee ? 'Creation Fee' : 'Participation'}
+                                            </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-xs font-mono bg-gray-100 px-2 py-1 rounded inline-block text-gray-600">
-                                                {payment.transactionId}
-                                            </div>
+                                            <div className="text-sm font-bold text-gray-900">${payment.amount}</div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -96,7 +100,8 @@ const ManagePayments = () => {
                                             {new Date(payment.createdAt).toLocaleDateString()}
                                         </td>
                                     </tr>
-                                ))}
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>

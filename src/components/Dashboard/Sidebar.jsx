@@ -32,6 +32,7 @@ const Sidebar = () => {
           { name: 'My Contests', path: '/dashboard/my-contests', icon: FileText },
           { name: 'Contest Submitted', path: '/dashboard/submitted', icon: Award },
           { name: 'Payment History', path: '/dashboard/payment-history', icon: CreditCard },
+          { name: 'My Profile', path: '/dashboard/profile', icon: UserCircle },
         ];
       case 'user':
       default:

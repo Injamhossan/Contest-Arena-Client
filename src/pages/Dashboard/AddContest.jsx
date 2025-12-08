@@ -70,7 +70,13 @@ const AddContest = () => {
                                     </div>
                                     <input
                                         type="url"
-                                        {...register('image', { required: 'Image URL is required' })}
+                                        {...register('image', { 
+                                            required: 'Image URL is required',
+                                            pattern: {
+                                                value: /^(http|https):\/\/[^ "]+$/,
+                                                message: 'Please enter a valid URL starting with http/https'
+                                            }
+                                        })}
                                         className="w-full pl-10 pr-4 text-black py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4a37d8] focus:border-transparent outline-none transition-all"
                                         placeholder="https://example.com/image.jpg"
                                     />

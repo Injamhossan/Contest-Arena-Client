@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 const CheckoutForm = ({ contestId, price }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const [paymentId, setPaymentId] = useState("");
   const [error, setError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
   const [processing, setProcessing] = useState(false);
@@ -14,14 +15,15 @@ const CheckoutForm = ({ contestId, price }) => {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    if (price > 0 && contestId) {
-        api.post("/payments/create-intent", { price, contestId })
+    if (price && contestId) {
+        api.post("/payments/create-intent", { price: parseFloat(price), contestId })
             .then((res) => {
                 setClientSecret(res.data.clientSecret);
+                setPaymentId(res.data.paymentId);
             })
             .catch((err) => {
                 console.error("Error creating payment intent:", err);
-                toast.error("Failed to initialize payment.");
+                toast.error("Failed to initialize payment. " + (err.response?.data?.message || ""));
             });
     }
   }, [price, contestId]);
@@ -40,6 +42,7 @@ const CheckoutForm = ({ contestId, price }) => {
     }
 
     setProcessing(true);
+    setError("");
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
@@ -50,15 +53,17 @@ const CheckoutForm = ({ contestId, price }) => {
       console.log("[error]", error);
       setError(error.message);
       setProcessing(false);
-    } else {
-      setError("");
+      return;
     }
 
     const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
       clientSecret,
       {
         payment_method: {
-          card: card,
+            card: card,
+            billing_details: {
+                // optionally add user details here
+            }
         },
       }
     );
@@ -68,18 +73,23 @@ const CheckoutForm = ({ contestId, price }) => {
       setProcessing(false);
     } else {
       if (paymentIntent.status === "succeeded") {
-        // Confirm payment on backend
-        // Note: The backend's confirmPayment endpoint expects paymentId, but here we might need to adjust logic based on what create-intent returns or what confirm expects.
-        // Actually, looking at the backend code, it creates a Payment record in 'create-intent' step. 
-        // We should probably pass the paymentId from the intent creation response to the confirmation step if needed by the backend logic, 
-        // OR rely on the webhook.
-        // However, for immediate UI feedback, let's call the confirm endpoint if possible.
-        // Wait... the backend 'create-intent' returns { success: true, clientSecret: ..., paymentId: ... }
-        // So we need to store paymentId from the initial effect.
-        
-        // Let's assume we handle the success here and redirect.
-        toast.success("Payment successful! Your contest is now pending approval.");
-        navigate("/dashboard");
+        try {
+            // Confirm payment on backend
+            await api.post("/payments/confirm", { 
+                paymentId,
+                transactionId: paymentIntent.id 
+            });
+            toast.success("Payment successful! Your contest is now pending approval.");
+            navigate("/dashboard");
+        } catch (backendError) {
+            console.error("Backend confirmation failed:", backendError);
+            toast.error("Payment succeeded but failed to update system. Please contact support.");
+            // Still navigate as the money was taken? Or maybe stay?
+            // Safer to stay or let them copy a transaction ID.
+            // For now, let's navigate to dashboard, user will see 'pending' maybe, but webhook might fix it later.
+            // Actually, if confirm failed, it might be a network issue.
+             navigate("/dashboard");
+        }
       }
       setProcessing(false);
     }

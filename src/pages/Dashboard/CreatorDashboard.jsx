@@ -28,7 +28,7 @@ const CreatorDashboard = () => {
       setLoading(true);
       const response = await api.get('/contests');
       // Filter contests created by current user
-      const myContests = response.data.filter(c => c.creatorId === user?._id);
+      const myContests = response.data.data ? response.data.data.filter(c => c.creatorId === user?._id) : [];
       setContests(myContests);
       
       // Calculate stats

@@ -7,7 +7,9 @@ import { ArrowLeft } from 'lucide-react';
 import DashboardLayout from '../../components/Dashboard/DashboardLayout';
 
 // TODO: Move key to .env
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "pk_test_51QToAqP3jRjWv3u5d7q8vX8u9z6y5t4w3v2u1t0s9r8q7p6o5n4m3l2k1j0"); 
+const key = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+console.log("Stripe Key loaded:", key ? "Yes (starts with " + key.substring(0, 7) + ")" : "No, using fallback");
+const stripePromise = loadStripe(key || "pk_test_51QToAqP3jRjWv3u5d7q8vX8u9z6y5t4w3v2u1t0s9r8q7p6o5n4m3l2k1j0"); 
 
 const Payment = () => {
     const [searchParams] = useSearchParams();

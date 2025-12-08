@@ -27,7 +27,7 @@ const ManageContests = () => {
 
     const handleConfirm = async (contestId) => {
         try {
-            await api.patch(`/contests/${contestId}/status`, { status: 'confirmed' });
+            await api.patch(`/contests/${contestId}/status`, { status: 'Confirmed' });
             toast.success('Contest confirmed');
             fetchContests();
         } catch (error) {
@@ -93,7 +93,7 @@ const ManageContests = () => {
                                     <tr key={contest._id} className="hover:bg-gray-50 transition-colors">
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
-                                                <div className="h-10 w-10 flex-shrink-0 rounded-lg overflow-hidden">
+                                                <div className="h-10 w-10 shrink-0 rounded-lg overflow-hidden">
                                                     <img className="h-10 w-10 object-cover" src={contest.image} alt="" />
                                                 </div>
                                                 <div className="ml-4">

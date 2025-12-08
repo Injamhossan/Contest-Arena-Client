@@ -1,14 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import api from "../../utils/api";
 import Card from "../../components/UI/Card/Card";
 
 const AllContests = () => {
-  // TODO: Fetch contests from database
   const [contests, setContests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchParams] = useSearchParams();
+  const initialCategory = searchParams.get("category") || "All";
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [sortBy, setSortBy] = useState("endingSoon");
   const [viewMode, setViewMode] = useState("grid");
+
+  // Sync state with URL params if they change (e.g. navigation from same page)
+  useEffect(() => {
+    const category = searchParams.get("category");
+    if (category) {
+      setSelectedCategory(category);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    fetchContests();
+  }, [selectedCategory, searchTerm, sortBy]);
+
+  const fetchContests = async () => {
+    try {
+      setLoading(true);
+      const params = {
+        status: 'confirmed', // ONLY fetch approved contests
+        limit: 100, // Fetch enough for client side sorting/display for now
+      };
+
+      if (selectedCategory && selectedCategory !== 'All') {
+        params.type = selectedCategory;
+      }
+
+      if (searchTerm) {
+        params.search = searchTerm;
+      }
+
+      const response = await api.get('/contests', { params });
+      let data = response.data.data || [];
+
+      // Client-side sorting because backend currently only sorts by createdAt
+      if (sortBy === 'endingSoon') {
+        data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+      } else if (sortBy === 'popular') {
+        data.sort((a, b) => b.participantsCount - a.participantsCount);
+      } else if (sortBy === 'newest') {
+        data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      }
+
+      setContests(data);
+    } catch (error) {
+      console.error('Error fetching contests:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const categories = [
     "All",
@@ -19,6 +71,8 @@ const AllContests = () => {
     "Video",
     "Music",
     "Art",
+    "Education", 
+    "Gaming",
     "Business",
     "Other",
   ];
@@ -28,17 +82,7 @@ const AllContests = () => {
     { value: "popular", label: "Most Popular" },
   ];
 
-  // Filter
-  const filteredContests = contests.filter((contest) => {
-    const matchesSearch = contest.contestName
-      ?.toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "All" || contest.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
-
-  const displayedContests = [...filteredContests];
+  const displayedContests = contests;
 
   return (
     <div className="pt-24 pb-12 px-4 sm:px-8 lg:px-16 min-h-screen bg-white">
@@ -199,8 +243,11 @@ const AllContests = () => {
         ))}
       </div>
 
-      {/* Content Grid / List */}
-      {displayedContests.length > 0 ? (
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#4a37d8]"></div>
+        </div>
+      ) : displayedContests.length > 0 ? (
         <div
           className={
             viewMode === "grid"

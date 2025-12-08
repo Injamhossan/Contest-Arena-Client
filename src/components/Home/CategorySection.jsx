@@ -11,10 +11,20 @@ import {
   Briefcase, 
   GraduationCap 
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const CategoryCard = ({ icon: Icon, label, color }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/all-contests?category=${encodeURIComponent(label)}`);
+  };
+
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-4 group border border-transparent hover:border-gray-100">
+    <div 
+      onClick={handleClick}
+      className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-4 group border border-transparent hover:border-gray-100"
+    >
       <div 
         className={`p-4 rounded-xl transition-colors duration-300 group-hover:scale-110 transform`}
         style={{ backgroundColor: `${color}15` }} // 15 is roughly 10% opacity in hex
@@ -34,16 +44,16 @@ const CategoryCard = ({ icon: Icon, label, color }) => {
 
 const CategorySection = () => {
   const categories = [
-    { icon: Palette, label: 'Design', color: '#FF4D8C' },      // Pink
-    { icon: Camera, label: 'Photography', color: '#FF9500' },  // Orange
-    { icon: PenTool, label: 'Writing', color: '#00BBE4' },     // Light Blue
-    { icon: Video, label: 'Video', color: '#FF3B30' },         // Red
-    { icon: Music, label: 'Music', color: '#AF52DE' },         // Purple
-    { icon: Brush, label: 'Art', color: '#34C759' },           // Green
-    { icon: Code, label: 'Technology', color: '#5856D6' },     // Indigo
-    { icon: Gamepad2, label: 'Gaming', color: '#A2845E' },     // Brown/Purpleish
-    { icon: Briefcase, label: 'Business', color: '#8E8E93' },  // Grey
-    { icon: GraduationCap, label: 'Education', color: '#30B0C7' } // Teal
+    { icon: Palette, label: 'Design', color: '#FF4D8C' },
+    { icon: Camera, label: 'Photography', color: '#FF9500' },
+    { icon: PenTool, label: 'Writing', color: '#00BBE4' },
+    { icon: Video, label: 'Video', color: '#FF3B30' },
+    { icon: Music, label: 'Music', color: '#AF52DE' },
+    { icon: Brush, label: 'Art', color: '#34C759' },
+    { icon: Code, label: 'Coding', color: '#5856D6' },
+    { icon: Gamepad2, label: 'Gaming', color: '#A2845E' },
+    { icon: Briefcase, label: 'Business', color: '#8E8E93' },
+    { icon: GraduationCap, label: 'Education', color: '#30B0C7' }
   ];
 
   return (

@@ -4,7 +4,6 @@ import { useAuth } from '../../contexts/AuthContext';
 
 const ProtectedRoute = ({ children, allowedRoles = null, requiredRole = null }) => {
   const { user, loading, token } = useAuth();
-  // Support both props for backward compatibility
   const roles = allowedRoles || (requiredRole ? [requiredRole] : null);
 
   if (loading) {
@@ -15,15 +14,10 @@ const ProtectedRoute = ({ children, allowedRoles = null, requiredRole = null }) 
     );
   }
 
-  // If user exists but no token, it means JWT creation failed
-  // Allow access but show warning - don't redirect to prevent loops
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  // Check if user has valid token (for API calls)
-  // If no token, user can still see the page but API calls will fail
-  // This prevents infinite redirect loops
 
   if (roles && !roles.includes(user.role)) {
     return <Navigate to="/dashboard" replace />;

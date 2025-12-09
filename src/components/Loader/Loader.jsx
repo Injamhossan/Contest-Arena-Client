@@ -17,7 +17,7 @@ export const Loader1 = () => {
                     }}
                     className="relative"
                 >
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] p-1">
+                    <div className="w-20 h-20 rounded-full bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] p-1">
                         <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
                             <Trophy className="text-[#4a37d8]" size={32} />
                         </div>
@@ -42,7 +42,7 @@ export const Loader2 = () => {
                 {[0, 1, 2].map((i) => (
                     <motion.div
                         key={i}
-                        className="w-4 h-4 rounded-full bg-gradient-to-r from-[#4a37d8] to-[#6928d9]"
+                        className="w-4 h-4 rounded-full bg-linear-to-r from-[#4a37d8] to-[#6928d9]"
                         animate={{
                             scale: [1, 1.5, 1],
                             opacity: [0.5, 1, 0.5]

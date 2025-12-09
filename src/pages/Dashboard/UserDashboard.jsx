@@ -116,7 +116,7 @@ const UserDashboard = () => {
               </button>
               <a 
                 href="/all-contests"
-                className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-cyan-400 to-cyan-500 text-white font-bold rounded-lg hover:from-cyan-500 hover:to-cyan-600 transition-all shadow-md shadow-cyan-400/20"
+                className="flex items-center gap-2 px-6 py-2.5 bg-linear-to-r from-cyan-400 to-cyan-500 text-white font-bold rounded-lg hover:from-cyan-500 hover:to-cyan-600 transition-all shadow-md shadow-cyan-400/20"
               >
                 + JOIN CONTEST
               </a>
@@ -286,7 +286,7 @@ const UserDashboard = () => {
                 filteredParticipations.map((item) => (
                   <div key={item._id} className="group flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-white hover:shadow-md transition-all border border-transparent hover:border-gray-100">
                     <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                      <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0">
                         <img 
                           src={item.contestId?.image} 
                           alt={item.contestId?.name}
@@ -354,7 +354,7 @@ const UserDashboard = () => {
         }}
         submission={selectedSubmission}
         onSuccess={() => {
-            fetchParticipations(); // Refresh to show any status changes if we had them or just freshness
+            fetchParticipations();
         }}
       />
     </div>

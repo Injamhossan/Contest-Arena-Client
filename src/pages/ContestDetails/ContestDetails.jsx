@@ -112,7 +112,10 @@ const ContestDetails = () => {
     }
 
     const formatTime = (value) => (value < 10 ? `0${value}` : value);
-    const progressPercentage = Math.min((contest.participantsCount / 750) * 100, 100);
+    // Use limit if set, otherwise default 750 (or whatever fallback we want, currently hardcoded 750 in existing code)
+    const limit = contest.participationLimit > 0 ? contest.participationLimit : 750;
+    const progressPercentage = Math.min((contest.participantsCount / limit) * 100, 100);
+    const isFull = contest.participationLimit > 0 && contest.participantsCount >= contest.participationLimit;
 
     return (
         <div className="min-h-screen bg-gray-50 font-urbanist pb-12">
@@ -260,7 +263,7 @@ const ContestDetails = () => {
                                 </div>
                                 <div className="flex justify-between items-center text-sm">
                                     <span className="text-gray-500 flex items-center gap-2"><Users size={18} className="text-gray-400"/> Participants</span>
-                                    <span className="font-bold text-gray-900">{contest.participantsCount}/750</span>
+                                    <span className="font-bold text-gray-900">{contest.participantsCount}/{limit}</span>
                                 </div>
                                 <div className="flex justify-between items-center text-sm">
                                     <span className="text-gray-500 flex items-center gap-2"><Calendar size={18} className="text-gray-400"/> Deadline</span>
@@ -291,9 +294,12 @@ const ContestDetails = () => {
                                     <Upload className="w-6 h-6" />
                                     SUBMIT PROJECT
                                 </button>
+
                             ) : (
                                 <button 
+                                    disabled={isFull}
                                     onClick={() => {
+                                        if (isFull) return;
                                         if (!user) {
                                             navigate('/login');
                                             return;
@@ -308,9 +314,13 @@ const ContestDetails = () => {
                                         }
                                         navigate(`/payment/${contest._id}`);
                                     }}
-                                    className="w-full btn bg-cyan-400 hover:bg-cyan-500 border-none text-white font-bold rounded-xl h-14 normal-case text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                                    className={`w-full btn border-none text-white font-bold rounded-xl h-14 normal-case text-lg shadow-lg transition-all flex items-center justify-center gap-2 ${
+                                        isFull 
+                                          ? 'bg-gray-400 cursor-not-allowed hover:bg-gray-400' 
+                                          : 'bg-cyan-400 hover:bg-cyan-500 hover:shadow-xl'
+                                    }`}
                                 >
-                                    REGISTER & PAY ${contest.price}
+                                    {isFull ? 'CONTEST FULL' : `REGISTER & PAY $${contest.price}`}
                                 </button>
                             )}
                             

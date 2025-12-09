@@ -56,7 +56,7 @@ const About = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
+        <div className="min-h-screen bg-linear-to-br from-gray-50 via-white to-blue-50">
             {/* Hero Section */}
             <section className="relative py-20 px-4 overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -109,7 +109,7 @@ const About = () => {
                                 className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-gray-100 shadow-sm text-center hover:shadow-md transition-all"
                             >
                                 <div className="flex justify-center mb-3">
-                                    <div className="p-3 rounded-xl bg-gradient-to-br from-[#4a37d8] to-[#6928d9] text-white">
+                                    <div className="p-3 rounded-xl bg-linear-to-br from-[#4a37d8] to-[#6928d9] text-white">
                                         <stat.icon size={24} />
                                     </div>
                                 </div>

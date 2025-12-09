@@ -23,7 +23,7 @@ const Dashboard = () => {
           <p className="text-gray-600 mb-4">Please sign in to access your dashboard</p>
           <a
             href="/login"
-            className="inline-block px-6 py-3 bg-gradient-to-r from-[#4a37d8] to-[#6928d9] text-white rounded-lg hover:from-[#3b2db0] hover:to-[#5722b5] transition-all"
+            className="inline-block px-6 py-3 bg-linear-to-r from-[#4a37d8] to-[#6928d9] text-white rounded-lg hover:from-[#3b2db0] hover:to-[#5722b5] transition-all"
           >
             Sign In
           </a>

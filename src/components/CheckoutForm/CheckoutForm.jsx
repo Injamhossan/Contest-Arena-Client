@@ -16,7 +16,12 @@ const CheckoutForm = ({ contestId, price, onSuccess }) => {
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     if (price && contestId) {
-        api.post("/payments/create-intent", { price: parseFloat(price), contestId })
+        api.post("/payments/create-intent", { 
+            price: parseFloat(price), 
+            contestId,
+            paymentType: price === 10 ? 'update' : 'entry' // Auto-detect for now or pass as prop. Let's rely on price context or pass prop
+            // Actually, better to pass a prop 'paymentType' to CheckoutForm.
+        })
             .then((res) => {
                 setClientSecret(res.data.clientSecret);
                 setPaymentId(res.data.paymentId);

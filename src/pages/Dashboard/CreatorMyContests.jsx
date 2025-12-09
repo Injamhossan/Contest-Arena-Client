@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../utils/api';
-import { Edit, Trash2, Eye, PlusCircle } from 'lucide-react';
+import { Edit, Trash2, Eye, PlusCircle, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 import DashboardLayout from '../../components/Dashboard/DashboardLayout';
 import { useAuth } from '../../contexts/AuthContext';
+import PaymentModal from '../../components/Modal/PaymentModal';
+import { useNavigate } from 'react-router-dom';
 
 const CreatorMyContests = () => {
     const [contests, setContests] = useState([]);
     const [loading, setLoading] = useState(true);
     const { user } = useAuth();
+    const navigate = useNavigate();
+
+    const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+    const [selectedContestForUpdate, setSelectedContestForUpdate] = useState(null);
 
     useEffect(() => {
         fetchMyContests();
@@ -40,6 +46,20 @@ const CreatorMyContests = () => {
         } catch (error) {
             console.error('Error deleting contest:', error);
             toast.error(error.response?.data?.message || 'Failed to delete contest');
+        }
+    };
+
+    const handleUpdateClick = (contest) => {
+        setSelectedContestForUpdate(contest);
+        setPaymentModalOpen(true);
+    };
+
+    const handlePaymentSuccess = () => {
+        setPaymentModalOpen(false);
+        if (selectedContestForUpdate) {
+            toast.success('Update fee paid! Proceeding to edit.');
+            navigate(`/dashboard/update-contest/${selectedContestForUpdate._id}`);
+            setSelectedContestForUpdate(null);
         }
     };
 
@@ -137,32 +157,51 @@ const CreatorMyContests = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div className="flex items-center justify-end gap-2">
-                                                {contest.status === 'pending' && (
+                                                {(contest.status === 'pending' || contest.status === 'confirmed') && (
                                                     <>
-                                                        <Link 
-                                                            to={`/dashboard/update-contest/${contest._id}`}
-                                                            className="text-indigo-600 hover:text-indigo-900 p-1 hover:bg-indigo-50 rounded"
-                                                            title="Edit"
-                                                        >
-                                                            <Edit className="w-4 h-4" />
-                                                        </Link>
-                                                        <button 
-                                                            onClick={() => handleDelete(contest._id)}
-                                                            className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
-                                                            title="Delete"
-                                                        >
-                                                            <Trash2 className="w-4 h-4" />
-                                                        </button>
+                                                        {/* Update Button (Requires Payment for Confirmed, Free for Pending? Actually user said "update ar jonno proti update 10$")
+                                                            If confirmed, use Payment Modal.
+                                                            If pending, maybe free? Usually pending implies it's not live yet.
+                                                            But "update button add koro view button ar poribote". View button was only for confirmed.
+                                                            So for Confirmed contests -> Show Update button -> Pay $10.
+                                                            For Pending contests -> Edit button already exists (lines below). 
+                                                            
+                                                            Wait, the user said "view button ar poribote jate creator update korte pare". 
+                                                            So REPLACING View with Update.
+                                                            View was for 'confirmed'.
+                                                         */}
+                                                        
+                                                        {contest.status === 'confirmed' && (
+                                                            <button 
+                                                                onClick={() => handleUpdateClick(contest)}
+                                                                className="text-indigo-600 hover:text-indigo-900 p-1 hover:bg-indigo-50 rounded flex items-center gap-1"
+                                                                title="Update ($10)"
+                                                            >
+                                                                <RefreshCw className="w-4 h-4" />
+                                                                <span className="text-xs font-bold">$10</span>
+                                                            </button>
+                                                        )}
+
+                                                        {contest.status === 'pending' && (
+                                                            <Link 
+                                                                to={`/dashboard/update-contest/${contest._id}`}
+                                                                className="text-indigo-600 hover:text-indigo-900 p-1 hover:bg-indigo-50 rounded"
+                                                                title="Edit"
+                                                            >
+                                                                <Edit className="w-4 h-4" />
+                                                            </Link>
+                                                        )}
+                                                        
+                                                        {contest.status === 'pending' && (
+                                                            <button 
+                                                                onClick={() => handleDelete(contest._id)}
+                                                                className="text-red-600 hover:text-red-900 p-1 hover:bg-red-50 rounded"
+                                                                title="Delete"
+                                                            >
+                                                                <Trash2 className="w-4 h-4" />
+                                                            </button>
+                                                        )}
                                                     </>
-                                                )}
-                                                {contest.status === 'confirmed' && (
-                                                     <Link 
-                                                        to={`/contests/${contest._id}`} 
-                                                        className="text-gray-400 hover:text-gray-600 p-1"
-                                                        title="View"
-                                                     >
-                                                        <Eye className="w-4 h-4" />
-                                                     </Link>
                                                 )}
                                             </div>
                                         </td>
@@ -172,7 +211,16 @@ const CreatorMyContests = () => {
                         </table>
                     </div>
                 )}
+
             </div>
+            
+            <PaymentModal 
+                isOpen={paymentModalOpen}
+                onClose={() => setPaymentModalOpen(false)}
+                contestId={selectedContestForUpdate?._id}
+                price={10}
+                onSuccess={handlePaymentSuccess}
+            />
         </DashboardLayout>
     );
 };

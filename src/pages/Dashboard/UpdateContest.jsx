@@ -42,6 +42,9 @@ const UpdateContest = () => {
                 ...data,
                 price: parseFloat(data.price),
                 prizeMoney: parseFloat(data.prizeMoney),
+                price: parseFloat(data.price),
+                prizeMoney: parseFloat(data.prizeMoney),
+                participationLimit: parseInt(data.participationLimit),
             };
 
             const response = await api.put(`/contests/${id}`, payload);
@@ -166,6 +169,20 @@ const UpdateContest = () => {
                                         />
                                     </div>
                                     {errors.deadline && <p className="text-red-500 text-xs mt-1">{errors.deadline.message}</p>}
+                                </div>
+                            </div>
+
+                            {/* Participation Limit */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">Participation Limit</label>
+                                <div className="relative">
+                                    <input
+                                        type="number"
+                                        {...register('participationLimit', { required: 'Participation limit is required', min: 1 })}
+                                        className="w-full text-black px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4a37d8] focus:border-transparent outline-none transition-all"
+                                        placeholder="Max participants (e.g., 50)"
+                                    />
+                                    {errors.participationLimit && <p className="text-red-500 text-xs mt-1">{errors.participationLimit.message}</p>}
                                 </div>
                             </div>
 

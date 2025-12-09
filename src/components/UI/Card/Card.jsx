@@ -12,12 +12,15 @@ const Card = ({ item }) => {
         price = 0,
         prizeMoney = 0,
         participantsCount = 0, 
+        participationLimit = 0,
         deadline,
         _id 
     } = item || {};
 
-    const targetParticipants = 100;
-    const progressPercentage = Math.min((participantsCount / targetParticipants) * 100, 100);
+    const targetParticipants = participationLimit > 0 ? participationLimit : 100; // Fallback to 100 if 0 (unlimited) or undefined, or maybe handle unlimited differently
+    const progressPercentage = participationLimit > 0 
+        ? Math.min((participantsCount / targetParticipants) * 100, 100) 
+        : 0; // Or some other logic for unlimited
 
     // Countdown Timer Logic
     const calculateTimeLeft = () => {

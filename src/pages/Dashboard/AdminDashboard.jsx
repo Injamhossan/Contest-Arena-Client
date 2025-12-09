@@ -23,24 +23,21 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       
-      // Fetch users
-      const usersResponse = await api.get('/users?page=1&limit=1');
-      setStats(prev => ({ ...prev, totalUsers: usersResponse.data.total || 0 }));
+      // Fetch stats from dedicated endpoint
+      const statsResponse = await api.get('/admin/stats');
+      if (statsResponse.data.success) {
+        setStats(statsResponse.data.stats);
+      }
+
+      // Fetch pending contests list for the table
+      const contestsResponse = await api.get('/contests?status=pending&limit=100'); 
+      // Note: Assuming /contests supports filtering properly now, or we filter client side if needed
+      // But looking at get all contests, it supports status query.
+      // However, the original code fetched ALL contests. Let's stick to just fetching pending for the list.
+      // But wait, getAllContests controller returns { data: contests, ... }
       
-      // Fetch contests
-      const contestsResponse = await api.get('/contests');
-      const allContests = contestsResponse.data;
-      const pending = allContests.filter(c => c.status === 'pending');
-      const confirmed = allContests.filter(c => c.status === 'confirmed');
-      
-      setStats(prev => ({
-        ...prev,
-        totalContests: allContests.length,
-        pendingContests: pending.length,
-        confirmedContests: confirmed.length,
-      }));
-      
-      setPendingContests(pending);
+      const pendingData = contestsResponse.data.data || [];
+      setPendingContests(pendingData);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
       toast.error('Failed to load dashboard data');

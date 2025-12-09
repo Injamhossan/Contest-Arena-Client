@@ -117,25 +117,39 @@ const ContestDetails = () => {
     const progressPercentage = Math.min((contest.participantsCount / limit) * 100, 100);
     const isFull = contest.participationLimit > 0 && contest.participantsCount >= contest.participationLimit;
 
+    const handleShare = () => {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url)
+            .then(() => toast.success('Link copied to clipboard!'))
+            .catch(() => toast.error('Failed to copy link'));
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 font-urbanist pb-12">
-            {/* Header Banner - Gradient Background */}
-            <div className="h-64 md:h-80 w-full bg-linear-to-r from-[#FF9860] via-[#FF8C96] to-[#A06AF9] relative">
+            {/* Header Banner - Image Background */}
+            <div className="h-64 md:h-80 w-full relative group">
+                <img 
+                    src={contest.image} 
+                    alt={contest.name} 
+                    className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/40"></div>
+                
                 {/* Navbar area Placeholder padding if needed, assuming global navbar is fixed or above */}
                 <div className="absolute top-24 left-4 md:left-8">
                     <button 
                         onClick={() => navigate(-1)}
-                        className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white rounded-full transition-all text-sm font-semibold"
+                        className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white rounded-full transition-all text-sm font-semibold border border-white/10"
                     >
                         <ArrowLeft size={16} /> Back to Contests
                     </button>
                 </div>
 
                 <div className="absolute top-24 right-4 md:right-8 flex gap-3">
-                    <button className="p-2 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white rounded-full transition-all">
+                    <button className="p-2 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white rounded-full transition-all border border-white/10">
                         <Share2 size={20} />
                     </button>
-                    <button className="p-2 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white rounded-full transition-all">
+                    <button className="p-2 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white rounded-full transition-all border border-white/10">
                         <Heart size={20} />
                     </button>
                 </div>
@@ -316,8 +330,8 @@ const ContestDetails = () => {
                                     }}
                                     className={`w-full btn border-none text-white font-bold rounded-xl h-14 normal-case text-lg shadow-lg transition-all flex items-center justify-center gap-2 ${
                                         isFull 
-                                          ? 'bg-gray-400 cursor-not-allowed hover:bg-gray-400' 
-                                          : 'bg-cyan-400 hover:bg-cyan-500 hover:shadow-xl'
+                                          ? 'bg-gradient-to-r from-[#4a37d8] to-[#6928d9] cursor-not-allowed hover:bg-gray-400' 
+                                          : 'bg-gradient-to-r from-[#4a37d8] to-[#6928d9] hover:bg-cyan-500 hover:shadow-xl'
                                     }`}
                                 >
                                     {isFull ? 'CONTEST FULL' : `REGISTER & PAY $${contest.price}`}
@@ -330,7 +344,6 @@ const ContestDetails = () => {
                                 submission={userSubmission}
                                 onSuccess={() => {
                                     // Optionally refresh to get updated submission status if needed
-                                    // For now just closing is enough as toast shows success
                                 }}
                             />
 
@@ -342,7 +355,10 @@ const ContestDetails = () => {
                         {/* Share Contest Card */}
                         <div className="bg-white rounded-3xl p-6 mt-6 shadow-xs border border-gray-100 text-center">
                             <p className="text-sm text-gray-600 font-medium mb-4">Share this contest</p>
-                            <button className="w-full py-2 border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+                            <button 
+                                onClick={handleShare}
+                                className="w-full py-2 border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+                            >
                                 <Share2 size={16} /> Copy Link
                             </button>
                         </div>

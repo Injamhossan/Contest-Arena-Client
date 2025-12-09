@@ -23,7 +23,7 @@ const CategoryCard = ({ icon: Icon, label, color }) => {
   return (
     <div 
       onClick={handleClick}
-      className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-4 group border border-transparent hover:border-gray-100"
+      className="bg-white dark:bg-base-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-4 group border border-transparent hover:border-gray-100 dark:hover:border-gray-700"
     >
       <div 
         className={`p-4 rounded-xl transition-colors duration-300 group-hover:scale-110 transform`}
@@ -35,7 +35,7 @@ const CategoryCard = ({ icon: Icon, label, color }) => {
           className="transition-colors duration-300"
         />
       </div>
-      <span className="font-semibold text-gray-700 group-hover:text-gray-900 transition-colors">
+      <span className="font-semibold text-gray-700 dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
         {label}
       </span>
     </div>
@@ -54,17 +54,16 @@ const CategorySection = () => {
     { icon: GraduationCap, label: 'Education', color: '#30B0C7' },
     { icon: Gamepad2, label: 'Gaming', color: '#A2845E' },
     { icon: Briefcase, label: 'Business', color: '#8E8E93' },
-    { icon: Palette, label: 'Other', color: '#6c757d' } 
   ];
 
   return (
-    <section className="py-16 px-4 bg-[#FAFAFA] font-urbanist">
+    <section className="py-16 px-4 bg-[#FAFAFA] dark:bg-base-200 font-urbanist">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Browse by Category
           </h2>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-400">
             Find contests that match your passion and expertise
           </p>
         </div>

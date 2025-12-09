@@ -1,26 +1,34 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Medal, Award, Crown, TrendingUp, Filter, Search, Star } from 'lucide-react';
+import api from '../../utils/api';
+
+import { useQuery } from '@tanstack/react-query';
 
 const Leaderboard = () => {
+    // const axiosPublic = useAxiosPublic(); // Removed
     const [filter, setFilter] = useState('all-time');
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Sample leaderboard data
-    const leaderboardData = [
-        { rank: 1, name: 'Alex Johnson', score: 9850, contests: 45, wins: 12, avatar: 'AJ', badge: 'gold' },
-        { rank: 2, name: 'Sarah Williams', score: 9420, contests: 42, wins: 10, avatar: 'SW', badge: 'silver' },
-        { rank: 3, name: 'Michael Chen', score: 9150, contests: 38, wins: 9, avatar: 'MC', badge: 'bronze' },
-        { rank: 4, name: 'Emily Rodriguez', score: 8890, contests: 40, wins: 8, avatar: 'ER', badge: null },
-        { rank: 5, name: 'David Kim', score: 8650, contests: 35, wins: 7, avatar: 'DK', badge: null },
-        { rank: 6, name: 'Jessica Martinez', score: 8420, contests: 33, wins: 6, avatar: 'JM', badge: null },
-        { rank: 7, name: 'Ryan Thompson', score: 8200, contests: 32, wins: 6, avatar: 'RT', badge: null },
-        { rank: 8, name: 'Olivia Brown', score: 7980, contests: 30, wins: 5, avatar: 'OB', badge: null },
-        { rank: 9, name: 'James Wilson', score: 7750, contests: 28, wins: 5, avatar: 'JW', badge: null },
-        { rank: 10, name: 'Sophia Davis', score: 7520, contests: 27, wins: 4, avatar: 'SD', badge: null },
-        { rank: 11, name: 'Daniel Garcia', score: 7300, contests: 26, wins: 4, avatar: 'DG', badge: null },
-        { rank: 12, name: 'Isabella Miller', score: 7080, contests: 25, wins: 3, avatar: 'IM', badge: null },
-    ];
+    const { data: leaderboardData = [], isLoading: loading } = useQuery({
+        queryKey: ['leaderboard'],
+        queryFn: async () => {
+            const response = await api.get('/users/leaderboard');
+            if (response.data.success) {
+                return response.data.data.map((user, index) => ({
+                    rank: index + 1,
+                    name: user.name,
+                    score: user.winsCount * 100, // Derived score
+                    contests: user.participationsCount || 0,
+                    wins: user.winsCount,
+                    avatar: user.name.substring(0, 2).toUpperCase(),
+                    badge: index < 3 ? (index === 0 ? 'gold' : index === 1 ? 'silver' : 'bronze') : null,
+                    photoURL: user.photoURL
+                }));
+            }
+            return [];
+        }
+    });
 
     const filters = [
         { id: 'all-time', label: 'All Time' },
@@ -46,11 +54,12 @@ const Leaderboard = () => {
     const restOfLeaderboard = leaderboardData.slice(3);
 
     const filteredData = leaderboardData.filter(user =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase())
+        user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
+        <div className="min-h-screen bg-linear-to-br from-gray-50 via-white to-blue-50">
             {/* Hero Section */}
             <section className="relative py-16 px-4 overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -99,7 +108,7 @@ const Leaderboard = () => {
                                     className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 ${
                                         filter === filterOption.id
                                             ? 'bg-linear-to-r from-[#4a37d8] to-[#6928d9] text-white shadow-md'
-                                            : 'text-gray-600 hover:bg-gray-100'
+                                            : 'text-black hover:bg-gray-100'
                                     }`}
                                 >
                                     {filterOption.label}
@@ -114,7 +123,7 @@ const Leaderboard = () => {
                                 placeholder="Search by name..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="pl-10 pr-4 py-2.5 w-full md:w-64 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4a37d8] focus:border-transparent outline-none bg-white/60 backdrop-blur-sm"
+                                className="pl-10 pr-4 py-2.5 w-full md:w-64 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4a37d8] focus:border-transparent outline-none bg-white/60 backdrop-blur-sm text-black"
                             />
                         </div>
                     </motion.div>
@@ -147,8 +156,8 @@ const Leaderboard = () => {
                             >
                                 <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-100 shadow-lg hover:shadow-xl transition-all text-center">
                                     <div className="relative mb-4">
-                                        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-gray-300 to-gray-500 flex items-center justify-center text-white text-2xl font-bold mb-2">
-                                            {topThree[1]?.avatar}
+                                        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-gray-300 to-gray-500 flex items-center justify-center text-white text-2xl font-bold mb-2 overflow-hidden">
+                                            {topThree[1]?.photoURL ? <img src={topThree[1].photoURL} alt="" className="w-full h-full object-cover"/> : topThree[1]?.avatar}
                                         </div>
                                         <div className="absolute -top-2 -right-2 bg-gray-400 text-white rounded-full p-1">
                                             <Medal size={20} />
@@ -180,8 +189,8 @@ const Leaderboard = () => {
                                         </div>
                                     </div>
                                     <div className="relative mb-4 mt-4">
-                                        <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-white text-3xl font-bold mb-2 shadow-lg">
-                                            {topThree[0]?.avatar}
+                                        <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-white text-3xl font-bold mb-2 shadow-lg overflow-hidden">
+                                            {topThree[0]?.photoURL ? <img src={topThree[0].photoURL} alt="" className="w-full h-full object-cover"/> : topThree[0]?.avatar}
                                         </div>
                                     </div>
                                     <div className="text-2xl font-bold text-yellow-600 mb-1">1st</div>
@@ -205,8 +214,8 @@ const Leaderboard = () => {
                             >
                                 <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-100 shadow-lg hover:shadow-xl transition-all text-center">
                                     <div className="relative mb-4">
-                                        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-white text-2xl font-bold mb-2">
-                                            {topThree[2]?.avatar}
+                                        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-white text-2xl font-bold mb-2 overflow-hidden">
+                                            {topThree[2]?.photoURL ? <img src={topThree[2].photoURL} alt="" className="w-full h-full object-cover"/> : topThree[2]?.avatar}
                                         </div>
                                         <div className="absolute -top-2 -right-2 bg-amber-600 text-white rounded-full p-1">
                                             <Medal size={20} />
@@ -269,8 +278,12 @@ const Leaderboard = () => {
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-4">
-                                                    <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${getRankBadgeColor(user.rank)} flex items-center justify-center text-white font-bold text-sm shadow-md`}>
-                                                        {user.avatar}
+                                                    <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${getRankBadgeColor(user.rank)} flex items-center justify-center text-white font-bold text-sm shadow-md overflow-hidden`}>
+                                                        {user.photoURL ? (
+                                                            <img src={user.photoURL} alt={user.name} className="w-full h-full object-cover" />
+                                                        ) : (
+                                                            user.avatar
+                                                        )}
                                                     </div>
                                                     <div>
                                                         <div className="font-semibold text-gray-900">{user.name}</div>

@@ -20,7 +20,7 @@ const PaymentModal = ({ isOpen, onClose, contestId, price, onSuccess }) => {
                     <X className="w-5 h-5 text-gray-500" />
                 </button>
                 
-                <div className="p-6 bg-gradient-to-r from-[#4a37d8] to-[#6928d9] text-white text-center">
+                <div className="p-6 bg-linear-to-r from-[#4a37d8] to-[#6928d9] text-white text-center">
                     <h3 className="text-xl font-bold">Update Fee Required</h3>
                     <p className="text-indigo-100 text-sm mt-1">Pay ${price} to update this contest</p>
                 </div>

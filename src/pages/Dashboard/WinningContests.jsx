@@ -16,7 +16,7 @@ const WinningContests = () => {
             setLoading(true);
             const response = await api.get('/participations/me');
             if (response.data.success) {
-                const wins = response.data.data.filter(p => p.status === 'winner');
+                const wins = response.data.data.filter(p => p.contestId.winnerUserId === p.userId);
                 setWinningContests(wins);
             }
         } catch (error) {

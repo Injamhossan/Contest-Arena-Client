@@ -56,7 +56,7 @@ const Card = ({ item }) => {
 
 
     return (
-        <div className="card bg-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden border border-gray-100 flex flex-col h-full">
+        <div className="card bg-white dark:bg-base-200 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col h-full">
             {/* Image Header with Badges */}
             <div className="relative h-48 w-full overflow-hidden group">
                 <img
@@ -84,7 +84,7 @@ const Card = ({ item }) => {
             {/* Content Body */}
             <div className="p-5 flex flex-col grow">
                 {/* Title */}
-                <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {name}
                 </h2>
 

@@ -36,11 +36,8 @@ const ContestDetails = () => {
                 const response = await api.get(`/contests/${id}`);
                 setContest(response.data.contest || response.data.data);
 
-                // Check Registration Status (if user is logged in)
                 if (user) {
                     try {
-                        // We can check /participations/me and filter, OR a check endpoint
-                        // Since we don't have a direct check endpoint, fetching my participations is safer
                         const participationResponse = await api.get('/participations/me');
                          if (participationResponse.data.success) {
                             const myParticipations = participationResponse.data.data;
@@ -112,7 +109,6 @@ const ContestDetails = () => {
     }
 
     const formatTime = (value) => (value < 10 ? `0${value}` : value);
-    // Use limit if set, otherwise default 750 (or whatever fallback we want, currently hardcoded 750 in existing code)
     const limit = contest.participationLimit > 0 ? contest.participationLimit : 750;
     const progressPercentage = Math.min((contest.participantsCount / limit) * 100, 100);
     const isFull = contest.participationLimit > 0 && contest.participantsCount >= contest.participationLimit;
@@ -163,24 +159,50 @@ const ContestDetails = () => {
                     <div className="lg:col-span-2 space-y-6">
                         {/* Title Card */}
                         <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xs border border-gray-100">
-                             <div className="flex flex-wrap gap-2 mb-4">
+                            <div className="flex flex-wrap gap-2 mb-4">
                                 <span className="px-3 py-1 bg-cyan-50 text-cyan-600 text-xs font-bold rounded-full uppercase tracking-wider">
                                     {contest.contestType}
                                 </span>
                                 <span className={`px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider border ${
+                                    contest.winnerUserId ? 'border-red-200 text-red-600 bg-red-50' : 
                                     contest.status === 'confirmed' ? 'border-green-200 text-green-600 bg-green-50' : 'border-yellow-200 text-yellow-600 bg-yellow-50'
                                 }`}>
-                                    {contest.status === 'confirmed' ? 'Active' : contest.status}
+                                    {contest.winnerUserId ? 'Contest Closed' : (contest.status === 'confirmed' ? 'Active' : contest.status)}
                                 </span>
                             </div>
 
                             <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
                                 {contest.name}
                             </h1>
-                            
                             <p className="text-gray-600 text-lg leading-relaxed mb-6">
                                 {contest.description}
                             </p>
+
+                            {/* Winner Section */}
+                            {contest.winnerUserId && (
+                                <div className="mb-8 bg-linear-to-r from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-6 flex items-center gap-6 shadow-xs relative overflow-hidden">
+                                     <div className="absolute -right-4 -top-4 text-amber-100 rotate-12">
+                                        <Trophy size={120} />
+                                    </div>
+                                    <div className="relative z-10 shrink-0">
+                                        <div className="w-20 h-20 rounded-full border-4 border-white shadow-md overflow-hidden bg-gray-200">
+                                            {contest.winnerPhotoURL ? (
+                                                <img src={contest.winnerPhotoURL} alt="Winner" className="w-full h-full object-cover" />
+                                            ) : (
+                                                <UserCircle className="w-full h-full text-gray-400" />
+                                            )}
+                                        </div>
+                                        <div className="absolute -bottom-2 -right-2 bg-amber-500 text-white p-1.5 rounded-full border-2 border-white shadow-sm">
+                                            <Trophy size={14} />
+                                        </div>
+                                    </div>
+                                    <div className="relative z-10">
+                                        <div className="text-amber-600 text-sm font-bold uppercase tracking-wider mb-1">Winner Declared</div>
+                                        <div className="text-2xl font-extrabold text-gray-900">{contest.winnerName}</div>
+                                        <p className="text-amber-700/80 text-sm mt-1">Congratulations on winning ${contest.prizeMoney}!</p>
+                                    </div>
+                                </div>
+                            )}
 
                             <div className="flex flex-wrap gap-2 mb-8">
                                 {['digital', 'illustration', '3D'].map(tag => (
@@ -293,7 +315,7 @@ const ContestDetails = () => {
                                 </div>
                                 <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
                                     <div 
-                                        className="bg-cyan-400 h-full rounded-full transition-all duration-500" 
+                                        className="bg-cyan-400 h-full rounded-full transition-all duration-500"
                                         style={{ width: `${progressPercentage}%` }}
                                     ></div>
                                 </div>
@@ -311,9 +333,9 @@ const ContestDetails = () => {
 
                             ) : (
                                 <button 
-                                    disabled={isFull}
+                                    disabled={isFull || contest.winnerUserId}
                                     onClick={() => {
-                                        if (isFull) return;
+                                        if (isFull || contest.winnerUserId) return;
                                         if (!user) {
                                             navigate('/login');
                                             return;
@@ -329,12 +351,12 @@ const ContestDetails = () => {
                                         navigate(`/payment/${contest._id}`);
                                     }}
                                     className={`w-full btn border-none text-white font-bold rounded-xl h-14 normal-case text-lg shadow-lg transition-all flex items-center justify-center gap-2 ${
-                                        isFull 
-                                          ? 'bg-gradient-to-r from-[#4a37d8] to-[#6928d9] cursor-not-allowed hover:bg-gray-400' 
-                                          : 'bg-gradient-to-r from-[#4a37d8] to-[#6928d9] hover:bg-cyan-500 hover:shadow-xl'
+                                        isFull || contest.winnerUserId
+                                          ? 'bg-gray-400 cursor-not-allowed hover:bg-gray-400' 
+                                          : 'bg-linear-to-r from-[#4a37d8] to-[#6928d9] hover:bg-cyan-500 hover:shadow-xl'
                                     }`}
                                 >
-                                    {isFull ? 'CONTEST FULL' : `REGISTER & PAY $${contest.price}`}
+                                    {contest.winnerUserId ? 'CONTEST CLOSED' : (isFull ? 'CONTEST FULL' : `REGISTER & PAY $${contest.price}`)}
                                 </button>
                             )}
                             

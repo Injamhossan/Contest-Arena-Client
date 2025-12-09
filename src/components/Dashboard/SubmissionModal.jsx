@@ -12,7 +12,6 @@ const SubmissionModal = ({ isOpen, onClose, submission, onSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     if (!link) {
         toast.error('Please provide a submission link');
         return;
@@ -68,7 +67,7 @@ const SubmissionModal = ({ isOpen, onClose, submission, onSuccess }) => {
               onChange={(e) => setLink(e.target.value)}
               placeholder="https://..."
               required
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4a37d8]/20 focus:border-[#4a37d8] transition-all"
+              className="w-full px-4 py-3 text-black rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4a37d8]/20 focus:border-[#4a37d8] transition-all"
             />
           </div>
 
@@ -82,7 +81,7 @@ const SubmissionModal = ({ isOpen, onClose, submission, onSuccess }) => {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Describe your submission..."
               rows={4}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4a37d8]/20 focus:border-[#4a37d8] transition-all resize-none"
+              className="w-full px-4 py-3 text-black rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4a37d8]/20 focus:border-[#4a37d8] transition-all resize-none"
             />
           </div>
 

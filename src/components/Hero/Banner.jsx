@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 const Banner = () => {
   return (
-    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-50 via-white to-blue-50 pt-20 pb-16">
+    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 pt-20 pb-16">
       {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-100/50 rounded-full blur-[100px]" />
@@ -36,7 +36,7 @@ const Banner = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight font-urbanist"
           >
-            <span className="text-gray-900">Compete. </span>
+            <span className="text-gray-900 dark:text-white">Compete. </span>
             <span className="bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] bg-clip-text text-transparent">Create.</span>
             <br />
             <span className="text-amber-500">Celebrate.</span>
@@ -47,7 +47,7 @@ const Banner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed"
+            className="text-lg text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed"
           >
             Discover exciting contests, showcase your talents, win amazing prizes, and join a community of passionate creators.
           </motion.p>
@@ -57,14 +57,14 @@ const Banner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="bg-white p-2 rounded-2xl shadow-xl shadow-gray-200/50 max-w-2xl mx-auto flex items-center gap-2 mb-6 border border-gray-100"
+            className="bg-white dark:bg-base-200 p-2 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none max-w-2xl mx-auto flex items-center gap-2 mb-6 border border-gray-100 dark:border-gray-700"
           >
             <div className="flex-1 flex items-center gap-3 px-4">
               <Search className="text-gray-400" size={20} />
               <input 
                 type="text" 
                 placeholder="Search contests by name or tag..." 
-                className="w-full py-3 outline-none text-gray-700 bg-transparent placeholder:text-gray-400"
+                className="w-full py-3 outline-none text-gray-700 dark:text-gray-200 bg-transparent placeholder:text-gray-400"
               />
             </div>
             <button className="bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] text-white px-8 py-3 rounded-xl font-medium transition-colors cursor-pointer">
@@ -90,7 +90,7 @@ const Banner = () => {
             ].map((tag, index) => (
               <button
                 key={index}
-                className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-700 font-medium text-xs flex items-center gap-1.5 cursor-pointer"
+                className="px-3 py-1 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors text-gray-700 dark:text-gray-300 font-medium text-xs flex items-center gap-1.5 cursor-pointer"
               >
                 {tag.label}
               </button>
@@ -108,7 +108,7 @@ const Banner = () => {
               Explore Contests
               <ArrowRight size={18} />
             </button>
-            <button className="flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-800 px-8 py-3.5 rounded-xl font-semibold border border-gray-200 transition-all hover:border-gray-300 cursor-pointer">
+            <button className="flex items-center gap-2 bg-white dark:bg-base-100 hover:bg-gray-50 dark:hover:bg-base-200 text-gray-800 dark:text-white px-8 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-gray-700 transition-all hover:border-gray-300 cursor-pointer">
               Start Creating
               <Trophy size={18} className="text-amber-500" />
             </button>
@@ -119,20 +119,20 @@ const Banner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="flex flex-wrap items-center justify-center gap-8 md:gap-16 border-t border-gray-100 pt-8"
+            className="flex flex-wrap items-center justify-center gap-8 md:gap-16 border-t border-gray-100 dark:border-gray-800 pt-8"
           >
             {[
-              { label: 'Contests', value: '500+', icon: Trophy, color: 'text-blue-500', bg: 'bg-blue-50' },
-              { label: 'Participants', value: '10K+', icon: Users, color: 'text-amber-500', bg: 'bg-amber-50' },
-              { label: 'Prizes', value: '$1M+', icon: Gift, color: 'text-green-500', bg: 'bg-green-50' },
+              { label: 'Contests', value: '500+', icon: Trophy, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-900/20' },
+              { label: 'Participants', value: '10K+', icon: Users, color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-900/20' },
+              { label: 'Prizes', value: '$1M+', icon: Gift, color: 'text-green-500', bg: 'bg-green-50 dark:bg-green-900/20' },
             ].map((stat, index) => (
               <div key={index} className="flex items-center gap-3">
                 <div className={`p-3 rounded-xl ${stat.bg} ${stat.color}`}>
                   <stat.icon size={24} />
                 </div>
                 <div className="text-left">
-                  <div className="text-xl font-bold text-gray-900">{stat.value}</div>
-                  <div className="text-sm text-gray-500 font-medium">{stat.label}</div>
+                  <div className="text-xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400 font-medium">{stat.label}</div>
                 </div>
               </div>
             ))}

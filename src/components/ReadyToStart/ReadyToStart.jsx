@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 const ReadyToStart = () => {
   return (
-    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-50 via-white to-blue-50 pt-20 pb-16">
+    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 pt-20 pb-16">
       {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-100/50 rounded-full blur-[100px]" />
@@ -25,7 +25,7 @@ const ReadyToStart = () => {
             transition={{ duration: 0.5 }}
             className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight font-urbanist"
           >
-            <span className="text-gray-900">Ready to Start Your </span>
+            <span className="text-gray-900 dark:text-white">Ready to Start Your </span>
             <span className="bg-linear-to-r from-[#4a37d8] to-[#6928d9] bg-clip-text text-transparent">Journey?</span>
           </motion.h1>
 
@@ -34,7 +34,7 @@ const ReadyToStart = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-lg text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed"
+            className="text-lg text-gray-500 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed"
           >
             Join thousands of creators and competitors. Host your own contests or participate in exciting challenges.
           </motion.p>
@@ -50,7 +50,7 @@ const ReadyToStart = () => {
               Get Started Free
               <ArrowRight size={18} />
             </button>
-            <button className="flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-700 px-8 py-3.5 rounded-xl font-semibold border border-gray-200 transition-all hover:border-gray-300 cursor-pointer">
+            <button className="flex items-center gap-2 bg-white dark:bg-base-100 hover:bg-gray-50 dark:hover:bg-base-200 text-gray-700 dark:text-white px-8 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-gray-700 transition-all hover:border-gray-300 cursor-pointer">
               Learn More
             </button>
           </motion.div>
@@ -63,30 +63,30 @@ const ReadyToStart = () => {
             className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto"
           >
             {/* Card 1 */}
-            <div className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-white/60 dark:bg-base-100/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
                 <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6 mx-auto">
                     <Rocket size={24} />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-3">Quick Setup</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">Create an account and start participating in contests within minutes</p>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Quick Setup</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">Create an account and start participating in contests within minutes</p>
             </div>
 
             {/* Card 2 */}
-            <div className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-white/60 dark:bg-base-100/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
                 <div className="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-500 mb-6 mx-auto">
                     <ShieldCheck size={24} />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-3">Secure Payments</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">Safe and secure payment processing for entry fees and prizes</p>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Secure Payments</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">Safe and secure payment processing for entry fees and prizes</p>
             </div>
 
             {/* Card 3 */}
-            <div className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-white/60 dark:bg-base-100/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
                 <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-green-500 mb-6 mx-auto">
                     <Trophy size={24} />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-3">Win Prizes</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">Compete for amazing prizes and get recognized for your talent</p>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Win Prizes</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">Compete for amazing prizes and get recognized for your talent</p>
             </div>
           </motion.div>
 

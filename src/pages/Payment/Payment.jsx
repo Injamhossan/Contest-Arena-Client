@@ -92,10 +92,13 @@ const Payment = () => {
                                 // If it is "Participation Fee", user is paying.
                                 
                                 // Let's rely on the contest creatorId vs current user.
-                                const userRes = await api.get('/auth/me'); // Or use useAuth() if available
+                                const userRes = await api.get('/auth/me'); 
                                 const currentUser = userRes.data.data;
                                 
-                                if (contest.creatorId === currentUser?._id || contest.creatorId?._id === currentUser?._id) {
+                                const creatorId = contest.creatorId?._id || contest.creatorId;
+                                const currentUserId = currentUser?._id;
+
+                                if (String(creatorId) === String(currentUserId)) {
                                     // It's the creator paying for their contest
                                     toast.success("Contest fee paid successfully!");
                                 } else {
@@ -109,7 +112,8 @@ const Payment = () => {
                                 navigate('/dashboard');
                             } catch (error) {
                                 console.error("Post-payment error:", error);
-                                toast.error("Payment successful, but failed to register participation. Please contact support.");
+                                const errorMessage = error.response?.data?.message || "Payment successful, but failed to register participation. Please contact support.";
+                                toast.error(errorMessage);
                                 navigate('/dashboard');
                             }
                         }}

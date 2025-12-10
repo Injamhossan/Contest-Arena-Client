@@ -18,7 +18,6 @@ const AddContest = () => {
             const payload = {
                 ...data,
                 price: parseFloat(data.price),
-                price: parseFloat(data.price),
                 prizeMoney: parseFloat(data.prizeMoney),
                 participationLimit: parseInt(data.participationLimit),
             };

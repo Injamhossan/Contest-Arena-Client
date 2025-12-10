@@ -11,8 +11,8 @@ const Home = () => {
        <div>
         <Banner />
         <PopularContests />
-        <RecentWinners />
         <CategorySection />
+        <RecentWinners />
         <ReadyToStart/>
        </div>
     );

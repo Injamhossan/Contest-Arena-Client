@@ -67,7 +67,7 @@ const Footer = () => {
 
       {/* Centered Copyright */}
       <hr className="border-gray-200 dark:border-gray-800" />
-      <div className="mx-auto max-w-[1780px] my-5 py-5">
+      <div className="mx-auto max-w-[1780px] mt-5 py-5">
         <p className="text-center text-gray-600 dark:text-gray-400 font-medium">
           © {new Date().getFullYear()} Contest Arena — All Rights Reserved.
         </p>

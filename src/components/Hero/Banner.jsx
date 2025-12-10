@@ -4,11 +4,11 @@ import { motion } from 'framer-motion';
 
 const Banner = () => {
   return (
-    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 pt-20 pb-16">
+    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-50 via-white to-blue-50 dark:from-black dark:via-gray-900 dark:to-black pt-20 pb-16">
       {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-100/50 rounded-full blur-[100px]" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[100px]" />
+        <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-100/50 dark:bg-purple-900/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 dark:bg-blue-900/10 rounded-full blur-[100px]" />
         {/* Faint Trophy Outline - Abstract representation */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] scale-150 pointer-events-none">
             <Trophy size={800} />
@@ -57,7 +57,7 @@ const Banner = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="bg-white dark:bg-base-200 p-2 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none max-w-2xl mx-auto flex items-center gap-2 mb-6 border border-gray-100 dark:border-gray-700"
+            className="bg-white dark:bg-black p-2 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none max-w-2xl mx-auto flex items-center gap-2 mb-6 border border-gray-100 dark:border-gray-800"
           >
             <div className="flex-1 flex items-center gap-3 px-4">
               <Search className="text-gray-400" size={20} />
@@ -90,7 +90,7 @@ const Banner = () => {
             ].map((tag, index) => (
               <button
                 key={index}
-                className="px-3 py-1 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors text-gray-700 dark:text-gray-300 font-medium text-xs flex items-center gap-1.5 cursor-pointer"
+                className="px-3 py-1 bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-lg transition-colors text-gray-700 dark:text-gray-300 font-medium text-xs flex items-center gap-1.5 cursor-pointer"
               >
                 {tag.label}
               </button>
@@ -108,7 +108,7 @@ const Banner = () => {
               Explore Contests
               <ArrowRight size={18} />
             </button>
-            <button className="flex items-center gap-2 bg-white dark:bg-base-100 hover:bg-gray-50 dark:hover:bg-base-200 text-gray-800 dark:text-white px-8 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-gray-700 transition-all hover:border-gray-300 cursor-pointer">
+            <button className="flex items-center gap-2 bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-800 dark:text-white px-8 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-gray-800 transition-all hover:border-gray-300 cursor-pointer">
               Start Creating
               <Trophy size={18} className="text-amber-500" />
             </button>

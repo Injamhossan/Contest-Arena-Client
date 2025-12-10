@@ -61,44 +61,44 @@ const ManageUsers = () => {
 
     return (
         <DashboardLayout>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div className="p-6 border-b border-gray-200 flex justify-between items-center">
-                    <h2 className="text-xl font-bold text-gray-900">Manage Users</h2>
-                    <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+            <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-300">
+                <div className="p-6 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">Manage Users</h2>
+                    <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 text-xs font-semibold px-2.5 py-0.5 rounded">
                         Total: {users.length}
                     </span>
                 </div>
                 
                 <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+                        <thead className="bg-gray-50 dark:bg-gray-800">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">User</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Role</th>
+                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
                             {users.map((user) => (
-                                <tr key={user._id} className="hover:bg-gray-50 transition-colors">
+                                <tr key={user._id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <div className="flex items-center">
                                             <div className="h-10 w-10 shrink-0">
                                                 <img 
-                                                    className="h-10 w-10 rounded-full object-cover border border-gray-200" 
+                                                    className="h-10 w-10 rounded-full object-cover border border-gray-200 dark:border-gray-700" 
                                                     src={user.photoURL || `https://ui-avatars.com/api/?name=${user.name}`} 
                                                     alt="" 
                                                 />
                                             </div>
                                             <div className="ml-4">
-                                                <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                                                <div className="text-xs text-gray-500">ID: {user._id.slice(-4)}</div>
+                                                <div className="text-sm font-medium text-gray-900 dark:text-white">{user.name}</div>
+                                                <div className="text-xs text-gray-500 dark:text-gray-400">ID: {user._id.slice(-4)}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="flex items-center text-sm text-gray-600">
+                                        <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
                                             <Mail className="w-4 h-4 mr-2 text-gray-400" />
                                             {user.email}
                                         </div>
@@ -108,20 +108,20 @@ const ManageUsers = () => {
                                             value={user.role}
                                             onChange={(e) => handleRoleUpdate(user._id, e.target.value)}
                                             className={`text-sm rounded-full px-3 py-1 font-semibold border-0 cursor-pointer focus:ring-2 focus:ring-indigo-500 ${
-                                                user.role === 'admin' ? 'bg-purple-100 text-purple-800' :
-                                                user.role === 'creator' ? 'bg-blue-100 text-blue-800' :
-                                                'bg-green-100 text-green-800'
+                                                user.role === 'admin' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400' :
+                                                user.role === 'creator' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400' :
+                                                'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400'
                                             }`}
                                         >
-                                            <option value="user">User</option>
-                                            <option value="creator">Creator</option>
-                                            <option value="admin">Admin</option>
+                                            <option value="user" className="text-gray-900 bg-white">User</option>
+                                            <option value="creator" className="text-gray-900 bg-white">Creator</option>
+                                            <option value="admin" className="text-gray-900 bg-white">Admin</option>
                                         </select>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <button 
                                             onClick={() => handleDeleteUser(user._id)}
-                                            className="text-red-600 hover:text-red-900 p-2 hover:bg-red-50 rounded-full transition-colors"
+                                            className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors"
                                             title="Delete User"
                                         >
                                             <Trash2 className="w-5 h-5" />

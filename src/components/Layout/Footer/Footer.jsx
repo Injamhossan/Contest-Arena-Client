@@ -7,7 +7,7 @@ import LinkedIn from "../../../assets/social/linkedin.png";
 
 const Footer = () => {
   return (
-    <div className="bg-white dark:bg-base-100 px-10 pt-10 border-t border-gray-100 dark:border-gray-800 transition-colors duration-300">
+    <div className="bg-white dark:bg-black px-10 pt-10 border-t border-gray-100 dark:border-gray-800 transition-colors duration-300">
       <div>
       <footer className="footer sm:footer-horizontal mx-auto max-w-[1780px] text-gray-600 dark:text-gray-400 mb-6">
 

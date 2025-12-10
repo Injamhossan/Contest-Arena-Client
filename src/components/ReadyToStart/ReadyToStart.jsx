@@ -4,11 +4,11 @@ import { motion } from 'framer-motion';
 
 const ReadyToStart = () => {
   return (
-    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 pt-20 pb-16">
+    <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-50 via-white to-blue-50 dark:from-black dark:via-gray-900 dark:to-black pt-20 pb-16">
       {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-100/50 rounded-full blur-[100px]" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[100px]" />
+        <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-100/50 dark:bg-purple-900/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 dark:bg-blue-900/10 rounded-full blur-[100px]" />
         {/* Faint Trophy Outline - Abstract representation */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] scale-150 pointer-events-none">
             <Trophy size={800} />
@@ -50,7 +50,7 @@ const ReadyToStart = () => {
               Get Started Free
               <ArrowRight size={18} />
             </button>
-            <button className="flex items-center gap-2 bg-white dark:bg-base-100 hover:bg-gray-50 dark:hover:bg-base-200 text-gray-700 dark:text-white px-8 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-gray-700 transition-all hover:border-gray-300 cursor-pointer">
+            <button className="flex items-center gap-2 bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-700 dark:text-white px-8 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-gray-800 transition-all hover:border-gray-300 cursor-pointer">
               Learn More
             </button>
           </motion.div>
@@ -63,8 +63,8 @@ const ReadyToStart = () => {
             className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto"
           >
             {/* Card 1 */}
-            <div className="bg-white/60 dark:bg-base-100/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6 mx-auto">
+            <div className="bg-white/60 dark:bg-black/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-14 h-14 bg-blue-50 dark:bg-blue-900/20 rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400 mb-6 mx-auto">
                     <Rocket size={24} />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Quick Setup</h3>
@@ -72,8 +72,8 @@ const ReadyToStart = () => {
             </div>
 
             {/* Card 2 */}
-            <div className="bg-white/60 dark:bg-base-100/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-500 mb-6 mx-auto">
+            <div className="bg-white/60 dark:bg-black/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-14 h-14 bg-amber-50 dark:bg-amber-900/20 rounded-2xl flex items-center justify-center text-amber-500 dark:text-amber-400 mb-6 mx-auto">
                     <ShieldCheck size={24} />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Secure Payments</h3>
@@ -81,8 +81,8 @@ const ReadyToStart = () => {
             </div>
 
             {/* Card 3 */}
-            <div className="bg-white/60 dark:bg-base-100/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-green-500 mb-6 mx-auto">
+            <div className="bg-white/60 dark:bg-black/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-14 h-14 bg-green-50 dark:bg-green-900/20 rounded-2xl flex items-center justify-center text-green-500 dark:text-green-400 mb-6 mx-auto">
                     <Trophy size={24} />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-3">Win Prizes</h3>

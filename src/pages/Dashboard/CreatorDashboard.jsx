@@ -79,13 +79,13 @@ const CreatorDashboard = () => {
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Creator Dashboard</h1>
-            <p className="text-gray-600 mt-2">Manage your contests and participants</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Creator Dashboard</h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">Manage your contests and participants</p>
           </div>
           <div className="flex gap-3">
              <button
               onClick={() => setIsEditModalOpen(true)}
-              className="px-4 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium"
+              className="px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all font-medium"
             >
               Edit Profile
             </button>
@@ -106,65 +106,65 @@ const CreatorDashboard = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-800 transition-colors duration-300">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Contests</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{stats.totalContests}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Total Contests</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">{stats.totalContests}</p>
               </div>
-              <div className="p-3 bg-[#4a37d8]/10 rounded-lg">
-                <Calendar className="h-6 w-6 text-[#4a37d8]" />
+              <div className="p-3 bg-[#4a37d8]/10 dark:bg-[#4a37d8]/20 rounded-lg">
+                <Calendar className="h-6 w-6 text-[#4a37d8] dark:text-[#6d5ce8]" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-800 transition-colors duration-300">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Pending</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{stats.pendingContests}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Pending</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">{stats.pendingContests}</p>
               </div>
-              <div className="p-3 bg-yellow-100 rounded-lg">
-                <Clock className="h-6 w-6 text-yellow-600" />
+              <div className="p-3 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg">
+                <Clock className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-800 transition-colors duration-300">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Confirmed</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{stats.confirmedContests}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Confirmed</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">{stats.confirmedContests}</p>
               </div>
-              <div className="p-3 bg-green-100 rounded-lg">
-                <CheckCircle className="h-6 w-6 text-green-600" />
+              <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
+                <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-800 transition-colors duration-300">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Participants</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{stats.totalParticipants}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Participants</p>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">{stats.totalParticipants}</p>
               </div>
-              <div className="p-3 bg-[#6928d9]/10 rounded-lg">
-                <Users className="h-6 w-6 text-[#6928d9]" />
+              <div className="p-3 bg-[#6928d9]/10 dark:bg-[#6928d9]/20 rounded-lg">
+                <Users className="h-6 w-6 text-[#6928d9] dark:text-[#8b5cf6]" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Contests List */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900">My Contests</h2>
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 transition-colors duration-300">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-800">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">My Contests</h2>
           </div>
           
           {contests.length === 0 ? (
             <div className="p-12 text-center">
               <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 mb-4">You haven't created any contests yet</p>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">You haven't created any contests yet</p>
               <button
                 onClick={() => navigate('/contests/create')}
                 className="inline-block px-6 py-3 bg-linear-to-r from-[#4a37d8] to-[#6928d9] text-white rounded-lg hover:from-[#3b2db0] hover:to-[#5722b5] transition-all"
@@ -173,29 +173,29 @@ const CreatorDashboard = () => {
               </button>
             </div>
           ) : (
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-gray-200 dark:divide-gray-800">
               {contests.map((contest) => (
-                <div key={contest._id} className="p-6 hover:bg-gray-50 transition-colors">
+                <div key={contest._id} className="p-6 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                           {contest.name}
                         </h3>
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                           contest.status === 'confirmed' 
-                            ? 'bg-green-100 text-green-800'
+                            ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400'
                             : contest.status === 'pending'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-gray-100 text-gray-800'
+                            ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400'
+                            : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300'
                         }`}>
                           {contest.status}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-600 mb-3">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                         {contest.shortDescription}
                       </p>
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
+                      <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                         <span>Deadline: {new Date(contest.deadline).toLocaleDateString()}</span>
                         <span>Prize: ${contest.prizeMoney}</span>
                         <span>Participations: {contest.participantsCount || 0}</span>
@@ -204,14 +204,14 @@ const CreatorDashboard = () => {
                     <div className="ml-4 flex items-center gap-2">
                       <a
                         href={`/contests/${contest._id}`}
-                        className="px-4 py-2 text-sm font-medium text-[#4a37d8] hover:text-[#3b2db0] transition-colors"
+                        className="px-4 py-2 text-sm font-medium text-[#4a37d8] hover:text-[#3b2db0] dark:text-[#6d5ce8] dark:hover:text-[#8b5cf6] transition-colors"
                       >
                         View
                       </a>
                       {contest.status === 'pending' && (
                         <button
                           onClick={() => handleDeleteContest(contest._id)}
-                          className="px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 transition-colors"
+                          className="px-4 py-2 text-sm font-medium text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors"
                         >
                           Delete
                         </button>

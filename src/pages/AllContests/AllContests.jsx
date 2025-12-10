@@ -85,13 +85,13 @@ const AllContests = () => {
   const displayedContests = contests;
 
   return (
-    <div className="pt-24 pb-12 px-4 sm:px-8 lg:px-16 min-h-screen bg-white">
+    <div className="pt-24 pb-12 px-4 sm:px-8 lg:px-16 min-h-screen bg-white dark:bg-black transition-colors duration-300">
       {/* Header Section */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl lg:text-5xl font-extrabold text-[#1F2937] mb-4">
+        <h1 className="text-4xl lg:text-5xl font-extrabold text-[#1F2937] dark:text-white mb-4">
           All Contests
         </h1>
-        <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+        <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
           Discover exciting competitions across design, photography, writing,
           and more. Find your perfect challenge and start competing today.
         </p>
@@ -103,7 +103,7 @@ const AllContests = () => {
           <input
             type="text"
             placeholder="Search contests..."
-            className="w-full rounded-full border text-black border-gray-200 bg-gray-50 px-12 py-2 text-sm md:text-base outline-none focus:border-gray-400 focus:bg-white transition"
+            className="w-full rounded-full border text-black dark:text-white border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-12 py-2 text-sm md:text-base outline-none focus:border-gray-400 dark:focus:border-gray-600 focus:bg-white dark:focus:bg-gray-900 transition"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -129,7 +129,7 @@ const AllContests = () => {
           {/* Category dropdown */}
           <div className="relative">
             <select
-              className="appearance-none rounded-full border border-gray-200 bg-white text-black px-4 pr-10 py-2 text-sm md:text-base outline-none focus:border-gray-400 cursor-pointer"
+              className="appearance-none rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white px-4 pr-10 py-2 text-sm md:text-base outline-none focus:border-gray-400 dark:focus:border-gray-600 cursor-pointer"
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
@@ -148,7 +148,7 @@ const AllContests = () => {
           {/* Sort dropdown (Ending Soon etc.) */}
           <div className="relative">
             <select
-              className="appearance-none rounded-full border border-gray-200 bg-white text-black px-4 pr-10 py-2 text-sm md:text-base outline-none focus:border-gray-400 cursor-pointer"
+              className="appearance-none rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-black dark:text-white px-4 pr-10 py-2 text-sm md:text-base outline-none focus:border-gray-400 dark:focus:border-gray-600 cursor-pointer"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
@@ -164,14 +164,14 @@ const AllContests = () => {
           </div>
 
           {/* View toggle (grid / list) */}
-          <div className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-1 py-1">
+          <div className="flex items-center gap-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-1 py-1">
             <button
               type="button"
               onClick={() => setViewMode("grid")}
               className={`p-2 rounded-full transition ${
                 viewMode === "grid"
                   ? "bg-[#f59f0a] text-white"
-                  : "text-gray-500 hover:bg-gray-100"
+                  : "text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
             >
               {/* grid icon */}
@@ -196,7 +196,7 @@ const AllContests = () => {
               className={`p-2 rounded-full transition ${
                 viewMode === "list"
                   ? "bg-[#f59f0a] text-white"
-                  : "text-gray-500 hover:bg-gray-100"
+                  : "text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
             >
               {/* list icon */}
@@ -235,7 +235,7 @@ const AllContests = () => {
           <button
             key={tag}
             type="button"
-            className="px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs font-medium text-gray-600 hover:bg-gray-100"
+            className="px-3 py-1 rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-xs font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             onClick={() => setSearchTerm(tag)}
           >
             #{tag}
@@ -261,7 +261,7 @@ const AllContests = () => {
         </div>
       ) : (
         <div className="text-center py-20">
-          <h3 className="text-4xl font-bold text-gray-400">
+          <h3 className="text-4xl font-bold text-gray-400 dark:text-gray-600">
             No contests found
           </h3>
           <p className="text-gray-500 mt-2">

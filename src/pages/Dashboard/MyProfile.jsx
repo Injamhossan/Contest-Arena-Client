@@ -12,7 +12,7 @@ const MyProfile = () => {
         <DashboardLayout>
             <div className="max-w-4xl mx-auto">
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8">
-                    <div className="h-32 bg-gradient-to-r from-[#4a37d8] to-[#3b2cb8]"></div>
+                    <div className="h-32 bg-linear-to-r from-[#4a37d8] to-[#3b2cb8]"></div>
                     <div className="px-8 pb-8">
                         <div className="relative flex justify-between items-end -mt-12 mb-6">
                             <div className="relative">
@@ -46,7 +46,7 @@ const MyProfile = () => {
                         <h3 className="text-lg font-bold text-gray-900 mb-6">Contact Information</h3>
                         <div className="space-y-4">
                             <div className="flex items-center gap-4 text-gray-600">
-                                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
+                                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
                                     <Mail className="w-5 h-5 text-blue-500" />
                                 </div>
                                 <div>
@@ -56,7 +56,7 @@ const MyProfile = () => {
                             </div>
                             
                             <div className="flex items-center gap-4 text-gray-600">
-                                <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center flex-shrink-0">
+                                <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center shrink-0">
                                     <MapPin className="w-5 h-5 text-purple-500" />
                                 </div>
                                 <div>
@@ -66,7 +66,7 @@ const MyProfile = () => {
                             </div>
 
                             <div className="flex items-center gap-4 text-gray-600">
-                                <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
+                                <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center shrink-0">
                                     <Calendar className="w-5 h-5 text-green-500" />
                                 </div>
                                 <div>

@@ -72,7 +72,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="py-1 sticky top-0 z-50 bg-white/90 dark:bg-base-100/90 backdrop-blur shadow-md dark:shadow-sm dark:border-b dark:border-gray-800">
+    <div className="py-1 sticky top-0 z-50 bg-white/90 dark:bg-black/90 backdrop-blur shadow-md dark:shadow-sm dark:border-b dark:border-gray-800">
       <div className="navbar mx-auto max-w-[1800px] ]">
         <div className="navbar-start">
           <div className="dropdown">
@@ -121,13 +121,13 @@ const Navbar = () => {
 
               <button
                 onClick={() => setShowDropdown(!showDropdown)}
-                className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-gray-100 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors border border-transparent dark:border-gray-700"
               >
                 {user.photoURL ? (
                   <img
                     src={user.photoURL}
                     alt={user.name}
-                    className="h-8 w-8 rounded-full"
+                    className="h-8 w-8 rounded-full border border-gray-200 dark:border-gray-600"
                   />
                 ) : (
                   <div className="h-8 w-8 rounded-full bg-linear-to-r from-[#4a37d8] to-[#6928d9] flex items-center justify-center text-white font-semibold">
@@ -140,7 +140,7 @@ const Navbar = () => {
               </button>
 
               {showDropdown && (
-                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-base-200 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50">
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800 py-2 z-50">
                   <Link
                     to="/dashboard"
                     onClick={() => setShowDropdown(false)}
@@ -157,7 +157,7 @@ const Navbar = () => {
                   </Link>
                   <button
                     onClick={handleSignOut}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors text-left"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-left"
                   >
                     <LogOut className="h-4 w-4" />
                     Sign Out

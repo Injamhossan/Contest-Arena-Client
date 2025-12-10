@@ -59,8 +59,8 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#F3F4F6] py-12 px-4 sm:px-6 lg:px-8 font-urbanist">
-            <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-xl">
+        <div className="min-h-screen flex items-center justify-center bg-[#F3F4F6] dark:bg-black py-12 px-4 sm:px-6 lg:px-8 font-urbanist transition-colors duration-300">
+            <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-900 p-10 rounded-2xl shadow-xl dark:border dark:border-gray-800">
                 {/* Header */}
                 <div className="text-center">
                     <div className="flex justify-center items-center gap-2 mb-2">
@@ -69,10 +69,10 @@ const Register = () => {
                             ContestArena
                         </span>
                     </div>
-                    <h2 className="mt-6 text-3xl font-bold text-gray-900">
+                    <h2 className="mt-6 text-3xl font-bold text-gray-900 dark:text-white">
                         Create Account
                     </h2>
-                    <p className="mt-2 text-sm text-gray-600">
+                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                         Join the arena and start competing
                     </p>
                 </div>
@@ -82,7 +82,7 @@ const Register = () => {
                     <div className="space-y-4">
                         {/* Full Name Input */}
                          <div>
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 Full Name
                             </label>
                             <div className="relative">
@@ -93,7 +93,7 @@ const Register = () => {
                                     id="name"
                                     type="text"
                                     {...register("name", { required: "Full Name is required" })}
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 text-black rounded-lg focus:ring-primary focus:border-primary sm:text-sm bg-gray-50 outline-none transition-all focus:bg-white"
+                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-700 text-black dark:text-white rounded-lg focus:ring-primary focus:border-primary sm:text-sm bg-gray-50 dark:bg-gray-800 outline-none transition-all focus:bg-white dark:focus:bg-gray-900"
                                     placeholder="John Doe"
                                 />
                             </div>
@@ -102,7 +102,7 @@ const Register = () => {
 
                         {/* Image URL Input */}
                         <div>
-                            <label htmlFor="photoURL" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="photoURL" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 Image URL
                             </label>
                             <div className="relative">
@@ -113,7 +113,7 @@ const Register = () => {
                                     id="photoURL"
                                     type="url"
                                     {...register("photoURL", { required: "Image URL is required" })}
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 text-black rounded-lg focus:ring-primary focus:border-primary sm:text-sm bg-gray-50 outline-none transition-all focus:bg-white"
+                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-700 text-black dark:text-white rounded-lg focus:ring-primary focus:border-primary sm:text-sm bg-gray-50 dark:bg-gray-800 outline-none transition-all focus:bg-white dark:focus:bg-gray-900"
                                     placeholder="https://example.com/photo.jpg"
                                 />
                             </div>
@@ -122,7 +122,7 @@ const Register = () => {
 
                         {/* Role Selection */}
                         <div>
-                            <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="role" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 I want to join as
                             </label>
                             <div className="grid grid-cols-2 gap-4">
@@ -134,11 +134,11 @@ const Register = () => {
                                         className="peer sr-only"
                                         defaultChecked
                                     />
-                                    <div className="rounded-lg border border-gray-300 bg-white p-4 hover:bg-gray-50 peer-checked:border-[#4a37d8] peer-checked:ring-2 peer-checked:ring-[#4a37d8] peer-checked:ring-offset-2 transition-all text-center">
+                                    <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 hover:bg-gray-50 dark:hover:bg-gray-700 peer-checked:border-[#4a37d8] peer-checked:ring-2 peer-checked:ring-[#4a37d8] peer-checked:ring-offset-2 transition-all text-center">
                                         <div className="mx-auto mb-2 w-8 h-8 text-gray-400 peer-checked:text-[#4a37d8]">
                                             <UserCircle size={32} />
                                         </div>
-                                        <span className="block text-sm font-medium text-gray-900">Participant</span>
+                                        <span className="block text-sm font-medium text-gray-900 dark:text-white">Participant</span>
                                     </div>
                                 </label>
                                 <label className="cursor-pointer">
@@ -148,11 +148,11 @@ const Register = () => {
                                         {...register("role", { required: "Please select a role" })}
                                         className="peer sr-only"
                                     />
-                                    <div className="rounded-lg border border-gray-300 bg-white p-4 hover:bg-gray-50 peer-checked:border-[#4a37d8] peer-checked:ring-2 peer-checked:ring-[#4a37d8] peer-checked:ring-offset-2 transition-all text-center">
+                                    <div className="rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 hover:bg-gray-50 dark:hover:bg-gray-700 peer-checked:border-[#4a37d8] peer-checked:ring-2 peer-checked:ring-[#4a37d8] peer-checked:ring-offset-2 transition-all text-center">
                                          <div className="mx-auto mb-2 w-8 h-8 text-gray-400 peer-checked:text-[#4a37d8]">
                                             <Briefcase size={32} />
                                         </div>
-                                        <span className="block text-sm font-medium text-gray-900">Contest Creator</span>
+                                        <span className="block text-sm font-medium text-gray-900 dark:text-white">Contest Creator</span>
                                     </div>
                                 </label>
                             </div>
@@ -161,7 +161,7 @@ const Register = () => {
 
                         {/* Email Input */}
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 Email
                             </label>
                             <div className="relative">
@@ -172,7 +172,7 @@ const Register = () => {
                                     id="email"
                                     type="email"
                                     {...register("email", { required: "Email is required" })}
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 text-black rounded-lg focus:ring-primary focus:border-primary sm:text-sm bg-gray-50 outline-none transition-all focus:bg-white"
+                                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-700 text-black dark:text-white rounded-lg focus:ring-primary focus:border-primary sm:text-sm bg-gray-50 dark:bg-gray-800 outline-none transition-all focus:bg-white dark:focus:bg-gray-900"
                                     placeholder="you@example.com"
                                 />
                             </div>
@@ -181,7 +181,7 @@ const Register = () => {
 
                         {/* Password Input */}
                         <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 Password
                             </label>
                             <div className="relative">
@@ -198,7 +198,7 @@ const Register = () => {
                                             message: "Password must be at least 6 characters"
                                         }
                                     })}
-                                    className="block w-full pl-10 pr-10 py-3 border border-gray-300 text-black rounded-lg focus:ring-primary focus:border-primary sm:text-sm bg-gray-50 outline-none transition-all focus:bg-white"
+                                    className="block w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-gray-700 text-black dark:text-white rounded-lg focus:ring-primary focus:border-primary sm:text-sm bg-gray-50 dark:bg-gray-800 outline-none transition-all focus:bg-white dark:focus:bg-gray-900"
                                     placeholder="••••••••"
                                 />
                                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -228,10 +228,10 @@ const Register = () => {
 
                     <div className="relative">
                         <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-300"></div>
+                            <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
                         </div>
                         <div className="relative flex justify-center text-sm">
-                            <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                            <span className="px-2 bg-white dark:bg-gray-900 text-gray-500">Or continue with</span>
                         </div>
                     </div>
 
@@ -241,7 +241,7 @@ const Register = () => {
                             type="button"
                             onClick={handleGoogleSignIn}
                             disabled={loading}
-                            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             <FcGoogle className="h-5 w-5" />
                             <span>Continue with Google</span>
@@ -251,7 +251,7 @@ const Register = () => {
 
                 {/* Footer Links */}
                 <div className="text-center mt-4">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                         Already have an account?{' '}
                         <Link to="/login" className="font-medium text-[#4a37d8] hover:text-[#3b2db0] transition-colors">
                             Sign in

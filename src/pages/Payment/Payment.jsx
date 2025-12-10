@@ -42,7 +42,7 @@ const Payment = () => {
 
     if (loading) {
         return (
-             <div className="min-h-screen flex justify-center items-center bg-gray-50">
+             <div className="min-h-screen flex justify-center items-center bg-gray-50 dark:bg-black">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
             </div>
         );
@@ -52,22 +52,22 @@ const Payment = () => {
 
     return (
         <DashboardLayout>
-        <div className="py-12 px-4 sm:px-6 lg:px-8">
+        <div className="py-12 px-4 sm:px-6 lg:px-8 dark:bg-black min-h-screen">
             <div className="max-w-lg mx-auto">
                 <button 
                     onClick={() => navigate(-1)}
-                    className="flex items-center text-gray-600 hover:text-gray-900 mb-8 transition-colors"
+                    className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-8 transition-colors"
                 >
                     <ArrowLeft className="h-5 w-5 mr-2" />
                     Back
                 </button>
 
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900">Complete Payment</h1>
-                    <p className="mt-2 text-gray-600">Secure your spot in <span className="font-bold">{contest.name}</span></p>
-                    <div className="mt-4 p-4 bg-purple-50 rounded-xl border border-purple-100 inline-block">
-                         <span className="text-sm text-purple-600 uppercase tracking-wide font-semibold">Total to Pay</span>
-                         <div className="text-3xl font-extrabold text-purple-700">${contest.price}</div>
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Complete Payment</h1>
+                    <p className="mt-2 text-gray-600 dark:text-gray-400">Secure your spot in <span className="font-bold">{contest.name}</span></p>
+                    <div className="mt-4 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-100 dark:border-purple-800 inline-block">
+                         <span className="text-sm text-purple-600 dark:text-purple-400 uppercase tracking-wide font-semibold">Total to Pay</span>
+                         <div className="text-3xl font-extrabold text-purple-700 dark:text-purple-300">${contest.price}</div>
                     </div>
                 </div>
 

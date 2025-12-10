@@ -23,7 +23,7 @@ const CategoryCard = ({ icon: Icon, label, color }) => {
   return (
     <div 
       onClick={handleClick}
-      className="bg-white dark:bg-base-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-4 group border border-transparent hover:border-gray-100 dark:hover:border-gray-700"
+      className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col items-center justify-center gap-4 group border border-transparent hover:border-gray-100 dark:border-gray-800 dark:hover:border-gray-700"
     >
       <div 
         className={`p-4 rounded-xl transition-colors duration-300 group-hover:scale-110 transform`}
@@ -57,7 +57,7 @@ const CategorySection = () => {
   ];
 
   return (
-    <section className="py-16 px-4 bg-[#FAFAFA] dark:bg-base-200 font-urbanist">
+    <section className="py-16 px-4 bg-[#FAFAFA] dark:bg-black font-urbanist transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">

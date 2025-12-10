@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { useTheme } from "../../contexts/ThemeContext";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import toast from "react-hot-toast";
@@ -11,6 +12,7 @@ const CheckoutForm = ({ contestId, price, onSuccess }) => {
   const [error, setError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
   const [processing, setProcessing] = useState(false);
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -102,21 +104,21 @@ const CheckoutForm = ({ contestId, price, onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto p-6 bg-white rounded-xl shadow-md">
+    <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto p-6 bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-100 dark:border-gray-800 transition-colors duration-300">
        <div className="mb-6 text-center">
-            <h3 className="text-lg font-medium text-gray-900">Pay to Publish</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Pay to Publish</h3>
             <p className="text-3xl font-bold text-[#4a37d8] mt-2">${price}</p>
        </div>
       
-      <div className="mb-6 p-4 border border-gray-200 rounded-lg">
+      <div className="mb-6 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 transition-colors duration-300">
         <CardElement
             options={{
             style: {
                 base: {
                 fontSize: "16px",
-                color: "#424770",
+                color: theme === 'dark' ? '#ffffff' : '#424770',
                 "::placeholder": {
-                    color: "#aab7c4",
+                    color: theme === 'dark' ? '#9ca3af' : '#aab7c4',
                 },
                 },
                 invalid: {

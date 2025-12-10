@@ -56,12 +56,12 @@ const About = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 via-white to-blue-50">
+        <div className="min-h-screen bg-linear-to-br from-gray-50 via-white to-blue-50 dark:from-black dark:via-gray-900 dark:to-slate-900 transition-colors duration-300">
             {/* Hero Section */}
             <section className="relative py-20 px-4 overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                    <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-100/50 rounded-full blur-[100px]" />
-                    <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[100px]" />
+                    <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-100/50 dark:bg-purple-900/20 rounded-full blur-[100px]" />
+                    <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 dark:bg-blue-900/20 rounded-full blur-[100px]" />
                 </div>
 
                 <div className="container mx-auto max-w-6xl relative z-10">
@@ -77,7 +77,7 @@ const About = () => {
                             transition={{ duration: 0.6, delay: 0.1 }}
                             className="text-5xl md:text-7xl font-bold mb-6 font-urbanist"
                         >
-                            <span className="text-gray-900">About </span>
+                            <span className="text-gray-900 dark:text-white">About </span>
                             <span className="bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] bg-clip-text text-transparent">
                                 Contest Arena
                             </span>
@@ -86,7 +86,7 @@ const About = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.2 }}
-                            className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+                            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
                         >
                             We are the ultimate platform for creative competitions. Join thousands of creators 
                             in design, photography, writing, and more. Build your portfolio and win amazing prizes.
@@ -106,15 +106,15 @@ const About = () => {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                                className="bg-white/60 backdrop-blur-sm p-6 rounded-2xl border border-gray-100 shadow-sm text-center hover:shadow-md transition-all"
+                                className="bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm p-6 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm text-center hover:shadow-md transition-all"
                             >
                                 <div className="flex justify-center mb-3">
                                     <div className="p-3 rounded-xl bg-linear-to-br from-[#4a37d8] to-[#6928d9] text-white">
                                         <stat.icon size={24} />
                                     </div>
                                 </div>
-                                <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
-                                <div className="text-sm text-gray-600">{stat.label}</div>
+                                <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{stat.value}</div>
+                                <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
                             </motion.div>
                         ))}
                     </motion.div>
@@ -122,10 +122,10 @@ const About = () => {
             </section>
 
             {/* Mission Section */}
-            <section className="py-20 px-4 bg-white relative overflow-hidden">
+            <section className="py-20 px-4 bg-white dark:bg-black relative overflow-hidden transition-colors duration-300">
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                    <div className="absolute top-1/4 right-[-10%] w-[400px] h-[400px] bg-purple-100/30 rounded-full blur-[100px]" />
-                    <div className="absolute bottom-1/4 left-[-10%] w-[400px] h-[400px] bg-blue-100/30 rounded-full blur-[100px]" />
+                    <div className="absolute top-1/4 right-[-10%] w-[400px] h-[400px] bg-purple-100/30 dark:bg-purple-900/10 rounded-full blur-[100px]" />
+                    <div className="absolute bottom-1/4 left-[-10%] w-[400px] h-[400px] bg-blue-100/30 dark:bg-blue-900/10 rounded-full blur-[100px]" />
                 </div>
                 
                 <div className="container mx-auto max-w-6xl relative z-10">
@@ -137,12 +137,12 @@ const About = () => {
                         className="text-center mb-12"
                     >
                         <h2 className="text-4xl md:text-5xl font-bold mb-6 font-urbanist">
-                            <span className="text-gray-900">Our </span>
+                            <span className="text-gray-900 dark:text-white">Our </span>
                             <span className="bg-linear-to-r from-[#4a37d8] to-[#6928d9] bg-clip-text text-transparent">
                                 Mission
                             </span>
                         </h2>
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
+                        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed mb-8">
                             To create a platform where creativity meets competition, where talent is recognized, 
                             and where creators can showcase their skills to the world. We believe everyone has 
                             a story to tell and a masterpiece to create.
@@ -156,13 +156,13 @@ const About = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.1 }}
-                            className="bg-linear-to-br from-blue-50 to-purple-50 p-8 rounded-2xl border border-blue-100 shadow-sm hover:shadow-lg transition-all"
+                            className="bg-linear-to-br from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-purple-900/10 p-8 rounded-2xl border border-blue-100 dark:border-blue-900/30 shadow-sm hover:shadow-lg transition-all"
                         >
                             <div className="w-16 h-16 bg-linear-to-r from-[#4a37d8] to-[#6928d9] rounded-2xl flex items-center justify-center text-white mb-6 mx-auto">
                                 <Target size={28} />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Empower Creators</h3>
-                            <p className="text-gray-600 text-center leading-relaxed">
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 text-center">Empower Creators</h3>
+                            <p className="text-gray-600 dark:text-gray-300 text-center leading-relaxed">
                                 Provide a platform where every creator can showcase their unique talents and gain recognition
                             </p>
                         </motion.div>
@@ -172,13 +172,13 @@ const About = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.2 }}
-                            className="bg-linear-to-br from-purple-50 to-pink-50 p-8 rounded-2xl border border-purple-100 shadow-sm hover:shadow-lg transition-all"
+                            className="bg-linear-to-br from-purple-50 to-pink-50 dark:from-purple-900/10 dark:to-pink-900/10 p-8 rounded-2xl border border-purple-100 dark:border-purple-900/30 shadow-sm hover:shadow-lg transition-all"
                         >
                             <div className="w-16 h-16 bg-linear-to-r from-[#6928d9] to-[#1f3092] rounded-2xl flex items-center justify-center text-white mb-6 mx-auto">
                                 <Shield size={28} />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Fair Competition</h3>
-                            <p className="text-gray-600 text-center leading-relaxed">
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 text-center">Fair Competition</h3>
+                            <p className="text-gray-600 dark:text-gray-300 text-center leading-relaxed">
                                 Ensure transparent judging and fair evaluation for all participants
                             </p>
                         </motion.div>
@@ -188,13 +188,13 @@ const About = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.3 }}
-                            className="bg-linear-to-br from-amber-50 to-orange-50 p-8 rounded-2xl border border-amber-100 shadow-sm hover:shadow-lg transition-all"
+                            className="bg-linear-to-br from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 p-8 rounded-2xl border border-amber-100 dark:border-amber-900/30 shadow-sm hover:shadow-lg transition-all"
                         >
                             <div className="w-16 h-16 bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] rounded-2xl flex items-center justify-center text-white mb-6 mx-auto">
                                 <Heart size={28} />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Build Community</h3>
-                            <p className="text-gray-600 text-center leading-relaxed">
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 text-center">Build Community</h3>
+                            <p className="text-gray-600 dark:text-gray-300 text-center leading-relaxed">
                                 Foster a supportive community where creators can learn, grow, and inspire each other
                             </p>
                         </motion.div>
@@ -232,7 +232,7 @@ const About = () => {
                         className="text-center mb-16"
                     >
                         <h2 className="text-4xl md:text-5xl font-bold mb-6 font-urbanist">
-                            <span className="text-gray-900">Why Choose </span>
+                            <span className="text-gray-900 dark:text-white">Why Choose </span>
                             <span className="bg-linear-to-r from-[#4a37d8] to-[#6928d9] bg-clip-text text-transparent">
                                 Us?
                             </span>
@@ -247,13 +247,13 @@ const About = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="bg-white/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group"
+                                className="bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group"
                             >
                                 <div className={`w-14 h-14 ${feature.bg} rounded-2xl flex items-center justify-center ${feature.color} mb-6 group-hover:scale-110 transition-transform duration-300`}>
                                     <feature.icon size={24} />
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-                                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
+                                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{feature.description}</p>
                             </motion.div>
                         ))}
                     </div>

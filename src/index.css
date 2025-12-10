@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sora:wght@100..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
 
 @import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
 @plugin "daisyui" {
-  themes: light --default, dark --prefersdark, cupcake;
+  themes: light, dark, cupcake;
 }
 
 @theme {
@@ -16,13 +17,20 @@
 }
 
 :root {
-  background-color: white;
+  background-color: #ffffff;
   color: #1f2937; /* gray-800 */
 }
 
-.dark :root {
-  background-color: #0f172a; /* slate-900 or similar dark color */
-  color: #f3f4f6; /* gray-100 */
+:root[data-theme="dark"],
+.dark {
+  background-color: #0f172a; /* Pure black as requested */
+  color: #ffffff;
+}
+
+/* Ensure body also takes safely */
+body {
+    background-color: inherit;
+    color: inherit;
 }
 
 /* Smooth transition for theme switching */

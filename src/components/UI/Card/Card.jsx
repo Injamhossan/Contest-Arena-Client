@@ -56,7 +56,7 @@ const Card = ({ item }) => {
 
 
     return (
-        <div className="card bg-white dark:bg-base-200 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col h-full">
+        <div className="card bg-white dark:bg-gray-900 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col h-full">
             {/* Image Header with Badges */}
             <div className="relative h-48 w-full overflow-hidden group">
                 <img
@@ -89,33 +89,33 @@ const Card = ({ item }) => {
                 </h2>
 
                 {/* Description */}
-                <p className="text-gray-500 text-sm mb-4 line-clamp-2 leading-relaxed">
+                <p className="text-gray-500 dark:text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed">
                     {description?.substring(0, 100)}...
                 </p>
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-50 text-gray-500 text-xs rounded-md border border-gray-100">
+                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-xs rounded-md border border-gray-100 dark:border-gray-700">
                         <Hash size={10} /> {contestType.toLowerCase()}
                     </span>
-                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-50 text-gray-500 text-xs rounded-md border border-gray-100">
+                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-xs rounded-md border border-gray-100 dark:border-gray-700">
                          Entry: ${price}
                     </span>
                 </div>
 
                 {/* Details Row */}
-                <div className="flex justify-between items-center text-sm font-medium text-gray-700 mb-2">
+                <div className="flex justify-between items-center text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                      <div className="flex items-center gap-2">
-                         <span className='text-xl text-gray-400'>$</span> <span className="text-base text-gray-500">Entry: ${price}</span>
+                         <span className='text-xl text-gray-400'>$</span> <span className="text-base text-gray-500 dark:text-gray-400">Entry: ${price}</span>
                      </div>
-                     <div className="flex items-center gap-1 text-gray-500">
+                     <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
                         <Users size={16} />
                         <span>{participantsCount}/{targetParticipants}</span>
                      </div>
                 </div>
 
                 {/* Progress Bar */}
-                <div className="w-full bg-gray-100 rounded-full h-2 mb-2">
+                <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2 mb-2">
                     <div 
                         className="bg-cyan-500 h-2 rounded-full transition-all duration-500" 
                         style={{ width: `${progressPercentage}%` }}
@@ -129,29 +129,29 @@ const Card = ({ item }) => {
                 <div className="mt-auto"></div>
 
                 {/* Countdown Timer */}
-                <div className="flex items-center gap-2 mb-4 text-gray-700">
+                <div className="flex items-center gap-2 mb-4 text-gray-700 dark:text-gray-300">
                     <Clock size={18} className="text-gray-400" />
-                    <span className="text-sm font-medium text-gray-500">Time Remaining</span>
+                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Time Remaining</span>
                 </div>
                 
                 <div className="flex gap-4 mb-6">
                     <div className="flex flex-col">
-                        <span className="text-lg font-bold text-gray-900 leading-none">{formatTime(timeLeft.days)}</span>
+                        <span className="text-lg font-bold text-gray-900 dark:text-white leading-none">{formatTime(timeLeft.days)}</span>
                         <span className="text-[10px] uppercase text-gray-400 font-bold mt-1">Days</span>
                     </div>
-                    <div className="h-8 w-px bg-gray-200"></div>
+                    <div className="h-8 w-px bg-gray-200 dark:bg-gray-700"></div>
                      <div className="flex flex-col">
-                        <span className="text-lg font-bold text-gray-900 leading-none">{formatTime(timeLeft.hours)}</span>
+                        <span className="text-lg font-bold text-gray-900 dark:text-white leading-none">{formatTime(timeLeft.hours)}</span>
                         <span className="text-[10px] uppercase text-gray-400 font-bold mt-1">Hrs</span>
                     </div>
-                     <div className="h-8 w-px bg-gray-200"></div>
+                    <div className="h-8 w-px bg-gray-200 dark:bg-gray-700"></div>
                      <div className="flex flex-col">
-                        <span className="text-lg font-bold text-gray-900 leading-none">{formatTime(timeLeft.minutes)}</span>
+                        <span className="text-lg font-bold text-gray-900 dark:text-white leading-none">{formatTime(timeLeft.minutes)}</span>
                         <span className="text-[10px] uppercase text-gray-400 font-bold mt-1">Mins</span>
                     </div>
-                     <div className="h-8 w-px bg-gray-200"></div>
+                    <div className="h-8 w-px bg-gray-200 dark:bg-gray-700"></div>
                      <div className="flex flex-col">
-                        <span className="text-lg font-bold text-gray-900 leading-none">{formatTime(timeLeft.seconds)}</span>
+                        <span className="text-lg font-bold text-gray-900 dark:text-white leading-none">{formatTime(timeLeft.seconds)}</span>
                         <span className="text-[10px] uppercase text-gray-400 font-bold mt-1">Secs</span>
                     </div>
                 </div>

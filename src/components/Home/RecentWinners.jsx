@@ -23,7 +23,7 @@ const RecentWinners = () => {
     }
 
     return (
-        <section className="py-20 px-4 bg-white dark:bg-base-100 relative overflow-hidden">
+        <section className="py-20 px-4 bg-white dark:bg-black relative overflow-hidden">
              {/* Background Elements */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute top-[-5%] right-[-5%] w-[300px] h-[300px] bg-yellow-100/50 dark:bg-yellow-900/10 rounded-full blur-[80px]" />
@@ -94,9 +94,9 @@ const RecentWinners = () => {
                         ))}
                     </div>
                 ) : (
-                     <div className="text-center py-16 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-                        <Trophy size={48} className="mx-auto text-gray-300 mb-4" />
-                        <p className="text-gray-500 text-lg">No winners announced yet. Be the first champion!</p>
+                     <div className="text-center py-16 bg-gray-50 dark:bg-gray-800 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+                        <Trophy size={48} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
+                        <p className="text-gray-500 dark:text-gray-400 text-lg">No winners announced yet. Be the first champion!</p>
                     </div>
                 )}
             </div>

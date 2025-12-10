@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <div className="bg-white dark:bg-base-100 px-10 pt-10 border-t border-gray-100 dark:border-gray-800 transition-colors duration-300">
       <div>
-      <footer className="footer sm:footer-horizontal mx-auto max-w-[1780px] text-gray-600 mb-6">
+      <footer className="footer sm:footer-horizontal mx-auto max-w-[1780px] text-gray-600 dark:text-gray-400 mb-6">
 
         {/* Brand */}
         <aside>
@@ -28,7 +28,7 @@ const Footer = () => {
 
         {/* Services */}
         <nav>
-          <h6 className="footer-title text-gray-700">Services</h6>
+          <h6 className="footer-title text-gray-900 dark:text-white opacity-100 mb-4">Services</h6>
           <a className="link link-hover">Branding</a>
           <a className="link link-hover">Design</a>
           <a className="link link-hover">Marketing</a>
@@ -37,7 +37,7 @@ const Footer = () => {
 
         {/* Company */}
         <nav>
-          <h6 className="footer-title text-gray-700">Company</h6>
+          <h6 className="footer-title text-gray-900 dark:text-white opacity-100 mb-4">Company</h6>
           <a className="link link-hover">About us</a>
           <a className="link link-hover">Contact</a>
           <a className="link link-hover">Jobs</a>
@@ -46,7 +46,7 @@ const Footer = () => {
 
         {/* Legal */}
         <nav>
-          <h6 className="footer-title text-gray-700">Legal</h6>
+          <h6 className="footer-title text-gray-900 dark:text-white opacity-100 mb-4">Legal</h6>
           <a className="link link-hover">Terms of use</a>
           <a className="link link-hover">Privacy policy</a>
           <a className="link link-hover">Cookie policy</a>
@@ -54,7 +54,7 @@ const Footer = () => {
 
         {/* Social */}
         <nav>
-          <h6 className="footer-title text-gray-700">Social</h6>
+          <h6 className="footer-title text-gray-900 dark:text-white opacity-100 mb-4">Social</h6>
           <div className="flex gap-3 items-center">
             <img src={FaceBook} alt="Facebook Logo" className="h-7 hover:opacity-70 cursor-pointer transition" />
             <img src={Twitter} alt="Twitter Logo" className="h-7 hover:opacity-70 cursor-pointer transition" />
@@ -66,9 +66,9 @@ const Footer = () => {
       </div>
 
       {/* Centered Copyright */}
-      <hr />
+      <hr className="border-gray-200 dark:border-gray-800" />
       <div className="mx-auto max-w-[1780px] my-5 py-5">
-        <p className="text-center text-gray-700 font-medium">
+        <p className="text-center text-gray-600 dark:text-gray-400 font-medium">
           © {new Date().getFullYear()} Contest Arena — All Rights Reserved.
         </p>
       </div>

@@ -10,7 +10,7 @@ const EditProfileModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     name: user?.name || '',
     photoURL: user?.photoURL || '',
-    address: user?.address || '',
+    bio: user?.bio || '',
   });
 
   if (!isOpen) return null;
@@ -98,7 +98,7 @@ const EditProfileModal = ({ isOpen, onClose }) => {
 
           {/* Address Input */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Address</label>
+            <label className="text-sm font-medium text-gray-700">Bio</label>
             <textarea
               name="address"
               value={formData.address}

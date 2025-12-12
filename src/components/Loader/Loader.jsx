@@ -78,7 +78,7 @@ export const Loader4 = () => {
                 {[0, 1, 2, 3].map((i) => (
                     <motion.div
                         key={i}
-                        className="absolute w-4 h-4 rounded-full bg-gradient-to-r from-[#4a37d8] to-[#6928d9]"
+                        className="absolute w-4 h-4 rounded-full bg-linear-to-r from-[#4a37d8] to-[#6928d9]"
                         style={{
                             top: '50%',
                             left: '50%',
@@ -117,7 +117,7 @@ export const Loader5 = () => {
                 {[0, 1, 2, 3, 4].map((i) => (
                     <motion.div
                         key={i}
-                        className="w-2 h-12 bg-gradient-to-t from-[#4a37d8] to-[#6928d9] rounded-full"
+                        className="w-2 h-12 bg-linear-to-t from-[#4a37d8] to-[#6928d9] rounded-full"
                         animate={{
                             height: [12, 32, 12],
                             opacity: [0.5, 1, 0.5]

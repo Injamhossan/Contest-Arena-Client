@@ -99,7 +99,7 @@ const PaymentHistory = () => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {activeTab === 'participants' ? (
                                                 <div className="flex items-center">
-                                                    <div className="h-8 w-8 flex-shrink-0 rounded-full overflow-hidden bg-gray-100">
+                                                    <div className="h-8 w-8 shrink-0 rounded-full overflow-hidden bg-gray-100">
                                                         {payment.userId?.photoURL ? (
                                                             <img className="h-8 w-8 object-cover" src={payment.userId.photoURL} alt="" />
                                                         ) : (
@@ -115,7 +115,7 @@ const PaymentHistory = () => {
                                                 </div>
                                             ) : (
                                                 <div className="flex items-center">
-                                                    <div className="h-10 w-10 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
+                                                    <div className="h-10 w-10 shrink-0 rounded-lg overflow-hidden bg-gray-100">
                                                         {payment.contestId?.image ? (
                                                             <img className="h-10 w-10 object-cover" src={payment.contestId.image} alt="" />
                                                         ) : (

@@ -79,7 +79,7 @@ const SupportTeam = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-black dark:via-gray-900 dark:to-slate-900 transition-colors duration-300">
+        <div className="min-h-screen bg-linear-to-br from-gray-50 via-white to-blue-50 dark:from-black dark:via-gray-900 dark:to-slate-900 transition-colors duration-300">
             {/* Hero Section */}
             <section className="relative py-20 px-4 overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
@@ -243,7 +243,7 @@ const SupportTeam = () => {
                                 className="bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm p-6 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition-all"
                             >
                                 <div className="flex items-start gap-4">
-                                    <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex-shrink-0">
+                                    <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 shrink-0">
                                         <CheckCircle size={20} />
                                     </div>
                                     <div className="flex-1">

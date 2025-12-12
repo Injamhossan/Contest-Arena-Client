@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import api from '../../utils/api';
 import { Trophy, Calendar, Award, Target, Eye, Upload, Settings, TrendingUp as TrendingUpIcon } from 'lucide-react';
@@ -39,11 +40,14 @@ const UserDashboard = () => {
         
         // Calculate stats
         const total = data.length;
-        const wins = data.filter(p => p.status === 'winner').length;
+        // Check if winnerUserId matches the participant's userId
+        const wins = data.filter(p => p.contestId?.winnerUserId === p.userId).length;
+        
         const active = data.filter(p => 
-          new Date(p.contestId?.deadline) > new Date() && p.status !== 'winner'
+          new Date(p.contestId?.deadline) > new Date()
         ).length;
-        const losses = total - wins - active; // Simplistic calculation
+        
+        const losses = total - wins - active;
         const winRate = total > 0 ? Math.round((wins / total) * 100) : 0;
         
         setStats({
@@ -51,7 +55,7 @@ const UserDashboard = () => {
           activeContests: active,
           wins: wins,
           winRate: winRate,
-          losses: losses
+          losses: Math.max(0, losses) // Ensure no negative losses
         });
       }
     } catch (error) {
@@ -65,15 +69,18 @@ const UserDashboard = () => {
   // Chart Data
   const chartData = [
     { name: 'Wins', value: stats.wins },
-    { name: 'Losses', value: stats.losses }, // Using losses for the chart, or remaining
+    { name: 'Losses', value: stats.losses },
   ];
-  const COLORS = ['#f59f0a', '#e5e7eb']; // Amber for wins, Gray for others
+  const COLORS = ['#f59f0a', '#e5e7eb'];
 
   const filteredParticipations = participations.filter(p => {
+    const isWinner = p.contestId?.winnerUserId === p.userId;
     if (activeTab === 'active') {
-      return new Date(p.contestId?.deadline) > new Date() && p.status !== 'winner'; // Show current active ones
+      // Show contests that are still active (future deadline)
+      return new Date(p.contestId?.deadline) > new Date();
     }
-    return p.status === 'winner';
+    // Show only won contests
+    return isWinner;
   });
 
   if (loading) {
@@ -306,13 +313,13 @@ const UserDashboard = () => {
                     </div>
                     
                     <div className="flex items-center gap-3">
-                      <a
-                        href={`/contests/${item.contestId?._id}`}
+                      <Link
+                        to={`/contest-details/${item.contestId?._id}`}
                         className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
                         title="View Details"
                       >
                         <Eye className="w-5 h-5" />
-                      </a>
+                      </Link>
                       {activeTab === 'active' && (
                         <button
                           onClick={() => {

@@ -120,6 +120,8 @@ const ContestDetails = () => {
             .catch(() => toast.error('Failed to copy link'));
     };
 
+    const isClosed = contest.winnerUserId || new Date() > new Date(contest.deadline);
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-black font-urbanist pb-12 transition-colors duration-300">
             {/* Header Banner - Image Background */}
@@ -324,8 +326,16 @@ const ContestDetails = () => {
                             {/* CTA Button */}
                             {isRegistered ? (
                                 <button 
-                                    onClick={() => setIsSubmissionModalOpen(true)}
-                                    className="w-full btn bg-green-500 hover:bg-green-600 border-none text-white font-bold rounded-xl h-14 normal-case text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                                    disabled={isClosed}
+                                    onClick={() => {
+                                        if (isClosed) return;
+                                        setIsSubmissionModalOpen(true)
+                                    }}
+                                    className={`w-full btn border-none text-white font-bold rounded-xl h-14 normal-case text-lg shadow-lg transition-all flex items-center justify-center gap-2 ${
+                                        isClosed 
+                                         ? 'bg-gray-400 cursor-not-allowed hidden' 
+                                         : 'bg-green-500 hover:bg-green-600 hover:shadow-xl'
+                                    }`}
                                 >
                                     <Upload className="w-6 h-6" />
                                     SUBMIT PROJECT
@@ -333,9 +343,9 @@ const ContestDetails = () => {
 
                             ) : (
                                 <button 
-                                    disabled={isFull || contest.winnerUserId}
+                                    disabled={isFull || isClosed}
                                     onClick={() => {
-                                        if (isFull || contest.winnerUserId) return;
+                                        if (isFull || isClosed) return;
                                         if (!user) {
                                             navigate('/login');
                                             return;
@@ -351,12 +361,12 @@ const ContestDetails = () => {
                                         navigate(`/payment/${contest._id}`);
                                     }}
                                     className={`w-full btn border-none text-white font-bold rounded-xl h-14 normal-case text-lg shadow-lg transition-all flex items-center justify-center gap-2 ${
-                                        isFull || contest.winnerUserId
+                                        isFull || isClosed
                                           ? 'bg-gray-400 cursor-not-allowed hover:bg-gray-400' 
                                           : 'bg-linear-to-r from-[#4a37d8] to-[#6928d9] hover:bg-cyan-500 hover:shadow-xl'
                                     }`}
                                 >
-                                    {contest.winnerUserId ? 'CONTEST CLOSED' : (isFull ? 'CONTEST FULL' : `REGISTER & PAY $${contest.price}`)}
+                                    {isClosed ? 'CONTEST CLOSED' : (isFull ? 'CONTEST FULL' : `REGISTER & PAY $${contest.price}`)}
                                 </button>
                             )}
                             

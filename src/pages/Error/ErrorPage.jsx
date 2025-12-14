@@ -18,7 +18,7 @@ const ErrorPage = () => {
                     transition={{ duration: 0.5, ease: "easeOut" }}
                     className="relative mb-8 flex justify-center"
                 >
-                    <div className="relative text-9xl md:text-[12rem] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#4a37d8] to-[#6928d9] dark:from-[#6b5ae0] dark:to-[#8b5cf6] select-none">
+                    <div className="relative text-9xl md:text-[12rem] font-extrabold text-transparent bg-clip-text bg-linear-to-r from-[#4a37d8] to-[#6928d9] dark:from-[#6b5ae0] dark:to-[#8b5cf6] select-none">
                         404
                         <motion.div 
                             initial={{ y: -20, opacity: 0 }}
@@ -68,7 +68,7 @@ const ErrorPage = () => {
 
                     <Link
                         to="/"
-                        className="btn bg-gradient-to-r from-[#4a37d8] to-[#6928d9] hover:from-[#3b2db8] hover:to-[#5821b5] text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-[#4a37d8]/30 flex items-center gap-2 transition-all w-full sm:w-auto justify-center"
+                        className="btn bg-linear-to-r from-[#4a37d8] to-[#6928d9] hover:from-[#3b2db8] hover:to-[#5821b5] text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-[#4a37d8]/30 flex items-center gap-2 transition-all w-full sm:w-auto justify-center"
                     >
                         <Home size={20} />
                         Back to Home

@@ -8,8 +8,9 @@ const AllContests = () => {
   const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams();
   const initialCategory = searchParams.get("category") || "All";
+  const initialSearch = searchParams.get("search") || "";
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(initialSearch);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [sortBy, setSortBy] = useState("endingSoon");
   const [viewMode, setViewMode] = useState("grid");
@@ -17,8 +18,13 @@ const AllContests = () => {
   // Sync state with URL params if they change (e.g. navigation from same page)
   useEffect(() => {
     const category = searchParams.get("category");
+    const search = searchParams.get("search");
+    
     if (category) {
       setSelectedCategory(category);
+    }
+    if (search !== null) {
+      setSearchTerm(search);
     }
   }, [searchParams]);
 

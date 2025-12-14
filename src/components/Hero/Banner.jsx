@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Search, Trophy, Users, Gift, Sparkles, ArrowRight, Palette, Camera, PenTool, Video, Monitor, Cpu } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const Banner = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/all-contests?search=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleTagSearch = (tag) => {
+    navigate(`/all-contests?search=${encodeURIComponent(tag)}`);
+  };
+
   return (
     <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-50 via-white to-blue-50 dark:from-black dark:via-gray-900 dark:to-black pt-20 pb-16">
       {/* Background Elements */}
@@ -63,11 +83,17 @@ const Banner = () => {
               <Search className="text-gray-400" size={20} />
               <input 
                 type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="Search contests by name or tag..." 
                 className="w-full py-3 outline-none text-gray-700 dark:text-gray-200 bg-transparent placeholder:text-gray-400"
               />
             </div>
-            <button className="bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] text-white px-8 py-3 rounded-xl font-medium transition-colors cursor-pointer">
+            <button 
+              onClick={handleSearch}
+              className="bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] text-white px-8 py-3 rounded-xl font-medium transition-colors cursor-pointer"
+            >
               Search
             </button>
           </motion.div>
@@ -90,6 +116,7 @@ const Banner = () => {
             ].map((tag, index) => (
               <button
                 key={index}
+                onClick={() => handleTagSearch(tag.label)}
                 className="px-3 py-1 bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-lg transition-colors text-gray-700 dark:text-gray-300 font-medium text-xs flex items-center gap-1.5 cursor-pointer"
               >
                 {tag.label}

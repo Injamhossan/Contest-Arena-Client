@@ -156,7 +156,7 @@ const Leaderboard = () => {
                             >
                                 <div className="bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-100 dark:border-gray-800 shadow-lg hover:shadow-xl transition-all text-center">
                                     <div className="relative mb-4">
-                                        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-gray-300 to-gray-500 flex items-center justify-center text-white text-2xl font-bold mb-2 overflow-hidden">
+                                        <div className="w-20 h-20 mx-auto rounded-full bg-linear-to-br from-gray-300 to-gray-500 flex items-center justify-center text-white text-2xl font-bold mb-2 overflow-hidden">
                                             {topThree[1]?.photoURL ? <img src={topThree[1].photoURL} alt="" className="w-full h-full object-cover"/> : topThree[1]?.avatar}
                                         </div>
                                         <div className="absolute -top-2 -right-2 bg-gray-400 text-white rounded-full p-1">
@@ -182,14 +182,14 @@ const Leaderboard = () => {
                                 transition={{ duration: 0.6, delay: 0.2 }}
                                 className="flex-1 max-w-[250px] order-1 md:order-2"
                             >
-                                <div className="bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-2xl p-8 border-2 border-yellow-300 dark:border-yellow-600 shadow-2xl hover:shadow-3xl transition-all text-center relative">
+                                <div className="bg-linear-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-2xl p-8 border-2 border-yellow-300 dark:border-yellow-600 shadow-2xl hover:shadow-3xl transition-all text-center relative">
                                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                                         <div className="bg-yellow-500 text-white rounded-full p-2">
                                             <Crown size={24} />
                                         </div>
                                     </div>
                                     <div className="relative mb-4 mt-4">
-                                        <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-white text-3xl font-bold mb-2 shadow-lg overflow-hidden">
+                                        <div className="w-24 h-24 mx-auto rounded-full bg-linear-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-white text-3xl font-bold mb-2 shadow-lg overflow-hidden">
                                             {topThree[0]?.photoURL ? <img src={topThree[0].photoURL} alt="" className="w-full h-full object-cover"/> : topThree[0]?.avatar}
                                         </div>
                                     </div>
@@ -214,7 +214,7 @@ const Leaderboard = () => {
                             >
                                 <div className="bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-100 dark:border-gray-800 shadow-lg hover:shadow-xl transition-all text-center">
                                     <div className="relative mb-4">
-                                        <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-white text-2xl font-bold mb-2 overflow-hidden">
+                                        <div className="w-20 h-20 mx-auto rounded-full bg-linear-to-br from-amber-500 to-amber-700 flex items-center justify-center text-white text-2xl font-bold mb-2 overflow-hidden">
                                             {topThree[2]?.photoURL ? <img src={topThree[2].photoURL} alt="" className="w-full h-full object-cover"/> : topThree[2]?.avatar}
                                         </div>
                                         <div className="absolute -top-2 -right-2 bg-amber-600 text-white rounded-full p-1">
@@ -246,7 +246,7 @@ const Leaderboard = () => {
                         transition={{ duration: 0.6 }}
                         className="bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm rounded-2xl border border-gray-100 dark:border-gray-800 shadow-lg overflow-hidden"
                     >
-                        <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-[#4a37d8] to-[#6928d9]">
+                        <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-linear-to-r from-[#4a37d8] to-[#6928d9]">
                             <h2 className="text-2xl font-bold text-white font-urbanist">Full Rankings</h2>
                         </div>
 
@@ -278,7 +278,7 @@ const Leaderboard = () => {
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-4">
-                                                    <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${getRankBadgeColor(user.rank)} flex items-center justify-center text-white font-bold text-sm shadow-md overflow-hidden`}>
+                                                    <div className={`w-12 h-12 rounded-full bg-linear-to-br ${getRankBadgeColor(user.rank)} flex items-center justify-center text-white font-bold text-sm shadow-md overflow-hidden`}>
                                                         {user.photoURL ? (
                                                             <img src={user.photoURL} alt={user.name} className="w-full h-full object-cover" />
                                                         ) : (

@@ -1,8 +1,16 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Layout/Navbar/Navbar";
 import Footer from "../components/Layout/Footer/Footer";
+import { useAuth } from "../contexts/AuthContext";
+import Loader from "../components/Loader/Loader";
 
 const Root = () => {
+  const { loading } = useAuth();
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
       <div className="flex flex-col min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
         <Navbar />

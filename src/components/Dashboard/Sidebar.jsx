@@ -48,13 +48,13 @@ const Sidebar = () => {
   const links = getLinks();
 
   return (
-    <div className="w-64 bg-white dark:bg-black min-h-screen border-r border-gray-200 dark:border-gray-800 hidden lg:block sticky top-0 h-screen overflow-y-auto transition-colors duration-300">
+    <div className="w-full h-full bg-white dark:bg-black flex flex-col transition-colors duration-300">
       <div className="p-6 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
         <img src={NavLogo} alt="Logo" className="h-8 w-8" />
         <span className="font-bold text-xl text-gray-900 dark:text-white">ContestArena</span>
       </div>
 
-      <nav className="p-4 space-y-2">
+      <nav className="p-4 space-y-2 grow overflow-y-auto">
         {links.map((link) => (
           <NavLink
             key={link.path}
@@ -75,7 +75,7 @@ const Sidebar = () => {
       </nav>
 
       {/* User Info at Bottom */}
-      <div className="absolute bottom-0 w-full p-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-black">
+      <div className="p-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-black">
         <div className="flex items-center gap-3">
             <img 
                 src={user?.photoURL || "https://ui-avatars.com/api/?name=" + user?.name} 

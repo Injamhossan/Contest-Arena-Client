@@ -7,7 +7,9 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-[#f3f4f6] dark:bg-black flex transition-colors duration-300">
-      <Sidebar />
+      <aside className="hidden lg:block w-64 border-r border-gray-200 dark:border-gray-800 sticky top-0 h-screen overflow-hidden">
+        <Sidebar />
+      </aside>
       
       {/* Drawer Overlay */}
       {isMobileOpen && (

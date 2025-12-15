@@ -1,16 +1,98 @@
-# React + Vite
+# Contest Arena
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Contest Arena** is a full-stack platform designed to manage and participate in creative contests. Users can browse contests, register/pay to participate, submit their work, and win prizes. It features a role-based dashboard for Admins, Creators, and Participants.
 
-Currently, two official plugins are available:
+## 🚀 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **User Roles & Authentication**: Secure login and registration using Firebase & JWT. Supports 3 roles:
+    *   **User/Participant**: Can browse contests, pay entry fees, submit tasks, and view winning history.
+    *   **Creator**: Can create contests, monitor submissions, and declare winners.
+    *   **Admin**: Manages users, approves contests, and oversees platform content.
+*   **Contest Management**: Browse, search, and filter contests by tags and popularity.
+*   **Payment Integration**: Secure payment processing with Stripe for contest entry fees.
+*   **Leaderboard**: Showcases top participants and winners.
+*   **Dynamic Dashboard**: Tailored views for each user role (e.g., "My Created Contests" for Creators, "My Participations" for Users).
+*   **Visuals**: Interactive UI with animations using Framer Motion and data visualization with Recharts.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Technologies Used
 
-## Expanding the ESLint configuration
+### Frontend (Client)
+*   **Framework**: [React](https://react.dev/) (Vite)
+*   **Styling**: [Tailwind CSS](https://tailwindcss.com/) & [DaisyUI](https://daisyui.com/)
+*   **State & Data Fetching**: [TanStack Query](https://tanstack.com/query/latest) (React Query), [Zustand](https://zustand-demo.pmnd.rs/), Axio
+*   **Authentication**: [Firebase](https://firebase.google.com/)
+*   **Payments**: [Stripe.js](https://stripe.com/docs/js) & React Stripe.js
+*   **Animations**: [Framer Motion](https://www.framer.com/motion/) & AOS
+*   **Forms**: React Hook Form
+*   **Other Tools**: React Router DOM, React Hot Toast, Recharts, Lucide React
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Backend (Server)
+*   **Runtime**: [Node.js](https://nodejs.org/) & [Express.js](https://expressjs.com/)
+*   **Database**: [MongoDB](https://www.mongodb.com/) (using Native Driver & Mongoose)
+*   **Authentication**: JSON Web Token (JWT) & Firebase Admin
+*   **Payments**: Stripe SDK
+*   **Security**: Helmet, CORS, Dotenv
+
+---
+
+## 📂 Project Structure & Components
+
+### 1. **Pages (`/src/pages`)**
+*   **Home**: Landing page featuring a Banner, Popular Contests, and Recent Winners.
+*   **AllContests**: Catalog of all available contests with search and filter options.
+*   **ContestDetails**: Detailed view of a specific contest (Description, Prize, Deadline) with purchase options.
+*   **Leaderboard**: Displays top-performing users.
+*   **Dashboard**:
+    *   _Admin_: Manage Users, Manage Contests.
+    *   _Creator_: Add Contest, My Created Contests, Submitted Page.
+    *   _User_: My Participated Contests, Winning Contests, Profile.
+*   **Payment**: Payment gateway integration page.
+*   **Login & Registration**: User authentication pages.
+*   **SupportTeam**: Contact or support information page.
+*   **Error**: Custom 404 error page.
+
+### 2. **Components (`/src/components`)**
+*   **Shared**:
+    *   `Navbar`: Responsive navigation bar with user profile dropdown.
+    *   `Footer`: Application footer.
+    *   `Container`: Wrapper for consistent layout width.
+*   **Home**:
+    *   `Banner`: Hero section with search functionality.
+    *   `PopularContests`: Grid displaying top contests.
+    *   `RecentWinners`: Section highlighting recent contest winners.
+*   **Dashboard**:
+    *   `Sidebar`: Navigation menu for the dashboard layout.
+*   **Forms & Modals**:
+    *   `CheckoutForm`: Stripe payment form element.
+    *   `PaymentModal`: Modal for processing contest payments.
+    *   `UpdateContest`: Modal/Form for creators to edit their contests.
+*   **UI Elements**:
+    *   `Loader`: Loading spinners.
+    *   `SectionTitle`: Reusable title component for sections.
+
+---
+
+## ⚙️ Installation & Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    ```
+
+2.  **Setup Backend:**
+    ```bash
+    cd ContestArena-Server
+    npm install
+    # Create a .env file with: PORT, DB_USER, DB_PASS, STRIPE_SECRET_KEY, ACCESS_TOKEN_SECRET, etc.
+    npm run dev
+    ```
+
+3.  **Setup Frontend:**
+    ```bash
+    cd ContestArena-client
+    npm install
+    # Create a .env.local file if needed for Firebase config.
+    npm run dev
+    ```

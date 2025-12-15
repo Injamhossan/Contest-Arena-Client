@@ -1,10 +1,14 @@
 {
   "hosting": {
-    "public": "public",
+    "site": "contest-arena-ih",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      { "source": "**", "destination": "/index.html" }
     ]
   }
 }

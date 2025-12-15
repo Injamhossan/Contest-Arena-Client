@@ -18,22 +18,21 @@
 
 :root {
   background-color: #ffffff;
-  color: #1f2937; /* gray-800 */
+  color: #1f2937;
 }
 
 :root[data-theme="dark"],
 .dark {
-  background-color: #0f172a; /* Pure black as requested */
+  background-color: #0f172a;
   color: #ffffff;
 }
 
-/* Ensure body also takes safely */
+
 body {
     background-color: inherit;
     color: inherit;
 }
 
-/* Smooth transition for theme switching */
 *, *::before, *::after {
   transition-property: background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

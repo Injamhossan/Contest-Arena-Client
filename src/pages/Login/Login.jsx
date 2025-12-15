@@ -7,10 +7,13 @@ import NavLogo from "../../assets/logo.svg";
 import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
 
+import RoleSelectionModal from '../../components/Modal/RoleSelectionModal';
+
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
-    const [submitting, setSubmitting] = useState(false); // শুধু form submit loading
+    const [submitting, setSubmitting] = useState(false);
+    const [showRoleModal, setShowRoleModal] = useState(false);
     const { signIn, signInWithGoogle, user, loading: authLoading } = useAuth();
     const navigate = useNavigate();
 
@@ -30,7 +33,6 @@ const Login = () => {
             console.log('Firebase sign in successful:', firebaseUser);
 
             toast.success('Signed in successfully!');
-            toast.success('Signed in successfully!');
             // navigate('/dashboard'); // ✅ REMOVED: Let useEffect handle it to ensure state is ready
         } catch (error) {
             console.error('Login error:', error);
@@ -40,34 +42,37 @@ const Login = () => {
         }
     };
 
-    const handleGoogleSignIn = async () => {
+    const handleGoogleBtnClick = () => {
+        setShowRoleModal(true);
+    };
+
+    const handleGoogleSignInWithRole = async (selectedRole) => {
         setSubmitting(true);
+        // Set desire role in session storage (handled by AuthContext for new users)
+        sessionStorage.setItem('signup_role', selectedRole);
+        
         try {
             const firebaseUser = await signInWithGoogle();
             toast.success('Signed in with Google successfully!');
-            // Don't navigate immediately - let AuthContext handle it via useEffect
         } catch (error) {
             console.error('Google sign in error:', error);
+            sessionStorage.removeItem('signup_role');
             
-            // Handle specific Firebase errors
             if (error.code === 'auth/popup-closed-by-user') {
-                // User closed the popup - don't show error
-                setSubmitting(false);
                 return;
             } else if (error.code === 'auth/popup-blocked') {
                 toast.error('Popup was blocked. Please allow popups for this site.');
             } else if (error.code === 'auth/cancelled-popup-request') {
-                // Multiple popup requests - ignore
-                setSubmitting(false);
                 return;
             } else {
                 toast.error(error.message || 'Failed to sign in with Google.');
             }
-            toast.error(error.message || 'Failed to sign in with Google.');
         } finally {
             setSubmitting(false);
         }
     };
+    
+    // Original handleGoogleSignIn removed/replaced logic above in handleGoogleSignInWithRole
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#F3F4F6] dark:bg-black py-12 px-4 sm:px-6 lg:px-8 font-urbanist transition-colors duration-300"> 
@@ -165,7 +170,7 @@ const Login = () => {
                     <div>
                         <button
                             type="button"
-                            onClick={handleGoogleSignIn}
+                            onClick={handleGoogleBtnClick}
                             disabled={submitting || authLoading}
                             className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
@@ -185,6 +190,13 @@ const Login = () => {
                     </p>
                 </div>
             </div>
+
+            {/* Role Selection Modal */}
+            <RoleSelectionModal 
+                isOpen={showRoleModal} 
+                onClose={() => setShowRoleModal(false)}
+                onRoleSelect={handleGoogleSignInWithRole}
+            />
         </div>
     );
 };

@@ -3,11 +3,19 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Trophy, Users, Shield } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-const RoleSelectionModal = ({ isOpen, onClose }) => {
+const RoleSelectionModal = ({ isOpen, onClose, onRoleSelect }) => {
   const { updateUserRole, user } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const handleRoleSelect = async (role) => {
+    // If a custom handler is provided, use it (e.g., for registration flow)
+    if (onRoleSelect) {
+        onRoleSelect(role);
+        onClose();
+        return;
+    }
+
+    // Default behavior for existing users
     if (!user?._id) {
       toast.error('User not found. Please try again.');
       return;
@@ -32,7 +40,7 @@ const RoleSelectionModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white bg-opacity-20 backdrop-blur-xl">
       <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all">
         <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">
           Choose Your Path

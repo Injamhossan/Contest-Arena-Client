@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { Search, Trophy, Users, Gift, Sparkles, ArrowRight, Palette, Camera, PenTool, Video, Monitor, Cpu } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import toast from 'react-hot-toast';
 
 const Banner = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -131,11 +134,28 @@ const Banner = () => {
             transition={{ duration: 0.5, delay: 0.5 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
           >
-            <button className="flex items-center gap-2 bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/25 hover:shadow-blue-600/40 cursor-pointer">
+            <button 
+              onClick={() => navigate('/all-contests')}
+              className="flex items-center gap-2 bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/25 hover:shadow-blue-600/40 cursor-pointer"
+            >
               Explore Contests
               <ArrowRight size={18} />
             </button>
-            <button className="flex items-center gap-2 bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-800 dark:text-white px-8 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-gray-800 transition-all hover:border-gray-300 cursor-pointer">
+            <button 
+              onClick={() => {
+                if (!user) {
+                   toast.error('Please login first!');
+                   navigate('/login');
+                   return;
+                }
+                if (user.role !== 'creator') {
+                   toast.error('Only for contest creators!');
+                   return;
+                }
+                navigate('/contests/create');
+              }}
+              className="flex items-center gap-2 bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-800 dark:text-white px-8 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-gray-800 transition-all hover:border-gray-300 cursor-pointer"
+            >
               Start Creating
               <Trophy size={18} className="text-amber-500" />
             </button>

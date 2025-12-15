@@ -5,12 +5,14 @@ import { Mail, Lock, Eye, EyeOff, User, Briefcase, UserCircle } from 'lucide-rea
 import { FcGoogle } from "react-icons/fc";
 import NavLogo from "../../assets/logo.svg";
 import { useAuth } from '../../contexts/AuthContext';
+import RoleSelectionModal from '../../components/Modal/RoleSelectionModal';
 import toast from 'react-hot-toast';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [showRoleModal, setShowRoleModal] = useState(false);
     const { signUp, signInWithGoogle, user } = useAuth();
     const navigate = useNavigate();
 
@@ -39,12 +41,14 @@ const Register = () => {
         }
     };
 
-    const handleGoogleSignIn = async () => {
+    const handleGoogleBtnClick = () => {
+        setShowRoleModal(true);
+    };
+
+    const handleGoogleSignInWithRole = async (selectedRole) => {
         setLoading(true);
-        // Default Google Sign in to 'user' role or let them update it later in profile if needed
-        // Attempting to set 'user' explicitily, or prompt via modal could be kept for Google only?
-        // For now, let's default Google users to 'user' to keep it simple as requested for the form flow
-        sessionStorage.setItem('signup_role', 'user'); 
+        // Set the selected role in session storage
+        sessionStorage.setItem('signup_role', selectedRole); 
         
         try {
             await signInWithGoogle();
@@ -239,7 +243,7 @@ const Register = () => {
                      <div>
                         <button
                             type="button"
-                            onClick={handleGoogleSignIn}
+                            onClick={handleGoogleBtnClick}
                             disabled={loading}
                             className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
@@ -249,7 +253,7 @@ const Register = () => {
                     </div>
                 </form>
 
-                {/* Footer Links */}
+                    {/* Footer Links */}
                 <div className="text-center mt-4">
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                         Already have an account?{' '}
@@ -259,6 +263,13 @@ const Register = () => {
                     </p>
                 </div>
             </div>
+            
+            {/* Role Selection Modal for Google Sign Up */}
+            <RoleSelectionModal 
+                isOpen={showRoleModal} 
+                onClose={() => setShowRoleModal(false)}
+                onRoleSelect={handleGoogleSignInWithRole}
+            />
         </div>
     );
 };

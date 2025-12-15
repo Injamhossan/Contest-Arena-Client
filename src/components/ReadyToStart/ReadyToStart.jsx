@@ -1,8 +1,10 @@
 import React from 'react';
 import { Trophy, ArrowRight, Rocket, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const ReadyToStart = () => {
+  const navigate = useNavigate();
   return (
     <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-50 via-white to-blue-50 dark:from-black dark:via-gray-900 dark:to-black pt-20 pb-16">
       {/* Background Elements */}
@@ -46,11 +48,17 @@ const ReadyToStart = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
           >
-            <button className="flex items-center gap-2 bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/25 hover:shadow-blue-600/40 cursor-pointer">
+            <button 
+              onClick={() => navigate('/register')}
+              className="flex items-center gap-2 bg-linear-to-r from-[#4a37d8] via-[#6928d9] to-[#1f3092] hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/25 hover:shadow-blue-600/40 cursor-pointer"
+            >
               Get Started Free
               <ArrowRight size={18} />
             </button>
-            <button className="flex items-center gap-2 bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-700 dark:text-white px-8 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-gray-800 transition-all hover:border-gray-300 cursor-pointer">
+            <button 
+              onClick={() => navigate('/about')}
+              className="flex items-center gap-2 bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-gray-900 text-gray-700 dark:text-white px-8 py-3.5 rounded-xl font-semibold border border-gray-200 dark:border-gray-800 transition-all hover:border-gray-300 cursor-pointer"
+            >
               Learn More
             </button>
           </motion.div>
